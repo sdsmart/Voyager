@@ -9,7 +9,7 @@
 import UIKit
 import SpriteKit
 
-class GameViewController: UIViewController {
+class GameController: UIViewController {
 
     var menuScene: MenuScene!
     

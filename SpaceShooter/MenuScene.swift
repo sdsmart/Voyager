@@ -11,33 +11,19 @@ import SpriteKit
 
 class MenuScene: SKScene {
     
-    var backgroundOne = SKSpriteNode(imageNamed: BackgroundConstants.BackgroundOne.imageName)
+    var parallaxBackground: ParallaxBackground!
     
     override func didMoveToView(view: SKView) {
         self.anchorPoint = CGPointMake(CGFloat(0.5), CGFloat(0.5))
-        backgroundOne.anchorPoint = CGPointMake(CGFloat(0.5), CGFloat(0))
         
-        initializeBackgrounds()
+        parallaxBackground = ParallaxBackground(imageNames: BackgroundConstants.imageNames, baseScrollDuration: BackgroundConstants.baseScrollDuration, scrollDurationChangeRatio: BackgroundConstants.ScrollDurationChangeRatio, containerHeight: self.size.height, numberOfTiles: BackgroundConstants.numberOfTiles, scrollDown: true)
+        parallaxBackground.beginScrolling()
         
-        self.addChild(backgroundOne)
-    }
-    
-    private func initializeBackgrounds() {
-        initializeBackgroundOne()
-        
-        // Initialize other parallax backgrounds here
-    }
-    
-    private func initializeBackgroundOne() {
-        let initialPositionY = -(self.size.height / 2)
-        let yPositionToScrollTo = -(CGFloat(backgroundOne.size.height / CGFloat(BackgroundConstants.BackgroundOne.numberOfTiles)) + (self.size.height / CGFloat(2)))
-        
-        backgroundOne.position.y = initialPositionY
-        
-        let scrollBackgroundImageOneAction = SKAction.moveToY(yPositionToScrollTo, duration: BackgroundConstants.BackgroundOne.scrollDuration)
-        let resetBackgroundImageOneAction = SKAction.moveToY(initialPositionY, duration: 0)
-        
-        backgroundOne.runAction(SKAction.repeatActionForever(SKAction.sequence([scrollBackgroundImageOneAction, resetBackgroundImageOneAction])))
+        if parallaxBackground.backgrounds != nil {
+            for bg in parallaxBackground.backgrounds! {
+                self.addChild(bg)
+            }
+        }
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -49,10 +35,9 @@ class MenuScene: SKScene {
     }
     
     private struct BackgroundConstants {
-        struct BackgroundOne {
-            static let imageName = "menu_background_1"
-            static let scrollDuration = 30.0
-            static let numberOfTiles = 3
-        }
+        static let imageNames = ["menu_background_1", "menu_background_2"]
+        static let baseScrollDuration = 40.0
+        static let ScrollDurationChangeRatio = 0.30
+        static let numberOfTiles = 3
     }
 }
