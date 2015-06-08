@@ -35,7 +35,7 @@ class MenuScene: SKScene {
     }
     
     private struct BackgroundConstants {
-        static let imageNames = ["menu_background_1", "menu_background_2"]
+        static let imageNames = ["menu_background_1", "menu_background_2", "menu_background_3"]
         static let baseScrollDuration = 40.0
         static let ScrollDurationChangeRatio = 0.30
         static let numberOfTiles = 3

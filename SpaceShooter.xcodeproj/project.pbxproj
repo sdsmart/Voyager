@@ -175,6 +175,7 @@
 				TargetAttributes = {
 					FEA129991B23CDC500E49488 = {
 						CreatedOnToolsVersion = 6.3.2;
+						DevelopmentTeam = 3G36XWPDSW;
 					};
 					FEA129B21B23CDC500E49488 = {
 						CreatedOnToolsVersion = 6.3.2;
@@ -358,6 +359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Steve Smart (E275H99Z2C)";
 				INFOPLIST_FILE = SpaceShooter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -369,6 +371,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Steve Smart (E275H99Z2C)";
 				INFOPLIST_FILE = SpaceShooter/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
