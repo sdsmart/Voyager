@@ -9,10 +9,14 @@
 import SpriteKit
 
 class LevelScene: SKScene {
-   
+    
     var parallaxBackground: ParallaxBackground!
     
     var player: Player!
+    var movingRight = false
+    var moveRightTouch: UITouch?
+    var movingLeft = false
+    var moveLeftTouch: UITouch?
     
     override func didMoveToView(view: SKView) {
         self.anchorPoint = CGPointMake(CGFloat(0.5), CGFloat(0.5))
@@ -34,16 +38,40 @@ class LevelScene: SKScene {
         player.physicsBody!.dynamic = false
         player.physicsBody!.affectedByGravity = false
         player.physicsBody!.allowsRotation = false
-        
-        player.velocity = Player.initialVelocity
-        player.acceleration = Player.initialAcceleration
         player.position.y = Player.initialPositionY
+        player.alpha = CGFloat(0)
         
         self.addChild(player)
+        
+        let initialFadeIn = SKAction.fadeInWithDuration(2.0)
+        player.runAction(initialFadeIn)
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
-        
+        if let touch = touches.first as? UITouch {
+            let touchLocation = touch.locationInView(self.view)
+            
+            if touchLocation.x >= (self.size.width / 2) {
+                movingRight = true
+                moveRightTouch = touch
+            } else if touchLocation.x < (self.size.width / 2) {
+                movingLeft = true
+                moveLeftTouch = touch
+            }
+        }
+    }
+    
+    override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
+        if let touch = touches.first as? UITouch {
+            
+            if touch === moveRightTouch {
+                movingRight = false
+                moveRightTouch = nil
+            } else if touch === moveLeftTouch {
+                movingLeft = false
+                moveLeftTouch = nil
+            }
+        }
     }
     
     override func update(currentTime: NSTimeInterval) {
@@ -51,8 +79,19 @@ class LevelScene: SKScene {
     }
     
     private func updatePlayer() {
-        player.position.y += player.velocity
-        player.velocity += player.acceleration
+        player.position.x += player.velocity
+        if player.position.x < -((self.size.width / 2) - (player.size.width / 3)) {
+            player.position.x = -((self.size.width / 2) - (player.size.width / 3))
+        } else if player.position.x > ((self.size.width / 2) - (player.size.width / 3)) {
+            player.position.x = ((self.size.width / 2) - (player.size.width / 3))
+        }
+        
+        if movingRight {
+            player.velocity += Player.acceleration
+        }
+        if movingLeft {
+            player.velocity -= Player.acceleration
+        }
         
         if player.velocity > Player.maxSpeed {
             player.velocity = Player.maxSpeed
@@ -66,10 +105,6 @@ class LevelScene: SKScene {
             player.velocity += Player.friction
         } else {
             player.velocity = 0
-        }
-        
-        if player.acceleration > 0 {
-            player.acceleration -= Player.friction
         }
     }
 }
