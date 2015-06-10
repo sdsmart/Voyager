@@ -17,8 +17,8 @@ class GameController: UIViewController {
         super.viewDidLoad()
 
         let skView = self.view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+        skView.showsFPS = false
+        skView.showsNodeCount = false
         skView.ignoresSiblingOrder = true
         
         menuScene = MenuScene(size: skView.bounds.size)
@@ -37,11 +37,6 @@ class GameController: UIViewController {
         } else {
             return Int(UIInterfaceOrientationMask.All.rawValue)
         }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
     }
 
     override func prefersStatusBarHidden() -> Bool {

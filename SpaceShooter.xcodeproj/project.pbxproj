@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE3EA77B1B27B0950064476B /* LevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3EA77A1B27B0950064476B /* LevelScene.swift */; };
+		FE3EA77D1B27C5810064476B /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3EA77C1B27C5810064476B /* Player.swift */; };
 		FE88AD2C1B24B24B0072EF42 /* ParallaxBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */; };
 		FEA129A01B23CDC500E49488 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA1299F1B23CDC500E49488 /* AppDelegate.swift */; };
 		FEA129A41B23CDC500E49488 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA129A31B23CDC500E49488 /* MenuScene.swift */; };
@@ -28,6 +30,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE3EA77A1B27B0950064476B /* LevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelScene.swift; sourceTree = "<group>"; };
+		FE3EA77C1B27C5810064476B /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParallaxBackground.swift; sourceTree = "<group>"; };
 		FEA1299A1B23CDC500E49488 /* SpaceShooter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpaceShooter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA1299E1B23CDC500E49488 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -60,6 +64,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FE3EA77E1B27C5870064476B /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */,
+				FE3EA77C1B27C5810064476B /* Player.swift */,
+			);
+			name = Entities;
+			sourceTree = "<group>";
+		};
 		FEA129911B23CDC500E49488 = {
 			isa = PBXGroup;
 			children = (
@@ -81,10 +94,11 @@
 		FEA1299C1B23CDC500E49488 /* SpaceShooter */ = {
 			isa = PBXGroup;
 			children = (
-				FEA129C31B23D07C00E49488 /* Resources */,
+				FE3EA77E1B27C5870064476B /* Entities */,
+				FE3EA77A1B27B0950064476B /* LevelScene.swift */,
 				FEA129A31B23CDC500E49488 /* MenuScene.swift */,
-				FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */,
 				FEA129A51B23CDC500E49488 /* GameController.swift */,
+				FEA129C31B23D07C00E49488 /* Resources */,
 				FEA1299D1B23CDC500E49488 /* Supporting Files */,
 			);
 			path = SpaceShooter;
@@ -231,6 +245,8 @@
 				FEA129A41B23CDC500E49488 /* MenuScene.swift in Sources */,
 				FEA129A61B23CDC500E49488 /* GameController.swift in Sources */,
 				FEA129A01B23CDC500E49488 /* AppDelegate.swift in Sources */,
+				FE3EA77D1B27C5810064476B /* Player.swift in Sources */,
+				FE3EA77B1B27B0950064476B /* LevelScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

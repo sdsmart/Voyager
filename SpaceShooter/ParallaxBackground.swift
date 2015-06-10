@@ -9,6 +9,7 @@
 import SpriteKit
 
 class ParallaxBackground {
+    
     let backgrounds: [SKSpriteNode]?
     private var baseScrollDuration: Double = 0.0
     private var scrollDurationChangeRatio: Double = 1.0
