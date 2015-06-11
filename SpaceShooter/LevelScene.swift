@@ -162,7 +162,8 @@ class LevelScene: SKScene {
             player.canShoot = false
             
             let laser = Laser(imageNamed: ImageNames.laserImageName)
-            laser.position = player.position
+            laser.position.x = player.position.x
+            laser.position.y = player.position.y + player.size.height / 3
             laser.zPosition = player.zPosition - 1
             
             self.addChild(laser)

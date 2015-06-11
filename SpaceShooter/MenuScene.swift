@@ -83,7 +83,7 @@ class MenuScene: SKScene {
     }
     
     struct Constants {
-        static let transitionAnimationDuration = 0.75
+        static let transitionAnimationDuration = 0.5
         
         static let playButtonWidth: CGFloat = 150.0
         static let playButtonHeight: CGFloat = 25.0

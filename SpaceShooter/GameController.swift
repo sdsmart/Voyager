@@ -17,8 +17,8 @@ class GameController: UIViewController {
         super.viewDidLoad()
 
         let skView = self.view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+        skView.showsFPS = false
+        skView.showsNodeCount = false
         skView.ignoresSiblingOrder = true
         
         menuScene = MenuScene(size: skView.bounds.size)

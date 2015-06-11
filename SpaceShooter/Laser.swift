@@ -10,6 +10,6 @@ import Foundation
 import SpriteKit
 
 class Laser: SKSpriteNode {
-    var fireRateTimeInterval = 0.15
+    var fireRateTimeInterval = 0.125
     var velocty = 1.0
 }
