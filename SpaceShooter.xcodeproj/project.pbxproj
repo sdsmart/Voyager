@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FE0A001C1B28FABE007C436B /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0A001B1B28FABE007C436B /* Hud.swift */; };
+		FE0A00281B2904E9007C436B /* Laser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0A00271B2904E9007C436B /* Laser.swift */; };
+		FE0A002E1B291C95007C436B /* ImageNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0A002D1B291C95007C436B /* ImageNames.swift */; };
 		FE3EA77B1B27B0950064476B /* LevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3EA77A1B27B0950064476B /* LevelScene.swift */; };
 		FE3EA77D1B27C5810064476B /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3EA77C1B27C5810064476B /* Player.swift */; };
 		FE88AD2C1B24B24B0072EF42 /* ParallaxBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */; };
@@ -30,6 +33,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FE0A001B1B28FABE007C436B /* Hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hud.swift; sourceTree = "<group>"; };
+		FE0A00271B2904E9007C436B /* Laser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Laser.swift; sourceTree = "<group>"; };
+		FE0A002D1B291C95007C436B /* ImageNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageNames.swift; sourceTree = "<group>"; };
 		FE3EA77A1B27B0950064476B /* LevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelScene.swift; sourceTree = "<group>"; };
 		FE3EA77C1B27C5810064476B /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParallaxBackground.swift; sourceTree = "<group>"; };
@@ -64,11 +70,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FE0A00201B28FE6E007C436B /* Scenes & Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FEA129A51B23CDC500E49488 /* GameController.swift */,
+				FEA129A31B23CDC500E49488 /* MenuScene.swift */,
+				FE3EA77A1B27B0950064476B /* LevelScene.swift */,
+			);
+			name = "Scenes & Controllers";
+			sourceTree = "<group>";
+		};
 		FE3EA77E1B27C5870064476B /* Entities */ = {
 			isa = PBXGroup;
 			children = (
 				FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */,
 				FE3EA77C1B27C5810064476B /* Player.swift */,
+				FE0A001B1B28FABE007C436B /* Hud.swift */,
+				FE0A00271B2904E9007C436B /* Laser.swift */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -94,10 +112,8 @@
 		FEA1299C1B23CDC500E49488 /* SpaceShooter */ = {
 			isa = PBXGroup;
 			children = (
+				FE0A00201B28FE6E007C436B /* Scenes & Controllers */,
 				FE3EA77E1B27C5870064476B /* Entities */,
-				FE3EA77A1B27B0950064476B /* LevelScene.swift */,
-				FEA129A31B23CDC500E49488 /* MenuScene.swift */,
-				FEA129A51B23CDC500E49488 /* GameController.swift */,
 				FEA129C31B23D07C00E49488 /* Resources */,
 				FEA1299D1B23CDC500E49488 /* Supporting Files */,
 			);
@@ -135,6 +151,7 @@
 		FEA129C31B23D07C00E49488 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FE0A002D1B291C95007C436B /* ImageNames.swift */,
 				FEA129AA1B23CDC500E49488 /* Images.xcassets */,
 			);
 			name = Resources;
@@ -244,9 +261,12 @@
 				FE88AD2C1B24B24B0072EF42 /* ParallaxBackground.swift in Sources */,
 				FEA129A41B23CDC500E49488 /* MenuScene.swift in Sources */,
 				FEA129A61B23CDC500E49488 /* GameController.swift in Sources */,
+				FE0A001C1B28FABE007C436B /* Hud.swift in Sources */,
 				FEA129A01B23CDC500E49488 /* AppDelegate.swift in Sources */,
 				FE3EA77D1B27C5810064476B /* Player.swift in Sources */,
 				FE3EA77B1B27B0950064476B /* LevelScene.swift in Sources */,
+				FE0A00281B2904E9007C436B /* Laser.swift in Sources */,
+				FE0A002E1B291C95007C436B /* ImageNames.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

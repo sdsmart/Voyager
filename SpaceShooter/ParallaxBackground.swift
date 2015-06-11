@@ -80,4 +80,10 @@ class ParallaxBackground {
             }
         }
     }
+    
+    struct Constants {
+        static let baseScrollDuration = 40.0
+        static let ScrollDurationChangeRatio = 0.30
+        static let numberOfTiles = 3
+    }
 }

@@ -26,7 +26,7 @@ class MenuScene: SKScene {
     
     private func initializeParallaxBackground()
     {
-        parallaxBackground = ParallaxBackground(imageNames: BackgroundConstants.imageNames, baseScrollDuration: BackgroundConstants.baseScrollDuration, scrollDurationChangeRatio: BackgroundConstants.ScrollDurationChangeRatio, containerHeight: self.size.height, numberOfTiles: BackgroundConstants.numberOfTiles, scrollDown: true)
+        parallaxBackground = ParallaxBackground(imageNames: ImageNames.backgroundImageNames, baseScrollDuration: ParallaxBackground.Constants.baseScrollDuration, scrollDurationChangeRatio: ParallaxBackground.Constants.ScrollDurationChangeRatio, containerHeight: self.size.height, numberOfTiles: ParallaxBackground.Constants.numberOfTiles, scrollDown: true)
         parallaxBackground.beginScrolling()
         
         if parallaxBackground.backgrounds != nil {
@@ -38,20 +38,20 @@ class MenuScene: SKScene {
     
     private func initializeMenuButtons()
     {
-        let playButtonFrame = CGRectMake(((self.size.width / 2) - (ButtonConstants.playButtonWidth / 2)), (((self.size.height / 2) - (ButtonConstants.playButtonHeight / 2)) + ButtonConstants.playButtonVerticalOffset), ButtonConstants.playButtonWidth, ButtonConstants.playButtonHeight)
+        let playButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.playButtonWidth / 2)), (((self.size.height / 2) - (MenuScene.Constants.playButtonHeight / 2)) + MenuScene.Constants.playButtonVerticalOffset), MenuScene.Constants.playButtonWidth, MenuScene.Constants.playButtonHeight)
         playButton = UIButton(frame: playButtonFrame)
-        playButton.setImage(UIImage(named: ButtonConstants.playButtonImageName), forState: UIControlState.Normal)
-        playButton.addTarget(self, action: Selector(ButtonConstants.playButtonActionName), forControlEvents: UIControlEvents.TouchUpInside)
+        playButton.setImage(UIImage(named: ImageNames.playButtonImageName), forState: UIControlState.Normal)
+        playButton.addTarget(self, action: Selector("playButtonPressed:"), forControlEvents: UIControlEvents.TouchUpInside)
         
-        let highscoresButtonFrame = CGRectMake(((self.size.width / 2) - (ButtonConstants.highscoresButtonWidth / 2)), ((self.size.height / 2) - (ButtonConstants.highscoresButtonHeight / 2)), ButtonConstants.highscoresButtonWidth, ButtonConstants.highscoresButtonHeight)
+        let highscoresButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.highscoresButtonWidth / 2)), ((self.size.height / 2) - (MenuScene.Constants.highscoresButtonHeight / 2)), MenuScene.Constants.highscoresButtonWidth, MenuScene.Constants.highscoresButtonHeight)
         highscoresButton = UIButton(frame: highscoresButtonFrame)
-        highscoresButton.setImage(UIImage(named: ButtonConstants.highscoresButtonImageName), forState: UIControlState.Normal)
-        highscoresButton.addTarget(self, action: Selector(ButtonConstants.highscoresButtonActionName), forControlEvents: UIControlEvents.TouchUpInside)
+        highscoresButton.setImage(UIImage(named: ImageNames.highscoresButtonImageName), forState: UIControlState.Normal)
+        highscoresButton.addTarget(self, action: Selector("highscoresButtonPressed:"), forControlEvents: UIControlEvents.TouchUpInside)
         
-        let optionsButtonFrame = CGRectMake(((self.size.width / 2) - (ButtonConstants.optionsButtonWidth / 2)), (((self.size.height / 2) - (ButtonConstants.optionsButtonHeight / 2)) + ButtonConstants.optionsButtonVerticalOffset), ButtonConstants.optionsButtonWidth, ButtonConstants.optionsButtonHeight)
+        let optionsButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.optionsButtonWidth / 2)), (((self.size.height / 2) - (MenuScene.Constants.optionsButtonHeight / 2)) + MenuScene.Constants.optionsButtonVerticalOffset), MenuScene.Constants.optionsButtonWidth, MenuScene.Constants.optionsButtonHeight)
         optionsButton = UIButton(frame: optionsButtonFrame)
-        optionsButton.setImage(UIImage(named: ButtonConstants.optionsButtonImageName), forState: UIControlState.Normal)
-        optionsButton.addTarget(self, action: Selector(ButtonConstants.optionsButtonActionName), forControlEvents: UIControlEvents.TouchUpInside)
+        optionsButton.setImage(UIImage(named: ImageNames.optionsButtonImageName), forState: UIControlState.Normal)
+        optionsButton.addTarget(self, action: Selector("optionsButtonPressed:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.view!.addSubview(playButton)
         self.view!.addSubview(highscoresButton)
@@ -59,9 +59,9 @@ class MenuScene: SKScene {
     }
     
     func playButtonPressed(sender: UIButton) {
-        UIView.animateWithDuration(1.0, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { self.playButton.alpha = 0 }, completion: nil)
-        UIView.animateWithDuration(1.0, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { self.highscoresButton.alpha = 0 }, completion: nil)
-        UIView.animateWithDuration(1.0, delay: 0, options: UIViewAnimationOptions.CurveEaseOut, animations: { self.optionsButton.alpha = 0 }, completion: nil)
+        playButton.removeFromSuperview()
+        highscoresButton.removeFromSuperview()
+        optionsButton.removeFromSuperview()
         
         let levelScene = LevelScene(size: self.size)
         levelScene.scaleMode = .AspectFill
@@ -82,29 +82,16 @@ class MenuScene: SKScene {
         println("options button pressed")
     }
     
-    private struct BackgroundConstants {
-        static let imageNames = ["menu_background_1",
-                                 "menu_background_2",
-                                 "menu_background_3"]
-        static let baseScrollDuration = 40.0
-        static let ScrollDurationChangeRatio = 0.30
-        static let numberOfTiles = 3
-    }
-    
-    private struct ButtonConstants {
-        static let playButtonImageName = "play-button"
-        static let playButtonActionName = "playButtonPressed:"
+    struct Constants {
+        static let transitionAnimationDuration = 0.75
+        
         static let playButtonWidth: CGFloat = 150.0
         static let playButtonHeight: CGFloat = 25.0
         static let playButtonVerticalOffset: CGFloat = -75.0
         
-        static let highscoresButtonImageName = "highscores-button"
-        static let highscoresButtonActionName = "highscoresButtonPressed:"
         static let highscoresButtonWidth: CGFloat = 250.0
         static let highscoresButtonHeight: CGFloat = 25.0
         
-        static let optionsButtonImageName = "options-button"
-        static let optionsButtonActionName = "optionsButtonPressed:"
         static let optionsButtonWidth: CGFloat = 200.0
         static let optionsButtonHeight: CGFloat = 25.0
         static let optionsButtonVerticalOffset: CGFloat = 75.0
