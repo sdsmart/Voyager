@@ -75,10 +75,12 @@ class LevelScene: SKScene {
         if let touch = touches.first as? UITouch {
             let touchLocation = touch.locationInView(self.view)
             
-            if touchLocation.x >= (self.size.width / 2) {
+            let hudBoundary = (self.size.height) - hud.size.height
+            
+            if touchLocation.x >= (self.size.width / 2) && touchLocation.y <= hudBoundary {
                 movingRight = true
                 moveRightTouch = touch
-            } else if touchLocation.x < (self.size.width / 2) {
+            } else if touchLocation.x < (self.size.width / 2) && touchLocation.y <= hudBoundary {
                 movingLeft = true
                 moveLeftTouch = touch
             }

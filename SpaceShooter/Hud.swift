@@ -12,6 +12,11 @@ class Hud {
     
     let background: SKSpriteNode
     let spriteNodes: [SKSpriteNode]
+    var size: CGSize {
+        get {
+            return background.size
+        }
+    }
     
     init(backgroundImageName: String) {
         self.background = SKSpriteNode(imageNamed: backgroundImageName)
