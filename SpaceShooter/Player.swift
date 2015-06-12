@@ -21,5 +21,7 @@ class Player: SKSpriteNode {
         static let acceleration: CGFloat = 0.80
         
         static let distanceFromBottomOfScreen: CGFloat = 130
+        
+        static let zPosition: CGFloat = 3
     }
 }

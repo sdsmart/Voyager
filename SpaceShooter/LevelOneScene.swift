@@ -8,12 +8,15 @@
 
 import SpriteKit
 
-class LevelScene: SKScene {
+class LevelOneScene: SKScene {
     
     var parallaxBackground: ParallaxBackground!
     var hud: Hud!
     var player: Player!
     var beginMessage: SKSpriteNode!
+    var instructionsMessage: SKSpriteNode!
+    
+    var currentPhase = Phase.One
     
     var userReady = false
     var movingRight = false
@@ -35,14 +38,20 @@ class LevelScene: SKScene {
         if parallaxBackground != nil {
             for bg in parallaxBackground.backgrounds! {
                 self.addChild(bg)
+                bg.zPosition = ParallaxBackground.Constants.zPosition
             }
         }
     }
     
     private func initializeOverlayMessages() {
         beginMessage = SKSpriteNode(imageNamed: ImageNames.beginMessageImageName)
+        beginMessage.position.y = 100
+        
+        instructionsMessage = SKSpriteNode(imageNamed: ImageNames.instructionsMessageImageName)
+        instructionsMessage.position.y = -75
         
         self.addChild(beginMessage)
+        self.addChild(instructionsMessage)
     }
     
     private func initializePlayer() {
@@ -50,7 +59,7 @@ class LevelScene: SKScene {
         
         player.position.y = -(self.size.height / 2) + Player.Constants.distanceFromBottomOfScreen
         player.alpha = CGFloat(0)
-        player.zPosition = 2
+        player.zPosition = Player.Constants.zPosition
         
         self.addChild(player)
         
@@ -60,6 +69,7 @@ class LevelScene: SKScene {
     
     private func initializeHud() {
         hud = Hud(backgroundImageName: ImageNames.hudBackgroundImageName)
+        hud.background.zPosition = Hud.Constants.zPosition
         hud.background.position.y = -((self.size.height / 2) + (hud.background.size.height / 2))
         hud.background.alpha = Hud.Constants.backgroundAlpha
         
@@ -90,7 +100,7 @@ class LevelScene: SKScene {
     override func touchesEnded(touches: Set<NSObject>, withEvent event: UIEvent) {
         if let touch = touches.first as? UITouch {
             if userReady == false && touch.tapCount == 2 {
-                beginPlay()
+                beginPlayng()
             }
             
             if touch === moveRightTouch {
@@ -103,17 +113,20 @@ class LevelScene: SKScene {
         }
     }
     
-    private func beginPlay() {
+    private func beginPlayng() {
         beginMessage.removeFromParent()
+        instructionsMessage.removeFromParent()
         
         userReady = true
         player.canShoot = true
+        AlienFighter.canSpawn = true
     }
     
     override func update(currentTime: NSTimeInterval) {
         if userReady {
             updatePlayer()
             updateLasers()
+            updateEnemies()
         }
     }
     
@@ -161,23 +174,54 @@ class LevelScene: SKScene {
         if player.canShoot {
             player.canShoot = false
             
-            let laser = Laser(imageNamed: ImageNames.laserImageName)
-            laser.position.x = player.position.x
-            laser.position.y = player.position.y + player.size.height / 3
-            laser.zPosition = player.zPosition - 1
+            let laser = Laser(imageNamed: ImageNames.laserImageName, player: player, containerSize: self.size)
             
             self.addChild(laser)
             
-            let locationOffScreen = self.size.height
-            let laserShootAction = SKAction.moveToY(locationOffScreen, duration: (1 / laser.velocty))
-            laser.runAction(laserShootAction)
+            laser.fire()
             
             let fireRateTimer = NSTimer.scheduledTimerWithTimeInterval(laser.fireRateTimeInterval, target: self,
-                selector: Selector("fireRateTimerEndedEventHandler"), userInfo: nil, repeats: false)
+                selector: Selector("fireRateTimerEnded"), userInfo: nil, repeats: false)
         }
     }
     
-    func fireRateTimerEndedEventHandler() {
+    func fireRateTimerEnded() {
         player.canShoot = true
+    }
+    
+    private func updateEnemies() {
+        switch currentPhase {
+        case .One:
+            updateEnemiesForPhaseOne()
+        case .Two:
+            break
+        case .Three:
+            break
+        }
+    }
+    
+    private func updateEnemiesForPhaseOne() {
+        if AlienFighter.canSpawn {
+            AlienFighter.canSpawn = false
+            
+            let alienFighter = AlienFighter(imageNamed: ImageNames.alienFighter, player: player, containerSize: self.size, velocity: AlienFighter.Constants.baseVelocity)
+            
+            self.addChild(alienFighter)
+            
+            alienFighter.animate(AlienFighter.AnimationType.Down)
+            
+            let alienFighterSpawnRateTimer = NSTimer.scheduledTimerWithTimeInterval(AlienFighter.Constants.spawnRate, target: self,
+                selector: Selector("alienFighterSpawnRateTimerEnded"), userInfo: nil, repeats: false)
+        }
+    }
+    
+    func alienFighterSpawnRateTimerEnded() {
+        AlienFighter.canSpawn = true
+    }
+    
+    enum Phase {
+        case One
+        case Two
+        case Three
     }
 }

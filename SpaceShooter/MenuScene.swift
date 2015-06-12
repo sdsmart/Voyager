@@ -31,6 +31,7 @@ class MenuScene: SKScene {
         
         if parallaxBackground.backgrounds != nil {
             for bg in parallaxBackground.backgrounds! {
+                bg.zPosition = ParallaxBackground.Constants.zPosition
                 self.addChild(bg)
             }
         }
@@ -63,15 +64,15 @@ class MenuScene: SKScene {
         highscoresButton.removeFromSuperview()
         optionsButton.removeFromSuperview()
         
-        let levelScene = LevelScene(size: self.size)
-        levelScene.scaleMode = .AspectFill
+        let levelOneScene = LevelOneScene(size: self.size)
+        levelOneScene.scaleMode = .AspectFill
         
         for bg in parallaxBackground.backgrounds! {
             bg.removeFromParent()
         }
-        levelScene.parallaxBackground = parallaxBackground
+        levelOneScene.parallaxBackground = parallaxBackground
         
-        self.view!.presentScene(levelScene)
+        self.view!.presentScene(levelOneScene)
     }
     
     func highscoresButtonPressed(sender: UIButton) {

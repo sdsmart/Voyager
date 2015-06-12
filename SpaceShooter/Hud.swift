@@ -29,5 +29,7 @@ class Hud {
     
     struct Constants {
         static let backgroundAlpha: CGFloat = 0.6
+        
+        static let zPosition: CGFloat = 4
     }
 }
