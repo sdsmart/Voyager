@@ -8,9 +8,9 @@
 
 import SpriteKit
 
-class ParallaxBackground {
+class ParallaxBackground: SKSpriteNode {
     
-    let backgrounds: [SKSpriteNode]?
+    private var backgrounds: [SKSpriteNode]?
     private var baseScrollDuration: Double = 0.0
     private var scrollDurationChangeRatio: Double = 1.0
     private var initialPositionY: CGFloat = 0.0
@@ -19,15 +19,17 @@ class ParallaxBackground {
     private var numberOfTiles: Int = 1
     private var scrollDown: Bool = true
     
-    init(imageNames: [String], baseScrollDuration: Double, scrollDurationChangeRatio: Double, containerHeight: CGFloat, numberOfTiles: Int, scrollDown: Bool) {
+    init(imageNames: [String], containerHeight: CGFloat, scrollDown: Bool) {
+        let texture = SKTexture(imageNamed: imageNames.first!)
+        
         self.scrollDown = scrollDown
         
         if baseScrollDuration >= 0.0 {
-            self.baseScrollDuration = baseScrollDuration
+            self.baseScrollDuration = Constants.baseScrollDuration
         }
         
-        if scrollDurationChangeRatio >= 0.0 && scrollDurationChangeRatio <= 1.0 {
-            self.scrollDurationChangeRatio = scrollDurationChangeRatio
+        if scrollDurationChangeRatio >= 0.0 && Constants.ScrollDurationChangeRatio <= 1.0 {
+            self.scrollDurationChangeRatio = Constants.ScrollDurationChangeRatio
         }
         
         if containerHeight >= 0.0 {
@@ -40,7 +42,7 @@ class ParallaxBackground {
         }
         
         if numberOfTiles >= 1 {
-            self.numberOfTiles = numberOfTiles
+            self.numberOfTiles = Constants.numberOfTiles
         }
         
         if imageNames.isEmpty == false {
@@ -54,13 +56,22 @@ class ParallaxBackground {
             backgrounds = nil
         }
         
-        if backgrounds != nil {
+        super.init(texture: texture, color: nil, size: texture.size())
+        
+        if let bgs = backgrounds {
             if scrollDown {
-                self.finalPositionY = -((backgrounds!.first!.size.height / CGFloat(self.numberOfTiles)) + (self.containerHeight / CGFloat(2)))
+                self.finalPositionY = -((bgs.first!.size.height / CGFloat(self.numberOfTiles)) + (self.containerHeight / CGFloat(2)))
             } else {
-                self.finalPositionY = (backgrounds!.first!.size.height / CGFloat(self.numberOfTiles)) + (self.containerHeight / CGFloat(2))
+                self.finalPositionY = (bgs.first!.size.height / CGFloat(self.numberOfTiles)) + (self.containerHeight / CGFloat(2))
             }
-        }
+            for bg in bgs {
+                self.addChild(bg)
+            }
+        }        
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func beginScrolling() {

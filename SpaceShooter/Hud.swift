@@ -8,27 +8,32 @@
 
 import SpriteKit
 
-class Hud {
+class Hud: SKSpriteNode {
     
-    let background: SKSpriteNode
-    let spriteNodes: [SKSpriteNode]
-    var size: CGSize {
-        get {
-            return background.size
-        }
+    private let background: SKSpriteNode
+    private var healthMeter: SKSpriteNode
+    
+    init() {
+        self.background = SKSpriteNode(imageNamed: ImageNames.hudBackground)
+        self.background.zPosition = Constants.zPosition
+        
+        self.healthMeter = SKSpriteNode(imageNamed: ImageNames.alienFighter)
+        self.healthMeter.zPosition = Constants.zPosition
+        
+        let texture = SKTexture(imageNamed: ImageNames.hudBackground)
+        super.init(texture: texture, color: nil, size: texture.size())
+        
+        self.zPosition = Constants.zPosition
+        self.size = self.background.size
+        self.addChild(background)
+        self.addChild(healthMeter)
     }
-    
-    init(backgroundImageName: String) {
-        self.background = SKSpriteNode(imageNamed: backgroundImageName)
-        
-        var nodes = [SKSpriteNode]()
-        nodes.append(self.background)
-        
-        self.spriteNodes = nodes
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     struct Constants {
-        static let backgroundAlpha: CGFloat = 0.6
         
         static let zPosition: CGFloat = 4
     }

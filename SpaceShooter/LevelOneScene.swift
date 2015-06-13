@@ -11,19 +11,20 @@ import SpriteKit
 class LevelOneScene: SKScene {
     
     var parallaxBackground: ParallaxBackground!
-    var hud: Hud!
-    var player: Player!
-    var beginMessage: SKSpriteNode!
-    var instructionsMessage: SKSpriteNode!
     
-    var currentPhase = Phase.One
+    private var hud: Hud!
+    private var player: Player!
+    private var levelLabel: SKSpriteNode!
+    private var instructionsLabel: SKSpriteNode!
     
-    var userReady = false
-    var movingRight = false
-    var movingLeft = false
+    private var currentPhase = Phase.One
     
-    var moveRightTouch: UITouch?
-    var moveLeftTouch: UITouch?
+    private var userReady = false
+    
+    private var movingRight = false
+    private var movingLeft = false
+    private var moveRightTouch: UITouch?
+    private var moveLeftTouch: UITouch?
     
     override func didMoveToView(view: SKView) {
         self.anchorPoint = CGPointMake(CGFloat(0.5), CGFloat(0.5))
@@ -35,27 +36,22 @@ class LevelOneScene: SKScene {
     }
     
     private func initializeParallaxBackground() {
-        if parallaxBackground != nil {
-            for bg in parallaxBackground.backgrounds! {
-                self.addChild(bg)
-                bg.zPosition = ParallaxBackground.Constants.zPosition
-            }
-        }
+        self.addChild(parallaxBackground)
     }
     
     private func initializeOverlayMessages() {
-        beginMessage = SKSpriteNode(imageNamed: ImageNames.beginMessageImageName)
-        beginMessage.position.y = 100
+        levelLabel = SKSpriteNode(imageNamed: ImageNames.levelLabel)
+        levelLabel.position.y = Constants.levelLabelPosition
         
-        instructionsMessage = SKSpriteNode(imageNamed: ImageNames.instructionsMessageImageName)
-        instructionsMessage.position.y = -75
+        instructionsLabel = SKSpriteNode(imageNamed: ImageNames.instructionsLabel)
+        instructionsLabel.position.y = Constants.instructionsLabelPosition
         
-        self.addChild(beginMessage)
-        self.addChild(instructionsMessage)
+        self.addChild(levelLabel)
+        self.addChild(instructionsLabel)
     }
     
     private func initializePlayer() {
-        player = Player(imageNamed: ImageNames.playerImageName)
+        player = Player(imageNamed: ImageNames.player)
         
         player.position.y = -(self.size.height / 2) + Player.Constants.distanceFromBottomOfScreen
         player.alpha = CGFloat(0)
@@ -63,22 +59,18 @@ class LevelOneScene: SKScene {
         
         self.addChild(player)
         
-        let initialFadeInAction = SKAction.fadeInWithDuration(MenuScene.Constants.transitionAnimationDuration)
+        let initialFadeInAction = SKAction.fadeInWithDuration(Constants.transitionAnimationDuration)
         player.runAction(initialFadeInAction)
     }
     
     private func initializeHud() {
-        hud = Hud(backgroundImageName: ImageNames.hudBackgroundImageName)
-        hud.background.zPosition = Hud.Constants.zPosition
-        hud.background.position.y = -((self.size.height / 2) + (hud.background.size.height / 2))
-        hud.background.alpha = Hud.Constants.backgroundAlpha
+        hud = Hud()
+        hud.position.y = -((self.size.height / 2) + (hud.size.height / 2))
         
-        for node in hud.spriteNodes {
-            self.addChild(hud.background)
+        self.addChild(hud)
             
-            let action = SKAction.moveToY(-((self.size.height / 2) - (hud.background.size.height / 2)), duration: MenuScene.Constants.transitionAnimationDuration)
-            node.runAction(action)
-        }
+        let action = SKAction.moveToY(-((self.size.height / 2) - (hud.size.height / 2)), duration: Constants.transitionAnimationDuration)
+        hud.runAction(action)
     }
     
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
@@ -114,8 +106,8 @@ class LevelOneScene: SKScene {
     }
     
     private func beginPlayng() {
-        beginMessage.removeFromParent()
-        instructionsMessage.removeFromParent()
+        levelLabel.removeFromParent()
+        instructionsLabel.removeFromParent()
         
         userReady = true
         player.canShoot = true
@@ -125,7 +117,7 @@ class LevelOneScene: SKScene {
     override func update(currentTime: NSTimeInterval) {
         if userReady {
             updatePlayer()
-            updateLasers()
+            updateProjectiles()
             updateEnemies()
         }
     }
@@ -170,11 +162,11 @@ class LevelOneScene: SKScene {
         }
     }
     
-    private func updateLasers() {
+    private func updateProjectiles() {
         if player.canShoot {
             player.canShoot = false
             
-            let laser = Laser(imageNamed: ImageNames.laserImageName, player: player, containerSize: self.size)
+            let laser = Laser(imageNamed: ImageNames.laser, player: player, containerSize: self.size)
             
             self.addChild(laser)
             
@@ -219,9 +211,16 @@ class LevelOneScene: SKScene {
         AlienFighter.canSpawn = true
     }
     
-    enum Phase {
+    private enum Phase {
         case One
         case Two
         case Three
+    }
+    
+    struct Constants {
+        static let transitionAnimationDuration = 0.5
+        
+        static let levelLabelPosition: CGFloat = 100.0
+        static let instructionsLabelPosition: CGFloat = -75.0
     }
 }

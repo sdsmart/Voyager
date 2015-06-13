@@ -11,11 +11,11 @@ import SpriteKit
 
 class MenuScene: SKScene {
     
-    var parallaxBackground: ParallaxBackground!
+    private var parallaxBackground: ParallaxBackground!
     
-    var playButton: UIButton!
-    var highscoresButton: UIButton!
-    var optionsButton: UIButton!
+    private var playButton: UIButton!
+    private var highscoresButton: UIButton!
+    private var optionsButton: UIButton!
     
     override func didMoveToView(view: SKView) {
         self.anchorPoint = CGPointMake(CGFloat(0.5), CGFloat(0.5))
@@ -26,32 +26,27 @@ class MenuScene: SKScene {
     
     private func initializeParallaxBackground()
     {
-        parallaxBackground = ParallaxBackground(imageNames: ImageNames.backgroundImageNames, baseScrollDuration: ParallaxBackground.Constants.baseScrollDuration, scrollDurationChangeRatio: ParallaxBackground.Constants.ScrollDurationChangeRatio, containerHeight: self.size.height, numberOfTiles: ParallaxBackground.Constants.numberOfTiles, scrollDown: true)
+        parallaxBackground = ParallaxBackground(imageNames: ImageNames.backgrounds, containerHeight: self.size.height, scrollDown: true)
         parallaxBackground.beginScrolling()
         
-        if parallaxBackground.backgrounds != nil {
-            for bg in parallaxBackground.backgrounds! {
-                bg.zPosition = ParallaxBackground.Constants.zPosition
-                self.addChild(bg)
-            }
-        }
+        self.addChild(parallaxBackground)
     }
     
     private func initializeMenuButtons()
     {
         let playButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.playButtonWidth / 2)), (((self.size.height / 2) - (MenuScene.Constants.playButtonHeight / 2)) + MenuScene.Constants.playButtonVerticalOffset), MenuScene.Constants.playButtonWidth, MenuScene.Constants.playButtonHeight)
         playButton = UIButton(frame: playButtonFrame)
-        playButton.setImage(UIImage(named: ImageNames.playButtonImageName), forState: UIControlState.Normal)
+        playButton.setImage(UIImage(named: ImageNames.playButton), forState: UIControlState.Normal)
         playButton.addTarget(self, action: Selector("playButtonPressed:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         let highscoresButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.highscoresButtonWidth / 2)), ((self.size.height / 2) - (MenuScene.Constants.highscoresButtonHeight / 2)), MenuScene.Constants.highscoresButtonWidth, MenuScene.Constants.highscoresButtonHeight)
         highscoresButton = UIButton(frame: highscoresButtonFrame)
-        highscoresButton.setImage(UIImage(named: ImageNames.highscoresButtonImageName), forState: UIControlState.Normal)
+        highscoresButton.setImage(UIImage(named: ImageNames.highscoresButton), forState: UIControlState.Normal)
         highscoresButton.addTarget(self, action: Selector("highscoresButtonPressed:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         let optionsButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.optionsButtonWidth / 2)), (((self.size.height / 2) - (MenuScene.Constants.optionsButtonHeight / 2)) + MenuScene.Constants.optionsButtonVerticalOffset), MenuScene.Constants.optionsButtonWidth, MenuScene.Constants.optionsButtonHeight)
         optionsButton = UIButton(frame: optionsButtonFrame)
-        optionsButton.setImage(UIImage(named: ImageNames.optionsButtonImageName), forState: UIControlState.Normal)
+        optionsButton.setImage(UIImage(named: ImageNames.optionsButton), forState: UIControlState.Normal)
         optionsButton.addTarget(self, action: Selector("optionsButtonPressed:"), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.view!.addSubview(playButton)
@@ -67,9 +62,7 @@ class MenuScene: SKScene {
         let levelOneScene = LevelOneScene(size: self.size)
         levelOneScene.scaleMode = .AspectFill
         
-        for bg in parallaxBackground.backgrounds! {
-            bg.removeFromParent()
-        }
+        parallaxBackground.removeFromParent()
         levelOneScene.parallaxBackground = parallaxBackground
         
         self.view!.presentScene(levelOneScene)
@@ -84,8 +77,6 @@ class MenuScene: SKScene {
     }
     
     struct Constants {
-        static let transitionAnimationDuration = 0.5
-        
         static let playButtonWidth: CGFloat = 150.0
         static let playButtonHeight: CGFloat = 25.0
         static let playButtonVerticalOffset: CGFloat = -75.0
