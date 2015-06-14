@@ -59,13 +59,13 @@ class MenuScene: SKScene {
         highscoresButton.removeFromSuperview()
         optionsButton.removeFromSuperview()
         
-        let levelOneScene = LevelOneScene(size: self.size)
-        levelOneScene.scaleMode = .AspectFill
+        let levelScene = LevelScene(size: self.size)
+        levelScene.scaleMode = .AspectFill
         
         parallaxBackground.removeFromParent()
-        levelOneScene.parallaxBackground = parallaxBackground
+        levelScene.parallaxBackground = parallaxBackground
         
-        self.view!.presentScene(levelOneScene)
+        self.view!.presentScene(levelScene)
     }
     
     func highscoresButtonPressed(sender: UIButton) {

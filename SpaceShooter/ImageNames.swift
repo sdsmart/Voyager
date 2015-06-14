@@ -22,6 +22,8 @@ struct ImageNames {
     static let alienFighter = "alien-fighter"
     
     static let hudBackground = "hud-background"
+    static let healthMeter = "health-meter"
+    static let healthBar = "health-bar"
     
     static let laser = "laser"
     

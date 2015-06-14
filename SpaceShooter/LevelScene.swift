@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class LevelOneScene: SKScene {
+class LevelScene: SKScene {
     
     var parallaxBackground: ParallaxBackground!
     
@@ -66,6 +66,7 @@ class LevelOneScene: SKScene {
     private func initializeHud() {
         hud = Hud()
         hud.position.y = -((self.size.height / 2) + (hud.size.height / 2))
+        hud.updateHealthBar(healthPercentage: player.healthPercentage)
         
         self.addChild(hud)
             

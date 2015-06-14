@@ -15,12 +15,14 @@ class Player: SKSpriteNode {
     
     var canShoot = false
     
+    var healthPercentage: Double = 1.0
+    
     struct Constants {
         static let friction: CGFloat = 0.25
         static let maxSpeed: CGFloat = 7.0
         static let acceleration: CGFloat = 0.80
         
-        static let distanceFromBottomOfScreen: CGFloat = 130.0
+        static let distanceFromBottomOfScreen: CGFloat = 135.0
         
         static let zPosition: CGFloat = 3.0
     }

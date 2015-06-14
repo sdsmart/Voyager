@@ -53,7 +53,7 @@ class AlienFighter: SKSpriteNode {
     
     struct Constants {
         static let distanceToGetOffScreen: CGFloat = 100
-        static let baseVelocity = 0.35
+        static let baseVelocity = 0.30
         static let spawnRate = 0.75
         
         static let zPosition: CGFloat = 2.0
