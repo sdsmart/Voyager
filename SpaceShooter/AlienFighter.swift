@@ -16,12 +16,12 @@ class AlienFighter: SKSpriteNode {
     let player: Player
     let containerSize: CGSize
     
-    var velocity: Double
+    var velocity = 0.30
+    var spawnRate = 0.75
     
-    init(imageNamed: String, player: Player, containerSize: CGSize, velocity: Double) {
+    init(imageNamed: String, player: Player, containerSize: CGSize) {
         self.player = player
         self.containerSize = containerSize
-        self.velocity = velocity
         
         let texture = SKTexture(imageNamed: imageNamed)
         super.init(texture: texture, color: nil, size: texture.size())
@@ -53,8 +53,6 @@ class AlienFighter: SKSpriteNode {
     
     struct Constants {
         static let distanceToGetOffScreen: CGFloat = 100
-        static let baseVelocity = 0.30
-        static let spawnRate = 0.75
         
         static let zPosition: CGFloat = 2.0
     }
