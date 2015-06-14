@@ -10,18 +10,18 @@ import SpriteKit
 
 class Player: SKSpriteNode {
     
-    var velocity: CGFloat = 0
-    var acceleration: CGFloat = 0
+    var velocity: CGFloat = 0.0
+    var acceleration: CGFloat = 0.0
     
     var canShoot = false
     
     struct Constants {
         static let friction: CGFloat = 0.25
-        static let maxSpeed: CGFloat = 7
+        static let maxSpeed: CGFloat = 7.0
         static let acceleration: CGFloat = 0.80
         
-        static let distanceFromBottomOfScreen: CGFloat = 130
+        static let distanceFromBottomOfScreen: CGFloat = 130.0
         
-        static let zPosition: CGFloat = 3
+        static let zPosition: CGFloat = 3.0
     }
 }

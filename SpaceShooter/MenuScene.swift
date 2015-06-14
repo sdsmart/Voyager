@@ -26,7 +26,7 @@ class MenuScene: SKScene {
     
     private func initializeParallaxBackground()
     {
-        parallaxBackground = ParallaxBackground(imageNames: ImageNames.backgrounds, containerHeight: self.size.height, scrollDown: true)
+        parallaxBackground = ParallaxBackground(imageNames: ImageNames.parallaxBackgrounds, containerHeight: self.size.height, scrollDown: true)
         parallaxBackground.beginScrolling()
         
         self.addChild(parallaxBackground)

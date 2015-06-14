@@ -97,6 +97,6 @@ class ParallaxBackground: SKSpriteNode {
         static let ScrollDurationChangeRatio = 0.30
         static let numberOfTiles = 3
         
-        static let zPosition: CGFloat = 0
+        static let zPosition: CGFloat = 0.0
     }
 }

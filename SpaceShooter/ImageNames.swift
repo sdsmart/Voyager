@@ -9,9 +9,9 @@
 import Foundation
 
 struct ImageNames {
-    static let backgrounds = ["menu_background_1",
-                                       "menu_background_2",
-                                       "menu_background_3"]
+    static let parallaxBackgrounds = ["parallax-background-1",
+                                       "parallax-background-2",
+                                       "parallax-background-3"]
     
     static let playButton = "play-button"
     static let highscoresButton = "highscores-button"

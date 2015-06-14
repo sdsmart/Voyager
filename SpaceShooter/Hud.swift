@@ -11,14 +11,10 @@ import SpriteKit
 class Hud: SKSpriteNode {
     
     private let background: SKSpriteNode
-    private var healthMeter: SKSpriteNode
     
     init() {
         self.background = SKSpriteNode(imageNamed: ImageNames.hudBackground)
         self.background.zPosition = Constants.zPosition
-        
-        self.healthMeter = SKSpriteNode(imageNamed: ImageNames.alienFighter)
-        self.healthMeter.zPosition = Constants.zPosition
         
         let texture = SKTexture(imageNamed: ImageNames.hudBackground)
         super.init(texture: texture, color: nil, size: texture.size())
@@ -26,7 +22,6 @@ class Hud: SKSpriteNode {
         self.zPosition = Constants.zPosition
         self.size = self.background.size
         self.addChild(background)
-        self.addChild(healthMeter)
     }
 
     required init(coder aDecoder: NSCoder) {
@@ -35,6 +30,6 @@ class Hud: SKSpriteNode {
     
     struct Constants {
         
-        static let zPosition: CGFloat = 4
+        static let zPosition: CGFloat = 4.0
     }
 }

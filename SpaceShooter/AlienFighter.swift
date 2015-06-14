@@ -56,6 +56,6 @@ class AlienFighter: SKSpriteNode {
         static let baseVelocity = 0.35
         static let spawnRate = 0.75
         
-        static let zPosition: CGFloat = 2
+        static let zPosition: CGFloat = 2.0
     }
 }

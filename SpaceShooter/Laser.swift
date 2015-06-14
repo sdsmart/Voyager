@@ -11,8 +11,8 @@ import SpriteKit
 
 class Laser: SKSpriteNode {
     
-    let player: Player!
-    let containerSize: CGSize!
+    private let player: Player!
+    private let containerSize: CGSize!
     
     var fireRateTimeInterval = 0.15
     var velocty = 1.0
@@ -43,6 +43,6 @@ class Laser: SKSpriteNode {
     struct Constants {
         static let baseVelocity = 1.15
         
-        static let zPosition: CGFloat = 1
+        static let zPosition: CGFloat = 1.0
     }
 }
