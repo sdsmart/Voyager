@@ -26,6 +26,11 @@ struct ImageNames {
     static let hudHealthBar = "health-bar"
     static let hudScoreHeader = "score-header"
     static let hudLevelHeader = "level-header"
+    static let hudUseItemButton = "use-item-button"
+    static let hudUseItemHeader = "use-item-header"
+    static let hudSwitchWeaponButton = "switch-weapon-button"
+    static let hudSwitchWeaponHeader = "switch-weapon-header"
+    static let hudPauseButton = "pause-button"
     
     static let laser = "laser"
     

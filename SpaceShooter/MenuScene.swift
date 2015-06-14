@@ -37,24 +37,24 @@ class MenuScene: SKScene {
         let playButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.playButtonWidth / 2)), (((self.size.height / 2) - (MenuScene.Constants.playButtonHeight / 2)) + MenuScene.Constants.playButtonVerticalOffset), MenuScene.Constants.playButtonWidth, MenuScene.Constants.playButtonHeight)
         playButton = UIButton(frame: playButtonFrame)
         playButton.setImage(UIImage(named: ImageNames.playButton), forState: UIControlState.Normal)
-        playButton.addTarget(self, action: Selector("playButtonPressed:"), forControlEvents: UIControlEvents.TouchUpInside)
+        playButton.addTarget(self, action: Selector("playButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
         
         let highscoresButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.highscoresButtonWidth / 2)), ((self.size.height / 2) - (MenuScene.Constants.highscoresButtonHeight / 2)), MenuScene.Constants.highscoresButtonWidth, MenuScene.Constants.highscoresButtonHeight)
         highscoresButton = UIButton(frame: highscoresButtonFrame)
         highscoresButton.setImage(UIImage(named: ImageNames.highscoresButton), forState: UIControlState.Normal)
-        highscoresButton.addTarget(self, action: Selector("highscoresButtonPressed:"), forControlEvents: UIControlEvents.TouchUpInside)
+        highscoresButton.addTarget(self, action: Selector("highscoresButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
         
         let optionsButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.optionsButtonWidth / 2)), (((self.size.height / 2) - (MenuScene.Constants.optionsButtonHeight / 2)) + MenuScene.Constants.optionsButtonVerticalOffset), MenuScene.Constants.optionsButtonWidth, MenuScene.Constants.optionsButtonHeight)
         optionsButton = UIButton(frame: optionsButtonFrame)
         optionsButton.setImage(UIImage(named: ImageNames.optionsButton), forState: UIControlState.Normal)
-        optionsButton.addTarget(self, action: Selector("optionsButtonPressed:"), forControlEvents: UIControlEvents.TouchUpInside)
+        optionsButton.addTarget(self, action: Selector("optionsButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
         
         self.view!.addSubview(playButton)
         self.view!.addSubview(highscoresButton)
         self.view!.addSubview(optionsButton)
     }
     
-    func playButtonPressed(sender: UIButton) {
+    func playButtonPressed() {
         playButton.removeFromSuperview()
         highscoresButton.removeFromSuperview()
         optionsButton.removeFromSuperview()
@@ -68,11 +68,11 @@ class MenuScene: SKScene {
         self.view!.presentScene(levelScene)
     }
     
-    func highscoresButtonPressed(sender: UIButton) {
+    func highscoresButtonPressed() {
         println("highscores button pressed")
     }
     
-    func optionsButtonPressed(sender: UIButton) {
+    func optionsButtonPressed() {
         println("options button pressed")
     }
     
