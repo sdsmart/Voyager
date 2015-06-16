@@ -15,9 +15,23 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "FEA129991B23CDC500E49488"
-               BuildableName = "DeepSpace.app"
-               BlueprintName = "DeepSpace"
-               ReferencedContainer = "container:DeepSpace.xcodeproj">
+               BuildableName = "Voyager.app"
+               BlueprintName = "Voyager"
+               ReferencedContainer = "container:Voyager.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FEA129B21B23CDC500E49488"
+               BuildableName = "VoyagerTests.xctest"
+               BlueprintName = "VoyagerTests"
+               ReferencedContainer = "container:Voyager.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -26,16 +40,26 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FEA129B21B23CDC500E49488"
+               BuildableName = "VoyagerTests.xctest"
+               BlueprintName = "VoyagerTests"
+               ReferencedContainer = "container:Voyager.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FEA129991B23CDC500E49488"
-            BuildableName = "DeepSpace.app"
-            BlueprintName = "DeepSpace"
-            ReferencedContainer = "container:DeepSpace.xcodeproj">
+            BuildableName = "Voyager.app"
+            BlueprintName = "Voyager"
+            ReferencedContainer = "container:Voyager.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -44,7 +68,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
@@ -53,9 +77,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FEA129991B23CDC500E49488"
-            BuildableName = "DeepSpace.app"
-            BlueprintName = "DeepSpace"
-            ReferencedContainer = "container:DeepSpace.xcodeproj">
+            BuildableName = "Voyager.app"
+            BlueprintName = "Voyager"
+            ReferencedContainer = "container:Voyager.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -65,24 +89,24 @@
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       debugDocumentVersioning = "YES">
       <BuildableProductRunnable
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "FEA129991B23CDC500E49488"
-            BuildableName = "DeepSpace.app"
-            BlueprintName = "DeepSpace"
-            ReferencedContainer = "container:DeepSpace.xcodeproj">
+            BuildableName = "Voyager.app"
+            BlueprintName = "Voyager"
+            ReferencedContainer = "container:Voyager.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>
