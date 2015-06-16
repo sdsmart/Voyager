@@ -1,6 +1,5 @@
 //
 //  ImageNames.swift
-//  DeepSpace
 //
 //  Created by Steve Smart on 6/10/15.
 //  Copyright (c) 2015 Steve Smart. All rights reserved.
@@ -22,7 +21,7 @@ struct ImageNames {
     static let alienFighter = "alien-fighter"
     
     static let hudBackground = "hud-background"
-    static let hudHealthMeter = "health-meter"
+    static let hudHealthHeader = "health-meter"
     static let hudHealthBar = "health-bar"
     static let hudScoreHeader = "score-header"
     static let hudLevelHeader = "level-header"
@@ -35,8 +34,10 @@ struct ImageNames {
     static let laser = "laser"
     
     static let levelLabel = "level-label"
-    static let instructionsLabel = "instructions-label"
+    static let moveInstructionsLabel = "move-instructions-label"
+    static let beginInstructionsLabel = "begin-instructions-label"
     
     static let resumeButton = "resume-button"
     static let saveAndQuitButton = "save-and-quit-button"
+    static let pauseMenuDarkening = "pause-menu-darkening"
 }

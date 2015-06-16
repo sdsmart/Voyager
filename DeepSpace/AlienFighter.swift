@@ -1,6 +1,5 @@
 //
 //  Fighter.swift
-//  DeepSpace
 //
 //  Created by Steve Smart on 6/11/15.
 //  Copyright (c) 2015 Steve Smart. All rights reserved.
@@ -11,14 +10,16 @@ import SpriteKit
 
 class AlienFighter: SKSpriteNode {
     
+    // MARK: Properties
     static var canSpawn = false
+    static var spawnRate = 1.0
     
     let player: Player
     let containerSize: CGSize
     
     var velocity = 0.20
-    var spawnRate = 1.0
     
+    // MARK: Initializers
     init(imageNamed: String, player: Player, containerSize: CGSize) {
         self.player = player
         self.containerSize = containerSize
@@ -38,6 +39,7 @@ class AlienFighter: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Utility Methods
     func animate(animationType: AnimationType) {
         switch animationType {
         case .Down:
@@ -47,6 +49,7 @@ class AlienFighter: SKSpriteNode {
         }
     }
     
+    // MARK: Enums & Constants
     enum AnimationType {
         case Down
     }

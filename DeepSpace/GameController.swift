@@ -1,6 +1,5 @@
 //
 //  GameViewController.swift
-//  DeepSpace
 //
 //  Created by Steve Smart on 6/6/15.
 //  Copyright (c) 2015 Steve Smart. All rights reserved.
@@ -11,8 +10,10 @@ import SpriteKit
 
 class GameController: UIViewController {
 
+    // MARK: Properties
     var menuScene: MenuScene!
     
+    // MARK: View Controller Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -27,6 +28,7 @@ class GameController: UIViewController {
         skView.presentScene(menuScene)
     }
 
+    // MARK: UIViewController Attribute Methods
     override func shouldAutorotate() -> Bool {
         return true
     }

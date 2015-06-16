@@ -1,6 +1,5 @@
 //
 //  GameScene.swift
-//  DeepSpace
 //
 //  Created by Steve Smart on 6/6/15.
 //  Copyright (c) 2015 Steve Smart. All rights reserved.
@@ -11,12 +10,14 @@ import SpriteKit
 
 class MenuScene: SKScene {
     
+    // MARK: Properties
     var parallaxBackground: ParallaxBackground?
     
     private var playButton: UIButton!
     private var highscoresButton: UIButton!
     private var optionsButton: UIButton!
     
+    // MARK: Initialization Methods
     override func didMoveToView(view: SKView) {
         self.anchorPoint = CGPointMake(CGFloat(0.5), CGFloat(0.5))
         
@@ -65,6 +66,7 @@ class MenuScene: SKScene {
         }
     }
     
+    // MARK: Observer Methods
     func playButtonPressed() {
         playButton.removeFromSuperview()
         highscoresButton.removeFromSuperview()
@@ -87,6 +89,7 @@ class MenuScene: SKScene {
         println("options button pressed!")
     }
     
+    // MARK: Enums & Constants
     struct Constants {
         static let transitionAnimationDuration = 0.5
         

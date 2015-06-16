@@ -1,6 +1,5 @@
 //
 //  Bullet.swift
-//  DeepSpace
 //
 //  Created by Steve Smart on 6/10/15.
 //  Copyright (c) 2015 Steve Smart. All rights reserved.
@@ -11,12 +10,13 @@ import SpriteKit
 
 class Laser: SKSpriteNode {
     
+    // MARK: Properties
     private let player: Player!
     private let containerSize: CGSize!
     
-    var fireRateTimeInterval = 0.15
     var velocty = 1.0
     
+    // MARK: Initializers
     init(imageNamed: String, player: Player, containerSize: CGSize) {
         self.player = player
         self.containerSize = containerSize
@@ -34,12 +34,14 @@ class Laser: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Uitility Methods
     func fire() {
         let locationOffScreen = containerSize.height
         let fireAction = SKAction.moveToY(locationOffScreen, duration: (1 / velocty))
         self.runAction(fireAction)
     }
     
+    // MARK: Enums & Constants
     struct Constants {
         static let baseVelocity = 1.15
         

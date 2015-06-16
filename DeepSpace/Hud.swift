@@ -1,6 +1,5 @@
 //
 //  Hud.swift
-//  DeepSpace
 //
 //  Created by Steve Smart on 6/10/15.
 //  Copyright (c) 2015 Steve Smart. All rights reserved.
@@ -10,8 +9,9 @@ import SpriteKit
 
 class Hud: SKSpriteNode {
     
+    // MARK: Properties
     private let background: SKSpriteNode
-    private let healthMeter: SKSpriteNode
+    private let healthHeader: SKSpriteNode
     private let levelHeader: SKSpriteNode
     private let scoreHeader: SKSpriteNode
     private let switchWeaponHeader: SKSpriteNode
@@ -21,14 +21,15 @@ class Hud: SKSpriteNode {
     private var levelValue: SKLabelNode
     private var scoreValue: SKLabelNode
     
+    // MARK: Initializers
     init(containerSize: CGSize) {
         self.background = SKSpriteNode(imageNamed: ImageNames.hudBackground)
         self.background.zPosition = Constants.zPosition
         
-        self.healthMeter = SKSpriteNode(imageNamed: ImageNames.hudHealthMeter)
-        self.healthMeter.zPosition = Constants.zPosition
-        self.healthMeter.position.x = -(containerSize.width / 2) + (self.healthMeter.size.width / 2) + Constants.healthMeterHorizontalOffset
-        self.healthMeter.position.y = (self.background.size.height / 2) - (self.healthMeter.size.height / 2) - Constants.healthMeterVerticalOffset
+        self.healthHeader = SKSpriteNode(imageNamed: ImageNames.hudHealthHeader)
+        self.healthHeader.zPosition = Constants.zPosition
+        self.healthHeader.position.x = -(containerSize.width / 2) + (self.healthHeader.size.width / 2) + Constants.healthHeaderHorizontalOffset
+        self.healthHeader.position.y = (self.background.size.height / 2) - (self.healthHeader.size.height / 2) - Constants.healthHeaderVerticalOffset
         
         self.healthBar = SKSpriteNode(imageNamed: ImageNames.hudHealthBar)
         self.healthBar.anchorPoint = CGPointMake(CGFloat(0.0), CGFloat(0.5))
@@ -78,7 +79,7 @@ class Hud: SKSpriteNode {
         self.zPosition = Constants.zPosition
         self.size = self.background.size
         self.addChild(background)
-        self.addChild(healthMeter)
+        self.addChild(healthHeader)
         self.addChild(healthBar)
         self.addChild(scoreHeader)
         self.addChild(scoreValue)
@@ -92,6 +93,7 @@ class Hud: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Utility Methods
     func updateHealthBar(#healthPercentage: Double) {
         var newHealth = healthPercentage
         if newHealth < 0.0 {
@@ -124,9 +126,10 @@ class Hud: SKSpriteNode {
         scoreValue.text = "\(newScore)"
     }
     
+    // MARK: Enums & Constants
     struct Constants {
-        static let healthMeterHorizontalOffset: CGFloat = 11.0
-        static let healthMeterVerticalOffset: CGFloat = 12.0
+        static let healthHeaderHorizontalOffset: CGFloat = 11.0
+        static let healthHeaderVerticalOffset: CGFloat = 12.0
         
         static let healthBarHorizontalOffset: CGFloat = 75.0
         static let healthBarVerticalOffset: CGFloat = 14.0

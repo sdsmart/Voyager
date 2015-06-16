@@ -1,6 +1,5 @@
 //
 //  ParallaxBackground.swift
-//  DeepSpace
 //
 //  Created by Steve Smart on 6/7/15.
 //  Copyright (c) 2015 Steve Smart. All rights reserved.
@@ -10,6 +9,7 @@ import SpriteKit
 
 class ParallaxBackground: SKSpriteNode {
     
+    // MARK: Properties
     private var backgrounds: [SKSpriteNode]?
     private var baseScrollDuration: Double = 0.0
     private var scrollDurationChangeRatio: Double = 1.0
@@ -19,6 +19,7 @@ class ParallaxBackground: SKSpriteNode {
     private var numberOfTiles: Int = 1
     private var scrollDown: Bool = true
     
+    // MARK: Initializers
     init(imageNames: [String], containerHeight: CGFloat, scrollDown: Bool) {
         let texture = SKTexture(imageNamed: imageNames.first!)
         
@@ -74,6 +75,7 @@ class ParallaxBackground: SKSpriteNode {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Utility Methods
     func beginScrolling() {
         if backgrounds != nil {
             for (i, bg) in enumerate(backgrounds!) {
@@ -92,9 +94,10 @@ class ParallaxBackground: SKSpriteNode {
         }
     }
     
+    // MARK: Enums & Constants
     struct Constants {
         static let baseScrollDuration = 40.0
-        static let ScrollDurationChangeRatio = 0.30
+        static let ScrollDurationChangeRatio = 0.375
         static let numberOfTiles = 3
         
         static let zPosition: CGFloat = 0.0
