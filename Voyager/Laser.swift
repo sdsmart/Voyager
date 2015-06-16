@@ -17,17 +17,24 @@ class Laser: SKSpriteNode {
     var velocty = 1.0
     
     // MARK: Initializers
-    init(imageNamed: String, player: Player, containerSize: CGSize) {
+    init(player: Player, containerSize: CGSize) {
         self.player = player
         self.containerSize = containerSize
         
-        let texture = SKTexture(imageNamed: imageNamed)
+        let texture = SKTexture(imageNamed: ImageNames.laser)
         super.init(texture: texture, color: nil, size: texture.size())
         
         self.position.x = player.position.x
         self.position.y = player.position.y + player.size.height / 3
         self.zPosition = Laser.Constants.zPosition
         self.velocty = Constants.baseVelocity
+        
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
+        self.physicsBody!.affectedByGravity = false
+        self.physicsBody!.collisionBitMask = 0
+        self.physicsBody!.categoryBitMask = Constants.categoryBitmask
+        self.physicsBody!.contactTestBitMask = AlienFighter.Constants.categoryBitmask
+        self.physicsBody!.usesPreciseCollisionDetection = true
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -46,5 +53,8 @@ class Laser: SKSpriteNode {
         static let baseVelocity = 1.15
         
         static let zPosition: CGFloat = 1.0
+        
+        static let collisionBoundary = CGSizeMake(3.0, 20.0)
+        static let categoryBitmask: UInt32 = 0x1 << 1
     }
 }

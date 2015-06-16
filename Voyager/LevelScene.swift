@@ -8,7 +8,7 @@
 import UIKit
 import SpriteKit
 
-class LevelScene: SKScene {
+class LevelScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: Properties
     var parallaxBackground: ParallaxBackground!
@@ -44,6 +44,7 @@ class LevelScene: SKScene {
     // MARK: Initialization Methods
     override func didMoveToView(view: SKView) {
         self.anchorPoint = CGPointMake(CGFloat(0.5), CGFloat(0.5))
+        self.physicsWorld.contactDelegate = self
         
         registerAppObservers()
         initializeParallaxBackground()
@@ -89,7 +90,7 @@ class LevelScene: SKScene {
     }
     
     private func initializePlayer() {
-        player = Player(imageNamed: ImageNames.player)
+        player = Player()
         
         player.position.y = -(self.size.height / 2) + Player.Constants.distanceFromBottomOfScreen
         player.zPosition = Player.Constants.zPosition
@@ -224,6 +225,59 @@ class LevelScene: SKScene {
         player.canShoot = true
         AlienFighter.canSpawn = true
         pauseButton.enabled = true
+    }
+    
+    // MARK: Collision Detection Methods
+    func didBeginContact(contact: SKPhysicsContact) {
+        var firstBody = SKPhysicsBody()
+        var secondBody = SKPhysicsBody()
+        
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & Laser.Constants.categoryBitmask) != 0{
+            
+            handleAlienFighterLaserCollision(alienFighter: firstBody, laser: secondBody)
+            
+        } else if (firstBody.categoryBitMask & Laser.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
+            
+            handleAlienFighterLaserCollision(alienFighter: secondBody, laser: firstBody)
+            
+        } else if (firstBody.categoryBitMask & Player.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask != 0) {
+            
+            handlePlayerAlienFighterCollision(player: firstBody, alienFighter: secondBody)
+            
+        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask != 0) && (secondBody.categoryBitMask & Player.Constants.categoryBitmask != 0) {
+            
+            handlePlayerAlienFighterCollision(player: secondBody, alienFighter: firstBody)
+        }
+    }
+    
+    private func handleAlienFighterLaserCollision(#alienFighter: SKPhysicsBody, laser: SKPhysicsBody) {
+        if let alienFighterNode = alienFighter.node as? AlienFighter {
+            alienFighterNode.removeFromParent()
+        }
+        if let laserNode = laser.node as? Laser {
+            laserNode.removeFromParent()
+        }
+        
+        player.score += 1
+        hud.updateScoreValue(score: player.score)
+    }
+    
+    private func handlePlayerAlienFighterCollision(#player: SKPhysicsBody, alienFighter: SKPhysicsBody) {
+        if let playerNode = player.node as? Player{
+            playerNode.healthPercentage -= 0.05
+            hud.updateHealthBar(healthPercentage: playerNode.healthPercentage)
+        }
+        if let alienFighterNode = alienFighter.node as? AlienFighter {
+            alienFighterNode.removeFromParent()
+        }
     }
     
     // MARK: Observer Methods
@@ -366,7 +420,7 @@ class LevelScene: SKScene {
         if player.canShoot {
             player.canShoot = false
             
-            let laser = Laser(imageNamed: ImageNames.laser, player: player, containerSize: self.size)
+            let laser = Laser(player: player, containerSize: self.size)
             
             self.addChild(laser)
             
@@ -396,7 +450,7 @@ class LevelScene: SKScene {
         if AlienFighter.canSpawn {
             AlienFighter.canSpawn = false
             
-            let alienFighter = AlienFighter(imageNamed: ImageNames.alienFighter, player: player, containerSize: self.size)
+            let alienFighter = AlienFighter(player: player, containerSize: self.size)
             
             self.addChild(alienFighter)
             

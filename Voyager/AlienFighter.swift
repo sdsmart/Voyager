@@ -17,14 +17,14 @@ class AlienFighter: SKSpriteNode {
     let player: Player
     let containerSize: CGSize
     
-    var velocity = 0.20
+    var velocity = 0.30
     
     // MARK: Initializers
-    init(imageNamed: String, player: Player, containerSize: CGSize) {
+    init(player: Player, containerSize: CGSize) {
         self.player = player
         self.containerSize = containerSize
         
-        let texture = SKTexture(imageNamed: imageNamed)
+        let texture = SKTexture(imageNamed: ImageNames.alienFighter)
         super.init(texture: texture, color: nil, size: texture.size())
         
         let edgeOffset = 30
@@ -33,6 +33,12 @@ class AlienFighter: SKSpriteNode {
         self.position.x =  randomNumberForShipXPosition - shiftAmount
         self.position.y = (containerSize.height / 2) + Constants.distanceToGetOffScreen
         self.zPosition = Constants.zPosition
+        
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
+        self.physicsBody!.affectedByGravity = false
+        self.physicsBody!.collisionBitMask = 0
+        self.physicsBody!.categoryBitMask = Constants.categoryBitmask
+        self.physicsBody!.contactTestBitMask = Player.Constants.categoryBitmask | Laser.Constants.categoryBitmask
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -58,5 +64,8 @@ class AlienFighter: SKSpriteNode {
         static let distanceToGetOffScreen: CGFloat = 100
         
         static let zPosition: CGFloat = 2.0
+        
+        static let collisionBoundary = CGSizeMake(15.0, 30.0)
+        static let categoryBitmask: UInt32 = 0x1 << 2
     }
 }

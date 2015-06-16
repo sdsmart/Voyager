@@ -20,6 +20,22 @@ class Player: SKSpriteNode {
     
     var fireRateTimeInterval: Double = 0.15
     
+    // MARK: Initializers
+    init() {
+        let texture = SKTexture(imageNamed: ImageNames.player)
+        super.init(texture: texture, color: nil, size: texture.size())
+        
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
+        self.physicsBody!.affectedByGravity = false
+        self.physicsBody!.collisionBitMask = 0
+        self.physicsBody!.categoryBitMask = Constants.categoryBitmask
+        self.physicsBody!.contactTestBitMask = AlienFighter.Constants.categoryBitmask
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: Enums & Constants
     struct Constants {
         static let friction: CGFloat = 0.25
@@ -29,5 +45,8 @@ class Player: SKSpriteNode {
         static let distanceFromBottomOfScreen: CGFloat = 135.0
         
         static let zPosition: CGFloat = 3.0
+        
+        static let collisionBoundary = CGSizeMake(35, 50)
+        static let categoryBitmask: UInt32 = 0x1 << 0
     }
 }
