@@ -11,13 +11,12 @@ import SpriteKit
 class AlienFighter: SKSpriteNode {
     
     // MARK: Properties
-    static var canSpawn = false
-    static var spawnRate = 1.0
+    private let player: Player
+    private let containerSize: CGSize
     
-    let player: Player
-    let containerSize: CGSize
+    var velocity = Constants.baseVelocity
     
-    var velocity = 0.30
+    var health = 10
     
     // MARK: Initializers
     init(player: Player, containerSize: CGSize) {
@@ -49,9 +48,21 @@ class AlienFighter: SKSpriteNode {
     func animate(animationType: AnimationType) {
         switch animationType {
         case .Down:
-            let animationAction = SKAction.moveToY(-((containerSize.height / 2) + Constants.distanceToGetOffScreen), duration: 1 / velocity)
-            animationAction.timingMode = SKActionTimingMode.EaseIn
-            self.runAction(animationAction)
+            animateDown()
+        }
+    }
+    
+    private func animateDown() {
+        let animationAction = SKAction.moveToY(-((containerSize.height / 2) + Constants.distanceToGetOffScreen), duration: 1 / velocity)
+        animationAction.timingMode = SKActionTimingMode.EaseIn
+        self.runAction(animationAction)
+    }
+    
+    func applyDamage(#damage: Int) {
+        health -= damage
+        
+        if health <= 0 {
+            self.removeFromParent()
         }
     }
     
@@ -61,11 +72,14 @@ class AlienFighter: SKSpriteNode {
     }
     
     struct Constants {
-        static let distanceToGetOffScreen: CGFloat = 100
+        static let distanceToGetOffScreen: CGFloat = 30
         
         static let zPosition: CGFloat = 2.0
         
-        static let collisionBoundary = CGSizeMake(15.0, 30.0)
+        static let collisionBoundary = CGSizeMake(20.0, 30.0)
         static let categoryBitmask: UInt32 = 0x1 << 2
+        
+        static let damage = 5
+        static let baseVelocity = 0.30
     }
 }

@@ -13,13 +13,14 @@ class Hud: SKSpriteNode {
     private let background: SKSpriteNode
     private let healthHeader: SKSpriteNode
     private let levelHeader: SKSpriteNode
-    private let scoreHeader: SKSpriteNode
-    private let switchWeaponHeader: SKSpriteNode
+    private let goldHeader: SKSpriteNode
+    private let useSpecialHeader: SKSpriteNode
     private let useItemHeader: SKSpriteNode
     
     private var healthBar: SKSpriteNode
+    private var healthBarMaxWidth: CGFloat
     private var levelValue: SKLabelNode
-    private var scoreValue: SKLabelNode
+    private var goldValue: SKLabelNode
     
     // MARK: Initializers
     init(containerSize: CGSize) {
@@ -36,6 +37,7 @@ class Hud: SKSpriteNode {
         self.healthBar.zPosition = Constants.zPosition
         self.healthBar.position.x = -(containerSize.width / 2) + Constants.healthBarHorizontalOffset
         self.healthBar.position.y = (self.background.size.height / 2) - (self.healthBar.size.height / 2) - Constants.healthBarVerticalOffset
+        self.healthBarMaxWidth = healthBar.size.width
         
         self.levelHeader = SKSpriteNode(imageNamed: ImageNames.hudLevelHeader)
         self.levelHeader.zPosition = Constants.zPosition
@@ -50,23 +52,23 @@ class Hud: SKSpriteNode {
         self.levelValue.position.x = -(containerSize.width / 2) + Constants.levelValueHorizontalOffset
         self.levelValue.position.y = (self.background.size.height / 2) - Constants.levelValueVerticalOffset
         
-        self.scoreHeader = SKSpriteNode(imageNamed: ImageNames.hudScoreHeader)
-        self.scoreHeader.zPosition = Constants.zPosition
-        self.scoreHeader.position.x = -(containerSize.width / 2) + (self.scoreHeader.size.width / 2) + Constants.scoreHeaderHorizontalOffset
-        self.scoreHeader.position.y = (self.background.size.height / 2) - (self.scoreHeader.size.height / 2) - Constants.scoreHeaderVerticalOffset
+        self.goldHeader = SKSpriteNode(imageNamed: ImageNames.hudGoldHeader)
+        self.goldHeader.zPosition = Constants.zPosition
+        self.goldHeader.position.x = -(containerSize.width / 2) + (self.goldHeader.size.width / 2) + Constants.goldHeaderHorizontalOffset
+        self.goldHeader.position.y = (self.background.size.height / 2) - (self.goldHeader.size.height / 2) - Constants.goldHeaderVerticalOffset
         
-        self.scoreValue = SKLabelNode(fontNamed: Constants.scoreValueFontName)
-        self.scoreValue.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        self.scoreValue.fontSize = Constants.scoreValueFontSize
-        self.scoreValue.fontColor = Constants.scoreValueColor
-        self.scoreValue.zPosition = Constants.zPosition
-        self.scoreValue.position.x = -(containerSize.width / 2) + Constants.scoreValueHorizontalOffset
-        self.scoreValue.position.y = (self.background.size.height / 2) - Constants.scoreValueVerticalOffset
+        self.goldValue = SKLabelNode(fontNamed: Constants.goldValueFontName)
+        self.goldValue.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
+        self.goldValue.fontSize = Constants.goldValueFontSize
+        self.goldValue.fontColor = Constants.goldValueColor
+        self.goldValue.zPosition = Constants.zPosition
+        self.goldValue.position.x = -(containerSize.width / 2) + Constants.goldValueHorizontalOffset
+        self.goldValue.position.y = (self.background.size.height / 2) - Constants.goldValueVerticalOffset
         
-        self.switchWeaponHeader = SKSpriteNode(imageNamed: ImageNames.hudSwitchWeaponHeader)
-        self.switchWeaponHeader.zPosition = Constants.zPosition
-        self.switchWeaponHeader.position.x = (containerSize.width / 2) - Constants.switchWeaponHeaderHorizontalOffset
-        self.switchWeaponHeader.position.y = (self.background.size.height / 2) - Constants.switchWeaponHeaderVerticalOffset
+        self.useSpecialHeader = SKSpriteNode(imageNamed: ImageNames.hudUseSpecialHeader)
+        self.useSpecialHeader.zPosition = Constants.zPosition
+        self.useSpecialHeader.position.x = (containerSize.width / 2) - Constants.useSpecialHeaderHorizontalOffset
+        self.useSpecialHeader.position.y = (self.background.size.height / 2) - Constants.useSpecialHeaderVerticalOffset
         
         self.useItemHeader = SKSpriteNode(imageNamed: ImageNames.hudUseItemHeader)
         self.useItemHeader.zPosition = Constants.zPosition
@@ -78,14 +80,17 @@ class Hud: SKSpriteNode {
         
         self.zPosition = Constants.zPosition
         self.size = self.background.size
+        self.alpha = 0.0
+        self.position.y = -((containerSize.height / 2) - (self.background.size.height / 2))
+        
         self.addChild(background)
         self.addChild(healthHeader)
         self.addChild(healthBar)
-        self.addChild(scoreHeader)
-        self.addChild(scoreValue)
+        self.addChild(goldHeader)
+        self.addChild(goldValue)
         self.addChild(levelHeader)
         self.addChild(levelValue)
-        self.addChild(switchWeaponHeader)
+        self.addChild(useSpecialHeader)
         self.addChild(useItemHeader)
     }
 
@@ -94,16 +99,15 @@ class Hud: SKSpriteNode {
     }
     
     // MARK: Utility Methods
-    func updateHealthBar(#healthPercentage: Double) {
-        var newHealth = healthPercentage
-        if newHealth < 0.0 {
-            newHealth = 0.0
-        } else if newHealth > 1.0 {
-            newHealth = 1.0
+    func updateHealthBar(#health: Int) {
+        var newHealth = health
+        if newHealth < 0 {
+            newHealth = 0
+        } else if newHealth > Player.Constants.maxHealth {
+            newHealth = Player.Constants.maxHealth
         }
         
-        let oldHealthBarWidth = healthBar.size.width
-        healthBar.size.width = oldHealthBarWidth * CGFloat(newHealth)
+        healthBar.size.width = healthBarMaxWidth * CGFloat(newHealth) / CGFloat(Player.Constants.maxHealth)
     }
     
     func updateLevelValue(#level: Int) {
@@ -115,15 +119,15 @@ class Hud: SKSpriteNode {
         levelValue.text = "\(newLevel)"
     }
     
-    func updateScoreValue(#score: Int) {
-        var newScore = score
-        if newScore > 999999999 {
-            newScore = 999999999
-        } else if newScore < 0 {
-            newScore = 0
+    func updateGoldValue(#gold: Int) {
+        var newGold = gold
+        if newGold > 99999 {
+            newGold = 99999
+        } else if newGold < 0 {
+            newGold = 0
         }
         
-        scoreValue.text = "\(newScore)"
+        goldValue.text = "\(newGold)"
     }
     
     // MARK: Enums & Constants
@@ -143,19 +147,19 @@ class Hud: SKSpriteNode {
         static let levelValueFontSize: CGFloat = 14.0
         static let levelValueColor = UIColor(red: 0, green: 255/255, blue: 255/255, alpha: 1.0)
         
-        static let scoreHeaderHorizontalOffset: CGFloat = 77.0
-        static let scoreHeaderVerticalOffset: CGFloat = 32.0
+        static let goldHeaderHorizontalOffset: CGFloat = 77.0
+        static let goldHeaderVerticalOffset: CGFloat = 32.5
         
-        static let scoreValueHorizontalOffset: CGFloat = 131.0
-        static let scoreValueVerticalOffset: CGFloat = 44.0
-        static let scoreValueFontName = "HelveticaNeue-Medium"
-        static let scoreValueFontSize: CGFloat = 14.0
-        static let scoreValueColor = UIColor(red: 0, green: 192/255, blue: 0, alpha: 1.0)
+        static let goldValueHorizontalOffset: CGFloat = 121.0
+        static let goldValueVerticalOffset: CGFloat = 44.0
+        static let goldValueFontName = "HelveticaNeue-Medium"
+        static let goldValueFontSize: CGFloat = 14.0
+        static let goldValueColor = UIColor(red: 255/255, green: 185/255, blue: 0, alpha: 1.0)
         
-        static let switchWeaponHeaderHorizontalOffset: CGFloat = 116.0
-        static let switchWeaponHeaderVerticalOffset: CGFloat = 20.0
+        static let useSpecialHeaderHorizontalOffset: CGFloat = 39.0
+        static let useSpecialHeaderVerticalOffset: CGFloat = 20.0
         
-        static let useItemHeaderHorizontalOffset: CGFloat = 41.0
+        static let useItemHeaderHorizontalOffset: CGFloat = 116.0
         static let useItemHeaderVerticalOffset: CGFloat = 20.0
         
         static let zPosition: CGFloat = 4.0

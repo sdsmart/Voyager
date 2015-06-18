@@ -13,14 +13,15 @@
 		FE3EA77B1B27B0950064476B /* LevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3EA77A1B27B0950064476B /* LevelScene.swift */; };
 		FE3EA77D1B27C5810064476B /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3EA77C1B27C5810064476B /* Player.swift */; };
 		FE747A8F1B2A5981009B5CC4 /* AlienFighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE747A8E1B2A5981009B5CC4 /* AlienFighter.swift */; };
+		FE7A0E1A1B30E80E00D14892 /* LevelHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7A0E191B30E80E00D14892 /* LevelHandler.swift */; };
 		FE88AD2C1B24B24B0072EF42 /* ParallaxBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */; };
+		FE8D7B181B322FF3006D54CA /* SaveState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8D7B171B322FF3006D54CA /* SaveState.swift */; };
 		FEA129A01B23CDC500E49488 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA1299F1B23CDC500E49488 /* AppDelegate.swift */; };
 		FEA129A41B23CDC500E49488 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA129A31B23CDC500E49488 /* MenuScene.swift */; };
 		FEA129A61B23CDC500E49488 /* GameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA129A51B23CDC500E49488 /* GameController.swift */; };
 		FEA129A91B23CDC500E49488 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEA129A71B23CDC500E49488 /* Main.storyboard */; };
 		FEA129AB1B23CDC500E49488 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FEA129AA1B23CDC500E49488 /* Images.xcassets */; };
 		FEA129AE1B23CDC500E49488 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = FEA129AC1B23CDC500E49488 /* LaunchScreen.xib */; };
-		FEA129BA1B23CDC500E49488 /* SpaceShooterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FEA129B91B23CDC500E49488 /* SpaceShooterTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,7 +41,9 @@
 		FE3EA77A1B27B0950064476B /* LevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelScene.swift; sourceTree = "<group>"; };
 		FE3EA77C1B27C5810064476B /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FE747A8E1B2A5981009B5CC4 /* AlienFighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlienFighter.swift; sourceTree = "<group>"; };
+		FE7A0E191B30E80E00D14892 /* LevelHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelHandler.swift; sourceTree = "<group>"; };
 		FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParallaxBackground.swift; sourceTree = "<group>"; };
+		FE8D7B171B322FF3006D54CA /* SaveState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveState.swift; sourceTree = "<group>"; };
 		FEA1299A1B23CDC500E49488 /* Voyager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Voyager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FEA1299E1B23CDC500E49488 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FEA1299F1B23CDC500E49488 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -50,8 +53,6 @@
 		FEA129AA1B23CDC500E49488 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		FEA129AD1B23CDC500E49488 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		FEA129B31B23CDC500E49488 /* VoyagerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VoyagerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FEA129B81B23CDC500E49488 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FEA129B91B23CDC500E49488 /* SpaceShooterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceShooterTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,11 +95,19 @@
 			name = Entities;
 			sourceTree = "<group>";
 		};
+		FE7A0E181B30E7E700D14892 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				FE7A0E191B30E80E00D14892 /* LevelHandler.swift */,
+				FE8D7B171B322FF3006D54CA /* SaveState.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		FEA129911B23CDC500E49488 = {
 			isa = PBXGroup;
 			children = (
 				FEA1299C1B23CDC500E49488 /* Voyager */,
-				FEA129B61B23CDC500E49488 /* SpaceShooterTests */,
 				FEA1299B1B23CDC500E49488 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -117,6 +126,7 @@
 			children = (
 				FE0A00201B28FE6E007C436B /* Scenes & Controllers */,
 				FE3EA77E1B27C5870064476B /* Entities */,
+				FE7A0E181B30E7E700D14892 /* Utilities */,
 				FEA129C31B23D07C00E49488 /* Resources */,
 				FEA1299D1B23CDC500E49488 /* Supporting Files */,
 			);
@@ -130,23 +140,6 @@
 				FEA129AC1B23CDC500E49488 /* LaunchScreen.xib */,
 				FEA1299F1B23CDC500E49488 /* AppDelegate.swift */,
 				FEA1299E1B23CDC500E49488 /* Info.plist */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		FEA129B61B23CDC500E49488 /* SpaceShooterTests */ = {
-			isa = PBXGroup;
-			children = (
-				FEA129B91B23CDC500E49488 /* SpaceShooterTests.swift */,
-				FEA129B71B23CDC500E49488 /* Supporting Files */,
-			);
-			path = SpaceShooterTests;
-			sourceTree = "<group>";
-		};
-		FEA129B71B23CDC500E49488 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				FEA129B81B23CDC500E49488 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -264,7 +257,9 @@
 				FE88AD2C1B24B24B0072EF42 /* ParallaxBackground.swift in Sources */,
 				FE747A8F1B2A5981009B5CC4 /* AlienFighter.swift in Sources */,
 				FEA129A41B23CDC500E49488 /* MenuScene.swift in Sources */,
+				FE8D7B181B322FF3006D54CA /* SaveState.swift in Sources */,
 				FEA129A61B23CDC500E49488 /* GameController.swift in Sources */,
+				FE7A0E1A1B30E80E00D14892 /* LevelHandler.swift in Sources */,
 				FE0A001C1B28FABE007C436B /* Hud.swift in Sources */,
 				FEA129A01B23CDC500E49488 /* AppDelegate.swift in Sources */,
 				FE3EA77D1B27C5810064476B /* Player.swift in Sources */,
@@ -278,7 +273,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FEA129BA1B23CDC500E49488 /* SpaceShooterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

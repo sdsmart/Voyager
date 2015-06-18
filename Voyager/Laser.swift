@@ -14,7 +14,7 @@ class Laser: SKSpriteNode {
     private let player: Player!
     private let containerSize: CGSize!
     
-    var velocty = 1.0
+    var velocty = Constants.baseVelocity
     
     // MARK: Initializers
     init(player: Player, containerSize: CGSize) {
@@ -27,7 +27,6 @@ class Laser: SKSpriteNode {
         self.position.x = player.position.x
         self.position.y = player.position.y + player.size.height / 3
         self.zPosition = Laser.Constants.zPosition
-        self.velocty = Constants.baseVelocity
         
         self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
         self.physicsBody!.affectedByGravity = false
@@ -56,5 +55,7 @@ class Laser: SKSpriteNode {
         
         static let collisionBoundary = CGSizeMake(3.0, 20.0)
         static let categoryBitmask: UInt32 = 0x1 << 1
+        
+        static let damage = 10
     }
 }

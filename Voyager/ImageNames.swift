@@ -8,11 +8,13 @@
 import Foundation
 
 struct ImageNames {
+    static let titleLabel = "title-label"
     static let parallaxBackgrounds = ["parallax-background-1",
                                        "parallax-background-2",
                                        "parallax-background-3"]
     
-    static let playButton = "play-button"
+    static let newGameButton = "new-game-button"
+    static let continueButton = "continue-button"
     static let highscoresButton = "highscores-button"
     static let optionsButton = "options-button"
     
@@ -23,17 +25,18 @@ struct ImageNames {
     static let hudBackground = "hud-background"
     static let hudHealthHeader = "health-meter"
     static let hudHealthBar = "health-bar"
-    static let hudScoreHeader = "score-header"
+    static let hudGoldHeader = "gold-header"
     static let hudLevelHeader = "level-header"
     static let hudUseItemButton = "use-item-button"
     static let hudUseItemHeader = "use-item-header"
-    static let hudSwitchWeaponButton = "switch-weapon-button"
-    static let hudSwitchWeaponHeader = "switch-weapon-header"
+    static let hudUseSpecialButton = "use-special-button"
+    static let hudUseSpecialHeader = "use-special-header"
     static let hudPauseButton = "pause-button"
     
     static let laser = "laser"
     
-    static let levelLabel = "level-label"
+    static let levelOneLabel = "level1-label"
+    
     static let moveInstructionsLabel = "move-instructions-label"
     static let beginInstructionsLabel = "begin-instructions-label"
     

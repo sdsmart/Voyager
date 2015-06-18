@@ -11,18 +11,33 @@ import SpriteKit
 class MenuScene: SKScene {
     
     // MARK: Properties
+    var titleLabel: SKSpriteNode!
+    
     var parallaxBackground: ParallaxBackground?
     
-    private var playButton: UIButton!
-    private var highscoresButton: UIButton!
+    private var newGameButton: UIButton!
+    private var continueButton: UIButton!
     private var optionsButton: UIButton!
     
     // MARK: Initialization Methods
     override func didMoveToView(view: SKView) {
         self.anchorPoint = CGPointMake(CGFloat(0.5), CGFloat(0.5))
         
+        SaveState.loadData()
+        initializeTitleLabel()
         initializeParallaxBackground()
         initializeMenuButtons()
+    }
+    
+    private func initializeTitleLabel() {
+        titleLabel = SKSpriteNode(imageNamed: ImageNames.titleLabel)
+        titleLabel.position.y = Constants.titleLabelVerticalOffset
+        titleLabel.zPosition = 100
+        
+        self.addChild(titleLabel)
+        
+        let fadeInAction = SKAction.fadeInWithDuration(Constants.transitionAnimationDuration)
+        titleLabel.runAction(fadeInAction)
     }
     
     private func initializeParallaxBackground()
@@ -37,43 +52,53 @@ class MenuScene: SKScene {
     
     private func initializeMenuButtons()
     {
-        let playButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.playButtonWidth / 2)), (((self.size.height / 2) - (MenuScene.Constants.playButtonHeight / 2)) + MenuScene.Constants.playButtonVerticalOffset), MenuScene.Constants.playButtonWidth, MenuScene.Constants.playButtonHeight)
-        playButton = UIButton(frame: playButtonFrame)
-        playButton.alpha = 0.0
-        playButton.setImage(UIImage(named: ImageNames.playButton), forState: UIControlState.Normal)
-        playButton.addTarget(self, action: Selector("playButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
+        let newGameButtonFrame = CGRectMake(((self.size.width / 2) - (Constants.newGameButtonWidth / 2)), (((self.size.height / 2) - (Constants.newGameButtonHeight / 2)) + Constants.newGameButtonVerticalOffset), Constants.newGameButtonWidth, Constants.newGameButtonHeight)
+        newGameButton = UIButton(frame: newGameButtonFrame)
+        newGameButton.alpha = 0.0
+        newGameButton.setImage(UIImage(named: ImageNames.newGameButton), forState: UIControlState.Normal)
+        newGameButton.addTarget(self, action: Selector("newGame"), forControlEvents: UIControlEvents.TouchUpInside)
         
-        let highscoresButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.highscoresButtonWidth / 2)), ((self.size.height / 2) - (MenuScene.Constants.highscoresButtonHeight / 2)), MenuScene.Constants.highscoresButtonWidth, MenuScene.Constants.highscoresButtonHeight)
-        highscoresButton = UIButton(frame: highscoresButtonFrame)
-        highscoresButton.alpha = 0.0
-        highscoresButton.setImage(UIImage(named: ImageNames.highscoresButton), forState: UIControlState.Normal)
-        highscoresButton.addTarget(self, action: Selector("highscoresButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
+        let continueButtonFrame = CGRectMake(((self.size.width / 2) - (Constants.continueButtonWidth / 2)), (((self.size.height / 2) - (Constants.continueButtonHeight / 2)) + Constants.continueButtonVerticalOffset), Constants.continueButtonWidth, Constants.continueButtonHeight)
+        continueButton = UIButton(frame: continueButtonFrame)
+        continueButton.alpha = 0.0
+        continueButton.setImage(UIImage(named: ImageNames.continueButton), forState: UIControlState.Normal)
+        continueButton.addTarget(self, action: Selector("continueGame"), forControlEvents: UIControlEvents.TouchUpInside)
+        if SaveState.isValid() == false {
+            continueButton.enabled = false
+        }
         
-        let optionsButtonFrame = CGRectMake(((self.size.width / 2) - (MenuScene.Constants.optionsButtonWidth / 2)), (((self.size.height / 2) - (MenuScene.Constants.optionsButtonHeight / 2)) + MenuScene.Constants.optionsButtonVerticalOffset), MenuScene.Constants.optionsButtonWidth, MenuScene.Constants.optionsButtonHeight)
+        let optionsButtonFrame = CGRectMake(((self.size.width / 2) - (Constants.optionsButtonWidth / 2)), (((self.size.height / 2) - (Constants.optionsButtonHeight / 2)) + Constants.optionsButtonVerticalOffset), Constants.optionsButtonWidth, Constants.optionsButtonHeight)
         optionsButton = UIButton(frame: optionsButtonFrame)
         optionsButton.alpha = 0.0
         optionsButton.setImage(UIImage(named: ImageNames.optionsButton), forState: UIControlState.Normal)
-        optionsButton.addTarget(self, action: Selector("optionsButtonPressed"), forControlEvents: UIControlEvents.TouchUpInside)
+        optionsButton.addTarget(self, action: Selector("showOptions"), forControlEvents: UIControlEvents.TouchUpInside)
         
-        self.view!.addSubview(playButton)
-        self.view!.addSubview(highscoresButton)
+        self.view!.addSubview(newGameButton)
+        self.view!.addSubview(continueButton)
         self.view!.addSubview(optionsButton)
         
         UIView.animateWithDuration(Constants.transitionAnimationDuration) {
-            self.playButton.alpha = 1.0
-            self.highscoresButton.alpha = 1.0
+            self.newGameButton.alpha = 1.0
+            if self.continueButton.enabled == true {
+                self.continueButton.alpha = 1.0
+            } else {
+                self.continueButton.alpha = 0.4
+            }
             self.optionsButton.alpha = 1.0
         }
     }
     
     // MARK: Observer Methods
-    func playButtonPressed() {
-        playButton.removeFromSuperview()
-        highscoresButton.removeFromSuperview()
+    func newGame() {
+        titleLabel.removeFromParent()
+        newGameButton.removeFromSuperview()
+        continueButton.removeFromSuperview()
         optionsButton.removeFromSuperview()
         
         let levelScene = LevelScene(size: self.size)
         levelScene.scaleMode = .AspectFill
+        
+        SaveState.eraseData()
         
         parallaxBackground!.removeFromParent()
         levelScene.parallaxBackground = parallaxBackground!
@@ -81,27 +106,53 @@ class MenuScene: SKScene {
         self.view!.presentScene(levelScene)
     }
     
-    func highscoresButtonPressed() {
-        println("highscores button pressed!")
+    func continueGame() {
+        titleLabel.removeFromParent()
+        newGameButton.removeFromSuperview()
+        continueButton.removeFromSuperview()
+        optionsButton.removeFromSuperview()
+        
+        let levelScene = LevelScene(size: self.size)
+        levelScene.scaleMode = .AspectFill
+        
+        initializeSavedState(scene: levelScene)
+        
+        parallaxBackground!.removeFromParent()
+        levelScene.parallaxBackground = parallaxBackground!
+        
+        self.view!.presentScene(levelScene)
     }
     
-    func optionsButtonPressed() {
-        println("options button pressed!")
+    private func initializeSavedState(#scene: LevelScene) {
+        if SaveState.isValid() {
+            let player = Player(parentScene: scene)
+            let levelHandler = LevelHandler(scene: scene, player: player, level: SaveState.level!)
+            
+            scene.player = player
+            scene.levelHandler = levelHandler
+        }
+    }
+    
+    func showOptions() {
+        println("Show Options!")
     }
     
     // MARK: Enums & Constants
     struct Constants {
         static let transitionAnimationDuration = 0.5
         
-        static let playButtonWidth: CGFloat = 150.0
-        static let playButtonHeight: CGFloat = 30.0
-        static let playButtonVerticalOffset: CGFloat = -75.0
+        static let titleLabelVerticalOffset: CGFloat = 140.0
         
-        static let highscoresButtonWidth: CGFloat = 250.0
-        static let highscoresButtonHeight: CGFloat = 30.0
+        static let newGameButtonWidth: CGFloat = 200.0
+        static let newGameButtonHeight: CGFloat = 30.0
+        static let newGameButtonVerticalOffset: CGFloat = 0.0
+        
+        static let continueButtonWidth: CGFloat = 200.0
+        static let continueButtonHeight: CGFloat = 30.0
+        static let continueButtonVerticalOffset: CGFloat = 75
         
         static let optionsButtonWidth: CGFloat = 200.0
         static let optionsButtonHeight: CGFloat = 30.0
-        static let optionsButtonVerticalOffset: CGFloat = 75.0
+        static let optionsButtonVerticalOffset: CGFloat = 150.0
     }
 }

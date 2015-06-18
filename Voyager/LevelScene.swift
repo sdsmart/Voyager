@@ -13,33 +13,24 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     // MARK: Properties
     var parallaxBackground: ParallaxBackground!
     var hud: Hud!
-    var player: Player!
-    var currentLevel = 1
-    var levelLabel: SKSpriteNode!
+    var player: Player?
+    var levelHandler: LevelHandler?
+    var gamePaused = false
     
     private var moveInstructionsLabel: SKSpriteNode?
     private var beginInstructionsLabel: SKSpriteNode?
     
     private var useItemButton: UIButton!
-    private var switchWeaponButton: UIButton!
+    private var useSpecialButton: UIButton!
     private var pauseButton: UIButton!
     
     private var pauseMenuDarkening: SKSpriteNode!
     private var resumeButton: UIButton!
     private var saveAndQuitButton: UIButton!
     
-    private var gamePaused = false
     private var userReady = false
-    
-    private var movingRight = false
-    private var movingLeft = false
     private var moveRightTouch: UITouch?
     private var moveLeftTouch: UITouch?
-    
-    private var currentPhase = Phase.One
-    
-    private var playerFireRateTimer = NSTimer()
-    private var alienFighterSpawnRateTimer = NSTimer()
     
     // MARK: Initialization Methods
     override func didMoveToView(view: SKView) {
@@ -47,9 +38,10 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         
         registerAppObservers()
+        initializePlayer()
+        initializeLevelHandler()
         initializeParallaxBackground()
         initializeOverlayMessages()
-        initializePlayer()
         initializeHud()
     }
     
@@ -63,17 +55,32 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         defaultCenter.addObserver(self, selector: Selector("applicationWillEnterForeground"), name: UIApplicationWillEnterForegroundNotification, object: nil)
     }
     
+    private func initializePlayer() {
+        if player == nil {
+            player = Player(parentScene: self)
+        }
+        
+        self.addChild(player!)
+        
+        let initialFadeInAction = SKAction.fadeInWithDuration(Constants.transitionAnimationDuration)
+        player!.runAction(initialFadeInAction)
+    }
+    
+    private func initializeLevelHandler() {
+        if levelHandler == nil {
+            levelHandler = LevelHandler(scene: self, player: player!, level: 1)
+        }
+        levelHandler!.initialize()
+    }
+    
     private func initializeParallaxBackground() {
         self.addChild(parallaxBackground)
     }
     
     private func initializeOverlayMessages() {
-        levelLabel = SKSpriteNode(imageNamed: ImageNames.levelLabel)
-
-        levelLabel.position.y = Constants.levelLabelPosition
-        self.addChild(levelLabel)
+        levelHandler!.showLabel()
         
-        if currentLevel == 1 {
+        if levelHandler!.currentLevel == 1 {
             if moveInstructionsLabel == nil {
                 moveInstructionsLabel = SKSpriteNode(imageNamed: ImageNames.moveInstructionsLabel)
             }
@@ -89,39 +96,23 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    private func initializePlayer() {
-        player = Player()
-        
-        player.position.y = -(self.size.height / 2) + Player.Constants.distanceFromBottomOfScreen
-        player.zPosition = Player.Constants.zPosition
-        player.alpha = CGFloat(0)
-        
-        self.addChild(player)
-        
-        let initialFadeInAction = SKAction.fadeInWithDuration(Constants.transitionAnimationDuration)
-        player.runAction(initialFadeInAction)
-    }
-    
     private func initializeHud() {
         hud = Hud(containerSize: self.size)
-        
-        hud.alpha = 0.0
-        hud.position.y = -((self.size.height / 2) - (hud.size.height / 2))
-        hud.updateHealthBar(healthPercentage: player.healthPercentage)
-        hud.updateScoreValue(score: player.score)
-        hud.updateLevelValue(level: currentLevel)
+        hud.updateHealthBar(health: player!.health)
+        hud.updateGoldValue(gold: player!.gold)
+        hud.updateLevelValue(level: levelHandler!.currentLevel)
         
         useItemButton = UIButton(frame: CGRectMake(self.size.width - Constants.useItemButtonHorizontalOffset, self.size.height - Constants.useItemButtonVerticalOffset, Constants.useItemButtonWidth, Constants.useItemButtonHeight))
         useItemButton.alpha = 0.0
         useItemButton.setImage(UIImage(named: ImageNames.hudUseItemButton), forState: UIControlState.Normal)
-        useItemButton.addTarget(self, action: Selector("useItem"), forControlEvents: UIControlEvents.TouchUpInside)
+        useItemButton.addTarget(player, action: Selector("useItem"), forControlEvents: UIControlEvents.TouchUpInside)
         useItemButton.enabled = false
         
-        switchWeaponButton = UIButton(frame: CGRectMake(self.size.width - Constants.switchWeaponButtonHorizontalOffset, self.size.height - Constants.switchWeaponButtonVerticalOffset, Constants.switchWeaponButtonWidth, Constants.switchWeaponButtonHeight))
-        switchWeaponButton.alpha = 0.0
-        switchWeaponButton.setImage(UIImage(named: ImageNames.hudSwitchWeaponButton), forState: UIControlState.Normal)
-        switchWeaponButton.addTarget(self, action: Selector("switchWeapon"), forControlEvents: UIControlEvents.TouchUpInside)
-        switchWeaponButton.enabled = false
+        useSpecialButton = UIButton(frame: CGRectMake(self.size.width - Constants.useSpecialButtonHorizontalOffset, self.size.height - Constants.useSpecialButtonVerticalOffset, Constants.useSpecialButtonWidth, Constants.useSpecialButtonHeight))
+        useSpecialButton.alpha = 0.0
+        useSpecialButton.setImage(UIImage(named: ImageNames.hudUseSpecialButton), forState: UIControlState.Normal)
+        useSpecialButton.addTarget(player, action: Selector("useSpecial"), forControlEvents: UIControlEvents.TouchUpInside)
+        useSpecialButton.enabled = false
         
         pauseButton = UIButton(frame: CGRectMake(Constants.pauseButtonHorizontalOffset, self.size.height - Constants.pauseButtonVerticalOffset, Constants.pauseButtonWidth, Constants.pauseButtonHeight))
         pauseButton.alpha = 0.0
@@ -131,14 +122,14 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         
         self.addChild(hud)
         self.view!.addSubview(useItemButton)
-        self.view!.addSubview(switchWeaponButton)
+        self.view!.addSubview(useSpecialButton)
         self.view!.addSubview(pauseButton)
         
         let fadeInAction = SKAction.fadeInWithDuration(Constants.transitionAnimationDuration)
         hud.runAction(fadeInAction)
         UIView.animateWithDuration(Constants.transitionAnimationDuration) {
             self.useItemButton.alpha = 1.0
-            self.switchWeaponButton.alpha = 1.0
+            self.useSpecialButton.alpha = 1.0
             self.pauseButton.alpha = 1.0
         }
     }
@@ -173,6 +164,14 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         pauseMenuDarkening.removeFromParent()
     }
     
+    // MARK: Update Methods
+    override func update(currentTime: NSTimeInterval) {
+        if userReady && gamePaused == false {
+            player!.update()
+            levelHandler!.update()
+        }
+    }
+    
     // MARK: UIResponder Methods
     override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         if gamePaused {
@@ -185,10 +184,10 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
             let hudBoundary = (self.size.height) - hud.size.height
             
             if touchLocation.x >= (self.size.width / 2) && touchLocation.y <= hudBoundary {
-                movingRight = true
+                player!.movingRight = true
                 moveRightTouch = touch
             } else if touchLocation.x < (self.size.width / 2) && touchLocation.y <= hudBoundary {
-                movingLeft = true
+                player!.movingLeft = true
                 moveLeftTouch = touch
             }
         }
@@ -205,26 +204,30 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
             }
             
             if touch === moveRightTouch {
-                movingRight = false
+                player!.movingRight = false
                 moveRightTouch = nil
             } else if touch === moveLeftTouch {
-                movingLeft = false
+                player!.movingLeft = false
                 moveLeftTouch = nil
             }
         }
     }
     
     private func beginPlayng() {
-        levelLabel.removeFromParent()
-        if currentLevel == 1 {
+        levelHandler!.hideLabel()
+        if levelHandler!.currentLevel == 1 {
             moveInstructionsLabel!.removeFromParent()
             beginInstructionsLabel!.removeFromParent()
         }
         
         userReady = true
-        player.canShoot = true
-        AlienFighter.canSpawn = true
+        player!.enabled = true
+        levelHandler!.enabled = true
         pauseButton.enabled = true
+        useSpecialButton.enabled = true
+        if player!.hasItem {
+            useItemButton.enabled = true
+        }
     }
     
     // MARK: Collision Detection Methods
@@ -260,20 +263,17 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     
     private func handleAlienFighterLaserCollision(#alienFighter: SKPhysicsBody, laser: SKPhysicsBody) {
         if let alienFighterNode = alienFighter.node as? AlienFighter {
-            alienFighterNode.removeFromParent()
+            alienFighterNode.applyDamage(damage: Laser.Constants.damage)
         }
         if let laserNode = laser.node as? Laser {
             laserNode.removeFromParent()
         }
-        
-        player.score += 1
-        hud.updateScoreValue(score: player.score)
     }
     
     private func handlePlayerAlienFighterCollision(#player: SKPhysicsBody, alienFighter: SKPhysicsBody) {
-        if let playerNode = player.node as? Player{
-            playerNode.healthPercentage -= 0.05
-            hud.updateHealthBar(healthPercentage: playerNode.healthPercentage)
+        if let playerNode = player.node as? Player {
+            playerNode.applyDamage(AlienFighter.Constants.damage)
+            hud.updateHealthBar(health: playerNode.health)
         }
         if let alienFighterNode = alienFighter.node as? AlienFighter {
             alienFighterNode.removeFromParent()
@@ -289,6 +289,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     
     func applicationDidEnterBackground() {
         self.view!.paused = true
+        SaveState.saveData(level: levelHandler!.currentLevel)
     }
     
     func applicationWillEnterForeground() {
@@ -299,21 +300,13 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func useItem() {
-        println("Use Item Button Pressed!")
-    }
-    
-    func switchWeapon() {
-        println("Switch Weapon Button Pressed!")
-    }
-    
     func pauseGame() {
         gamePaused = true
         self.paused = true
         
         pauseButton.enabled = false
         useItemButton.enabled = false
-        switchWeaponButton.enabled = false
+        useSpecialButton.enabled = false
         initializePauseMenu()
     }
     
@@ -322,21 +315,26 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         self.paused = false
         
         pauseButton.enabled = true
-        useItemButton.enabled = true
-        switchWeaponButton.enabled = true
+        useSpecialButton.enabled = true
+        if player!.hasItem {
+            useItemButton.enabled = true
+        }
+        
         deInitializePauseMenu()
     }
     
     func saveAndQuit() {
-        // Save Level Here
+        SaveState.saveData(level: levelHandler!.currentLevel)
         
         pauseButton.removeFromSuperview()
         useItemButton.removeFromSuperview()
-        switchWeaponButton.removeFromSuperview()
+        useSpecialButton.removeFromSuperview()
         resumeButton.removeFromSuperview()
         saveAndQuitButton.removeFromSuperview()
-        player.removeFromParent()
+        player!.removeFromParent()
         hud.removeFromParent()
+        levelHandler = nil
+        gamePaused = false
         
         let menuScene = MenuScene(size: self.view!.bounds.size)
         menuScene.scaleMode = .AspectFill
@@ -347,145 +345,23 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         self.view!.presentScene(menuScene)
     }
     
-    func prepareProjectile() {
-        if gamePaused {
-            playerFireRateTimer.invalidate()
-            playerFireRateTimer = NSTimer.scheduledTimerWithTimeInterval(player.fireRateTimeInterval, target: self,
-                selector: Selector("prepareProjectile"), userInfo: nil, repeats: false)
-        } else {
-            player.canShoot = true
-        }
-    }
-    
-    func prepareNewAlienFighter() {
-        if gamePaused {
-            alienFighterSpawnRateTimer.invalidate()
-            alienFighterSpawnRateTimer = NSTimer.scheduledTimerWithTimeInterval(AlienFighter.spawnRate, target: self,
-                selector: Selector("prepareNewAlienFighter"), userInfo: nil, repeats: false)
-        } else {
-            AlienFighter.canSpawn = true
-        }
-    }
-    
-    // MARK: Update Methods
-    override func update(currentTime: NSTimeInterval) {
-        if userReady && gamePaused == false {
-            updatePlayer()
-            updateProjectiles()
-            updateEnemies()
-        }
-    }
-    
-    private func updatePlayer() {
-        updatePlayerPosition()
-        updatePlayerVelocity()
-        applyFrictionToPlayer()
-    }
-    
-    private func updatePlayerPosition() {
-        player.position.x += player.velocity
-        if player.position.x < -((self.size.width / 2) - (player.size.width / 3)) {
-            player.position.x = -((self.size.width / 2) - (player.size.width / 3))
-        } else if player.position.x > ((self.size.width / 2) - (player.size.width / 3)) {
-            player.position.x = ((self.size.width / 2) - (player.size.width / 3))
-        }
-    }
-    
-    private func updatePlayerVelocity() {
-        if movingRight {
-            player.velocity += Player.Constants.acceleration
-        }
-        if movingLeft {
-            player.velocity -= Player.Constants.acceleration
-        }
-        
-        if player.velocity > Player.Constants.maxSpeed {
-            player.velocity = Player.Constants.maxSpeed
-        } else if player.velocity < -(Player.Constants.maxSpeed) {
-            player.velocity = -(Player.Constants.maxSpeed)
-        }
-    }
-    
-    private func applyFrictionToPlayer() {
-        if player.velocity > Player.Constants.friction {
-            player.velocity -= Player.Constants.friction
-        } else if player.velocity < -(Player.Constants.friction) {
-            player.velocity += Player.Constants.friction
-        } else {
-            player.velocity = 0
-        }
-    }
-    
-    private func updateProjectiles() {
-        if player.canShoot {
-            player.canShoot = false
-            
-            let laser = Laser(player: player, containerSize: self.size)
-            
-            self.addChild(laser)
-            
-            laser.fire()
-            
-            let playerFireRateTimer = NSTimer.scheduledTimerWithTimeInterval(player.fireRateTimeInterval, target: self,
-                selector: Selector("prepareProjectile"), userInfo: nil, repeats: false)
-        }
-    }
-    
-    private func updateEnemies() {
-        switch currentPhase {
-        case .One:
-            updateEnemiesForPhaseOne()
-        case .Two:
-            break
-        case .Three:
-            break
-        case .Four:
-            break
-        case .Five:
-            break
-        }
-    }
-    
-    private func updateEnemiesForPhaseOne() {
-        if AlienFighter.canSpawn {
-            AlienFighter.canSpawn = false
-            
-            let alienFighter = AlienFighter(player: player, containerSize: self.size)
-            
-            self.addChild(alienFighter)
-            
-            alienFighter.animate(AlienFighter.AnimationType.Down)
-            
-            alienFighterSpawnRateTimer = NSTimer.scheduledTimerWithTimeInterval(AlienFighter.spawnRate, target: self,
-                selector: Selector("prepareNewAlienFighter"), userInfo: nil, repeats: false)
-        }
-    }
-    
     // MARK: Enums & Constants
-    private enum Phase {
-        case One
-        case Two
-        case Three
-        case Four
-        case Five
-    }
-    
     struct Constants {
+        
         static let transitionAnimationDuration = 0.5
         
-        static let levelLabelPosition: CGFloat = 115.0
         static let moveInstructionsLabelPosition: CGFloat = -40.0
         static let beginInstructionsLabelPosition: CGFloat = 80.0
         
         static let useItemButtonWidth: CGFloat = 60.0
         static let useItemButtonHeight: CGFloat = 60.0
-        static let useItemButtonHorizontalOffset: CGFloat = 70.0
+        static let useItemButtonHorizontalOffset: CGFloat = 145.0
         static let useItemButtonVerticalOffset: CGFloat = 60.0
         
-        static let switchWeaponButtonWidth: CGFloat = 60.0
-        static let switchWeaponButtonHeight: CGFloat = 60.0
-        static let switchWeaponButtonHorizontalOffset: CGFloat = 145.0
-        static let switchWeaponButtonVerticalOffset: CGFloat = 60.0
+        static let useSpecialButtonWidth: CGFloat = 60.0
+        static let useSpecialButtonHeight: CGFloat = 60.0
+        static let useSpecialButtonHorizontalOffset: CGFloat = 70.0
+        static let useSpecialButtonVerticalOffset: CGFloat = 60.0
         
         static let pauseButtonWidth: CGFloat = 80.0
         static let pauseButtonHeight: CGFloat = 30.0
