@@ -1,0 +1,60 @@
+//
+//  HighEnergyShot.swift
+//  Voyager
+//
+//  Created by Steve Smart on 6/18/15.
+//  Copyright (c) 2015 Steve Smart. All rights reserved.
+//
+
+import Foundation
+import SpriteKit
+
+class HighEnergyShot: SKSpriteNode {
+    
+    // MARK: Properties
+    private let player: Player
+    private let parentScene: LevelScene
+    
+    var velocity = Constants.baseVelocity
+    
+    // MARK: Initializers
+    init(player: Player, parentScene: LevelScene) {
+        self.player = player
+        self.parentScene = parentScene
+        
+        let texture = SKTexture(imageNamed: ImageNames.highEnergyShot)
+        super.init(texture: texture, color: nil, size: texture.size())
+        
+        self.position.x = player.position.x
+        self.position.y = player.position.y + player.size.height / 3
+        self.zPosition = Constants.zPosition
+        
+        self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
+        self.physicsBody!.affectedByGravity = false
+        self.physicsBody!.collisionBitMask = 0
+        self.physicsBody!.categoryBitMask = Constants.categoryBitmask
+        self.physicsBody!.contactTestBitMask = AlienFighter.Constants.categoryBitmask
+        self.physicsBody!.usesPreciseCollisionDetection = true
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Uitility Methods
+    func fire() {
+        let locationOffScreen = parentScene.size.height
+        let fireAction = SKAction.moveToY(locationOffScreen, duration: (1 / velocity))
+        parentScene.addChild(self)
+        self.runAction(fireAction)
+    }
+    
+    // MARK: Enums & Constants
+    struct Constants {
+        static let baseVelocity = 1.00
+        static let damage = 25
+        static let zPosition: CGFloat = 2.0
+        static let collisionBoundary = CGSizeMake(27.0, 27.0)
+        static let categoryBitmask: UInt32 = 0x1 << 2
+    }
+}

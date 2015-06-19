@@ -10,6 +10,10 @@
 		FE0A001C1B28FABE007C436B /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0A001B1B28FABE007C436B /* Hud.swift */; };
 		FE0A00281B2904E9007C436B /* Laser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0A00271B2904E9007C436B /* Laser.swift */; };
 		FE0A002E1B291C95007C436B /* ImageNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0A002D1B291C95007C436B /* ImageNames.swift */; };
+		FE105F6C1B33810700EDCF33 /* HighEnergyShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE105F6B1B33810700EDCF33 /* HighEnergyShot.swift */; };
+		FE105F701B33986900EDCF33 /* PenetratingShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE105F6F1B33986900EDCF33 /* PenetratingShot.swift */; };
+		FE105F721B33A12D00EDCF33 /* MultiShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE105F711B33A12D00EDCF33 /* MultiShot.swift */; };
+		FE105F741B33B8BF00EDCF33 /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE105F731B33B8BF00EDCF33 /* Projectile.swift */; };
 		FE3EA77B1B27B0950064476B /* LevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3EA77A1B27B0950064476B /* LevelScene.swift */; };
 		FE3EA77D1B27C5810064476B /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3EA77C1B27C5810064476B /* Player.swift */; };
 		FE747A8F1B2A5981009B5CC4 /* AlienFighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE747A8E1B2A5981009B5CC4 /* AlienFighter.swift */; };
@@ -38,6 +42,10 @@
 		FE0A001B1B28FABE007C436B /* Hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hud.swift; sourceTree = "<group>"; };
 		FE0A00271B2904E9007C436B /* Laser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Laser.swift; sourceTree = "<group>"; };
 		FE0A002D1B291C95007C436B /* ImageNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageNames.swift; sourceTree = "<group>"; };
+		FE105F6B1B33810700EDCF33 /* HighEnergyShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighEnergyShot.swift; sourceTree = "<group>"; };
+		FE105F6F1B33986900EDCF33 /* PenetratingShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PenetratingShot.swift; sourceTree = "<group>"; };
+		FE105F711B33A12D00EDCF33 /* MultiShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiShot.swift; sourceTree = "<group>"; };
+		FE105F731B33B8BF00EDCF33 /* Projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
 		FE3EA77A1B27B0950064476B /* LevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelScene.swift; sourceTree = "<group>"; };
 		FE3EA77C1B27C5810064476B /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FE747A8E1B2A5981009B5CC4 /* AlienFighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlienFighter.swift; sourceTree = "<group>"; };
@@ -83,14 +91,34 @@
 			name = "Scenes & Controllers";
 			sourceTree = "<group>";
 		};
+		FE105F6D1B33816700EDCF33 /* Projectiles */ = {
+			isa = PBXGroup;
+			children = (
+				FE105F6B1B33810700EDCF33 /* HighEnergyShot.swift */,
+				FE0A00271B2904E9007C436B /* Laser.swift */,
+				FE105F6F1B33986900EDCF33 /* PenetratingShot.swift */,
+				FE105F711B33A12D00EDCF33 /* MultiShot.swift */,
+				FE105F731B33B8BF00EDCF33 /* Projectile.swift */,
+			);
+			name = Projectiles;
+			sourceTree = "<group>";
+		};
+		FE105F6E1B33817900EDCF33 /* Enemies */ = {
+			isa = PBXGroup;
+			children = (
+				FE747A8E1B2A5981009B5CC4 /* AlienFighter.swift */,
+			);
+			name = Enemies;
+			sourceTree = "<group>";
+		};
 		FE3EA77E1B27C5870064476B /* Entities */ = {
 			isa = PBXGroup;
 			children = (
 				FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */,
 				FE3EA77C1B27C5810064476B /* Player.swift */,
 				FE0A001B1B28FABE007C436B /* Hud.swift */,
-				FE0A00271B2904E9007C436B /* Laser.swift */,
-				FE747A8E1B2A5981009B5CC4 /* AlienFighter.swift */,
+				FE105F6E1B33817900EDCF33 /* Enemies */,
+				FE105F6D1B33816700EDCF33 /* Projectiles */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -258,11 +286,15 @@
 				FE747A8F1B2A5981009B5CC4 /* AlienFighter.swift in Sources */,
 				FEA129A41B23CDC500E49488 /* MenuScene.swift in Sources */,
 				FE8D7B181B322FF3006D54CA /* SaveState.swift in Sources */,
+				FE105F6C1B33810700EDCF33 /* HighEnergyShot.swift in Sources */,
+				FE105F701B33986900EDCF33 /* PenetratingShot.swift in Sources */,
+				FE105F721B33A12D00EDCF33 /* MultiShot.swift in Sources */,
 				FEA129A61B23CDC500E49488 /* GameController.swift in Sources */,
 				FE7A0E1A1B30E80E00D14892 /* LevelHandler.swift in Sources */,
 				FE0A001C1B28FABE007C436B /* Hud.swift in Sources */,
 				FEA129A01B23CDC500E49488 /* AppDelegate.swift in Sources */,
 				FE3EA77D1B27C5810064476B /* Player.swift in Sources */,
+				FE105F741B33B8BF00EDCF33 /* Projectile.swift in Sources */,
 				FE3EA77B1B27B0950064476B /* LevelScene.swift in Sources */,
 				FE0A00281B2904E9007C436B /* Laser.swift in Sources */,
 				FE0A002E1B291C95007C436B /* ImageNames.swift in Sources */,

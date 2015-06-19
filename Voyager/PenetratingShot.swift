@@ -1,17 +1,19 @@
 //
-//  Bullet.swift
+//  PenetratingShot.swift
+//  Voyager
 //
-//  Created by Steve Smart on 6/10/15.
+//  Created by Steve Smart on 6/18/15.
 //  Copyright (c) 2015 Steve Smart. All rights reserved.
 //
 
 import Foundation
 import SpriteKit
 
-class Laser: Projectile {
+class PenetratingShot: Projectile {
     
     // MARK: Properties
     var velocity = Constants.baseVelocity
+    var penetratingPower = Constants.basePenetratingPower
     
     // MARK: Initializers
     override init(player: Player, parentScene: LevelScene) {
@@ -24,7 +26,7 @@ class Laser: Projectile {
         self.physicsBody!.contactTestBitMask = AlienFighter.Constants.categoryBitmask
         self.physicsBody!.usesPreciseCollisionDetection = true
     }
-
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -37,12 +39,21 @@ class Laser: Projectile {
         self.runAction(fireAction)
     }
     
+    func reducePenetratingPower() {
+        penetratingPower--
+        
+        if penetratingPower <= 0 {
+            self.removeFromParent()
+        }
+    }
+    
     // MARK: Enums & Constants
     struct Constants {
-        static let baseVelocity = 0.75
+        static let baseVelocity = 1.00
         static let damage = 10
-        static let zPosition: CGFloat = 1.0
-        static let collisionBoundary = CGSizeMake(3.0, 20.0)
-        static let categoryBitmask: UInt32 = 0x1 << 1
+        static let basePenetratingPower = 2
+        static let zPosition: CGFloat = 2.0
+        static let collisionBoundary = CGSizeMake(5.5, 55.0)
+        static let categoryBitmask: UInt32 = 0x1 << 3
     }
 }

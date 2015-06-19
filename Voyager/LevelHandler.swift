@@ -73,20 +73,20 @@ class LevelHandler {
         if LevelOne.alienFighterCanSpawn {
             LevelOne.alienFighterCanSpawn = false
             
-            let alienFighter = AlienFighter(player: player, containerSize: scene.size)
+            let alienFighter = AlienFighter(player: player, parentScene: self.scene)
             alienFighter.animate(AlienFighter.AnimationType.Down)
             scene.addChild(alienFighter)
             
             LevelOne.alienFighterSpawnRateTimer = NSTimer.scheduledTimerWithTimeInterval(LevelOne.alienFighterSpawnRate, target: self,
-                selector: Selector("prepareNewAlienFighterLevelOne"), userInfo: nil, repeats: false)
+                selector: Selector("sendNewAlienFighterLevelOne"), userInfo: nil, repeats: false)
         }
     }
     
-    @objc func prepareNewAlienFighterLevelOne() {
+    @objc func sendNewAlienFighterLevelOne() {
         if scene.gamePaused {
             LevelOne.alienFighterSpawnRateTimer.invalidate()
             LevelOne.alienFighterSpawnRateTimer = NSTimer.scheduledTimerWithTimeInterval(LevelOne.alienFighterSpawnRate, target: self,
-                selector: Selector("prepareNewAlienFighterLevelOne"), userInfo: nil, repeats: false)
+                selector: Selector("sendNewAlienFighterLevelOne"), userInfo: nil, repeats: false)
         } else {
             LevelOne.alienFighterCanSpawn = true
         }

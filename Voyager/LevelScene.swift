@@ -5,6 +5,7 @@
 //  Copyright (c) 2015 Steve Smart. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import SpriteKit
 
@@ -16,18 +17,13 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     var player: Player?
     var levelHandler: LevelHandler?
     var gamePaused = false
+    var useItemButton: UIButton!
+    var useSpecialButton: UIButton!
     
-    private var moveInstructionsLabel: SKSpriteNode?
-    private var beginInstructionsLabel: SKSpriteNode?
-    
-    private var useItemButton: UIButton!
-    private var useSpecialButton: UIButton!
     private var pauseButton: UIButton!
-    
     private var pauseMenuDarkening: SKSpriteNode!
     private var resumeButton: UIButton!
     private var saveAndQuitButton: UIButton!
-    
     private var userReady = false
     private var moveRightTouch: UITouch?
     private var moveLeftTouch: UITouch?
@@ -79,25 +75,10 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     
     private func initializeOverlayMessages() {
         levelHandler!.showLabel()
-        
-        if levelHandler!.currentLevel == 1 {
-            if moveInstructionsLabel == nil {
-                moveInstructionsLabel = SKSpriteNode(imageNamed: ImageNames.moveInstructionsLabel)
-            }
-            moveInstructionsLabel!.position.y = Constants.moveInstructionsLabelPosition
-            
-            if beginInstructionsLabel == nil {
-                beginInstructionsLabel = SKSpriteNode(imageNamed: ImageNames.beginInstructionsLabel)
-            }
-            beginInstructionsLabel!.position.y = Constants.beginInstructionsLabelPosition
-            
-            self.addChild(moveInstructionsLabel!)
-            self.addChild(beginInstructionsLabel!)
-        }
     }
     
     private func initializeHud() {
-        hud = Hud(containerSize: self.size)
+        hud = Hud(parentScene: self)
         hud.updateHealthBar(health: player!.health)
         hud.updateGoldValue(gold: player!.gold)
         hud.updateLevelValue(level: levelHandler!.currentLevel)
@@ -215,10 +196,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     
     private func beginPlayng() {
         levelHandler!.hideLabel()
-        if levelHandler!.currentLevel == 1 {
-            moveInstructionsLabel!.removeFromParent()
-            beginInstructionsLabel!.removeFromParent()
-        }
         
         userReady = true
         player!.enabled = true
@@ -243,30 +220,54 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
             secondBody = contact.bodyA
         }
         
-        if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & Laser.Constants.categoryBitmask) != 0{
+        if (firstBody.categoryBitMask & Laser.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
             
-            handleAlienFighterLaserCollision(alienFighter: firstBody, laser: secondBody)
+            handleLaserAlienFighterCollision(laser: firstBody, alienFighter: secondBody)
             
-        } else if (firstBody.categoryBitMask & Laser.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
+        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & Laser.Constants.categoryBitmask) != 0 {
             
-            handleAlienFighterLaserCollision(alienFighter: secondBody, laser: firstBody)
+            handleLaserAlienFighterCollision(laser: secondBody, alienFighter: firstBody)
             
-        } else if (firstBody.categoryBitMask & Player.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask != 0) {
+        } else if (firstBody.categoryBitMask & Player.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
             
             handlePlayerAlienFighterCollision(player: firstBody, alienFighter: secondBody)
             
-        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask != 0) && (secondBody.categoryBitMask & Player.Constants.categoryBitmask != 0) {
+        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & Player.Constants.categoryBitmask) != 0 {
             
             handlePlayerAlienFighterCollision(player: secondBody, alienFighter: firstBody)
+            
+        } else if (firstBody.categoryBitMask & HighEnergyShot.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
+            
+            handleHighEnergyShotAlienFighterCollision(highEnergyShot: firstBody, alienFighter: secondBody)
+            
+        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & HighEnergyShot.Constants.categoryBitmask) != 0 {
+            
+            handleHighEnergyShotAlienFighterCollision(highEnergyShot: secondBody, alienFighter: firstBody)
+            
+        } else if (firstBody.categoryBitMask & PenetratingShot.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
+            
+            handlePenetratingShotAlienFighterCollision(penetratingShot: firstBody, alienFighter: secondBody)
+            
+        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & PenetratingShot.Constants.categoryBitmask) != 0 {
+            
+            handlePenetratingShotAlienFighterCollision(penetratingShot: secondBody, alienFighter: firstBody)
+            
+        } else if (firstBody.categoryBitMask & MultiShot.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
+            
+            handleMultiShotAlienFighterCollision(multiShot: firstBody, alienFighter: secondBody)
+            
+        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & MultiShot.Constants.categoryBitmask) != 0 {
+            
+            handleMultiShotAlienFighterCollision(multiShot: secondBody, alienFighter: firstBody)
         }
     }
     
-    private func handleAlienFighterLaserCollision(#alienFighter: SKPhysicsBody, laser: SKPhysicsBody) {
-        if let alienFighterNode = alienFighter.node as? AlienFighter {
-            alienFighterNode.applyDamage(damage: Laser.Constants.damage)
-        }
+    private func handleLaserAlienFighterCollision(#laser: SKPhysicsBody, alienFighter: SKPhysicsBody) {
         if let laserNode = laser.node as? Laser {
             laserNode.removeFromParent()
+        }
+        if let alienFighterNode = alienFighter.node as? AlienFighter {
+            alienFighterNode.applyDamage(damage: Laser.Constants.damage)
         }
     }
     
@@ -277,6 +278,36 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         }
         if let alienFighterNode = alienFighter.node as? AlienFighter {
             alienFighterNode.removeFromParent()
+        }
+    }
+    
+    private func handleHighEnergyShotAlienFighterCollision(#highEnergyShot: SKPhysicsBody, alienFighter: SKPhysicsBody) {
+        if let highEnergyShotNode = highEnergyShot.node as? HighEnergyShot {
+            highEnergyShotNode.removeFromParent()
+        }
+        if let alienFighterNode = alienFighter.node as? AlienFighter {
+            alienFighterNode.applyDamage(damage: HighEnergyShot.Constants.damage)
+        }
+    }
+        
+    private func handlePenetratingShotAlienFighterCollision(#penetratingShot: SKPhysicsBody, alienFighter: SKPhysicsBody) {
+        if let penetratingShotNode = penetratingShot.node as? PenetratingShot {
+            penetratingShotNode.reducePenetratingPower()
+        }
+        if let alienFighterNode = alienFighter.node as? AlienFighter {
+            if alienFighterNode.hasBeenHitWithPenetratingShot == false {
+                alienFighterNode.applyDamage(damage: PenetratingShot.Constants.damage)
+                alienFighterNode.hasBeenHitWithPenetratingShot = true
+            }
+        }
+    }
+    
+    private func handleMultiShotAlienFighterCollision(#multiShot: SKPhysicsBody, alienFighter: SKPhysicsBody) {
+        if let multiShotNode = multiShot.node as? MultiShot {
+            multiShotNode.removeFromParent()
+        }
+        if let alienFighterNode = alienFighter.node as? AlienFighter {
+            alienFighterNode.applyDamage(damage: MultiShot.Constants.damage)
         }
     }
     
@@ -347,31 +378,22 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: Enums & Constants
     struct Constants {
-        
         static let transitionAnimationDuration = 0.5
-        
-        static let moveInstructionsLabelPosition: CGFloat = -40.0
-        static let beginInstructionsLabelPosition: CGFloat = 80.0
-        
         static let useItemButtonWidth: CGFloat = 60.0
         static let useItemButtonHeight: CGFloat = 60.0
         static let useItemButtonHorizontalOffset: CGFloat = 145.0
         static let useItemButtonVerticalOffset: CGFloat = 60.0
-        
         static let useSpecialButtonWidth: CGFloat = 60.0
         static let useSpecialButtonHeight: CGFloat = 60.0
         static let useSpecialButtonHorizontalOffset: CGFloat = 70.0
         static let useSpecialButtonVerticalOffset: CGFloat = 60.0
-        
         static let pauseButtonWidth: CGFloat = 80.0
         static let pauseButtonHeight: CGFloat = 30.0
         static let pauseButtonHorizontalOffset: CGFloat = 40.0
         static let pauseButtonVerticalOffset: CGFloat = 38.0
-        
         static let resumeButtonWidth: CGFloat = 175.0
         static let resumeButtonHeight: CGFloat = 30.0
         static let resumeButtonVerticalOffset: CGFloat = 75.0
-        
         static let saveAndQuitButtonWidth: CGFloat = 275.0
         static let saveAndQuitButtonHeight: CGFloat = 30.0
         static let saveAndQuitButtonVerticalOffset: CGFloat = 0.0

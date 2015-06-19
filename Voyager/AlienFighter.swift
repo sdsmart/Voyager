@@ -12,32 +12,33 @@ class AlienFighter: SKSpriteNode {
     
     // MARK: Properties
     private let player: Player
-    private let containerSize: CGSize
+    private let parentScene: LevelScene
     
     var velocity = Constants.baseVelocity
+    var health = Constants.baseHealth
     
-    var health = 10
+    var hasBeenHitWithPenetratingShot = false
     
     // MARK: Initializers
-    init(player: Player, containerSize: CGSize) {
+    init(player: Player, parentScene: LevelScene) {
         self.player = player
-        self.containerSize = containerSize
+        self.parentScene = parentScene
         
         let texture = SKTexture(imageNamed: ImageNames.alienFighter)
         super.init(texture: texture, color: nil, size: texture.size())
         
         let edgeOffset = 30
-        let shiftAmount = CGFloat(containerSize.width / 2) - CGFloat(edgeOffset / 2)
-        let randomNumberForShipXPosition = CGFloat(arc4random_uniform(UInt32(containerSize.width) - UInt32(edgeOffset)))
+        let shiftAmount = CGFloat(parentScene.size.width / 2) - CGFloat(edgeOffset / 2)
+        let randomNumberForShipXPosition = CGFloat(arc4random_uniform(UInt32(parentScene.size.width) - UInt32(edgeOffset)))
         self.position.x =  randomNumberForShipXPosition - shiftAmount
-        self.position.y = (containerSize.height / 2) + Constants.distanceToGetOffScreen
+        self.position.y = (parentScene.size.height / 2) + Constants.distanceToGetOffScreen
         self.zPosition = Constants.zPosition
         
         self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
         self.physicsBody!.affectedByGravity = false
         self.physicsBody!.collisionBitMask = 0
         self.physicsBody!.categoryBitMask = Constants.categoryBitmask
-        self.physicsBody!.contactTestBitMask = Player.Constants.categoryBitmask | Laser.Constants.categoryBitmask
+        self.physicsBody!.contactTestBitMask = Player.Constants.categoryBitmask | Laser.Constants.categoryBitmask | HighEnergyShot.Constants.categoryBitmask
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -53,7 +54,7 @@ class AlienFighter: SKSpriteNode {
     }
     
     private func animateDown() {
-        let animationAction = SKAction.moveToY(-((containerSize.height / 2) + Constants.distanceToGetOffScreen), duration: 1 / velocity)
+        let animationAction = SKAction.moveToY(-((parentScene.size.height / 2) + Constants.distanceToGetOffScreen), duration: 1 / velocity)
         animationAction.timingMode = SKActionTimingMode.EaseIn
         self.runAction(animationAction)
     }
@@ -73,13 +74,11 @@ class AlienFighter: SKSpriteNode {
     
     struct Constants {
         static let distanceToGetOffScreen: CGFloat = 30
-        
-        static let zPosition: CGFloat = 2.0
-        
+        static let zPosition: CGFloat = 3.0
         static let collisionBoundary = CGSizeMake(20.0, 30.0)
-        static let categoryBitmask: UInt32 = 0x1 << 2
-        
-        static let damage = 5
+        static let categoryBitmask: UInt32 = 0x1 << 10
+        static let baseHealth = 10
+        static let damage = 10
         static let baseVelocity = 0.30
     }
 }

@@ -5,6 +5,7 @@
 //  Copyright (c) 2015 Steve Smart. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import SpriteKit
 
@@ -140,17 +141,13 @@ class MenuScene: SKScene {
     // MARK: Enums & Constants
     struct Constants {
         static let transitionAnimationDuration = 0.5
-        
         static let titleLabelVerticalOffset: CGFloat = 140.0
-        
         static let newGameButtonWidth: CGFloat = 200.0
         static let newGameButtonHeight: CGFloat = 30.0
         static let newGameButtonVerticalOffset: CGFloat = 0.0
-        
         static let continueButtonWidth: CGFloat = 200.0
         static let continueButtonHeight: CGFloat = 30.0
         static let continueButtonVerticalOffset: CGFloat = 75
-        
         static let optionsButtonWidth: CGFloat = 200.0
         static let optionsButtonHeight: CGFloat = 30.0
         static let optionsButtonVerticalOffset: CGFloat = 150.0

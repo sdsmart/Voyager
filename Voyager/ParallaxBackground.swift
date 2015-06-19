@@ -5,6 +5,7 @@
 //  Copyright (c) 2015 Steve Smart. All rights reserved.
 //
 
+import Foundation
 import SpriteKit
 
 class ParallaxBackground: SKSpriteNode {
@@ -99,7 +100,6 @@ class ParallaxBackground: SKSpriteNode {
         static let baseScrollDuration = 40.0
         static let ScrollDurationChangeRatio = 0.375
         static let numberOfTiles = 3
-        
         static let zPosition: CGFloat = 0.0
     }
 }
