@@ -15,18 +15,20 @@ class Player: SKSpriteNode {
     var movingRight = false
     var movingLeft = false
     var health = 100
-    var gold = 100
-    var specialWeapon = SpecialWeapon.HighEnergyShot
+    var gold = 0
+    var specialAbility = SpecialAbility.HighEnergyShot
+    var laserOffCooldown = true
+    var laserCooldown = Constants.baseLaserCooldown
     var specialOffCooldown = true
+    var highEnergyShotCooldown = Constants.baseHighEnergyShotCooldown
+    var penetratingShotCooldown = Constants.basePenetratingShotCooldown
+    var multiShotCooldown = Constants.baseMultiShotCooldown
     var hasItem = false
     
     private let parentScene: LevelScene
     private var velocity: CGFloat = 0.0
     private var acceleration: CGFloat = 0.0
-    private var laserOffCooldown = true
-    private var laserCooldown = Constants.baseLaserCooldown
     private var laserCooldownTimer = NSTimer()
-    private var specialCooldown = Constants.baseSpecialCooldown
     private var specialCooldownTimer = NSTimer()
     
     // MARK: Initializers
@@ -114,14 +116,7 @@ class Player: SKSpriteNode {
     }
     
     func useSpecial() {
-        switch specialWeapon {
-        case .HighEnergyShot:
-            fireHighEnergyShot()
-        case .PenetratingShot:
-            firePenetratingShot()
-        case .MultiShot:
-            fireMultiShot()
-        }
+        fireSpecial()
     }
     
     func chargeLaser() {
@@ -137,8 +132,7 @@ class Player: SKSpriteNode {
     func chargeSpecial() {
         if parentScene.gamePaused {
             specialCooldownTimer.invalidate()
-            specialCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(specialCooldown, target: self,
-                selector: Selector("chargeSpecial"), userInfo: nil, repeats: false)
+            resetSpecialCooldownTimer()
         } else {
             specialOffCooldown = true
             parentScene.useSpecialButton.enabled = true
@@ -157,47 +151,43 @@ class Player: SKSpriteNode {
         }
     }
     
-    private func fireHighEnergyShot() {
+    private func fireSpecial() {
         if specialOffCooldown {
             specialOffCooldown = false
             parentScene.useSpecialButton.enabled = false
             
-            let highEnergyShot = HighEnergyShot(player: self, parentScene: self.parentScene)
-            highEnergyShot.fire()
+            switch specialAbility {
+            case .HighEnergyShot:
+                let highEnergyShot = HighEnergyShot(player: self, parentScene: parentScene)
+                highEnergyShot.fire()
+            case .PenetratingShot:
+                let penetratingShot = PenetratingShot(player: self, parentScene: parentScene)
+                penetratingShot.fire()
+            case .MultiShot:
+                let multiShot = MultiShot(player: self, parentScene: parentScene)
+                multiShot.fire()
+            }
             
-            specialCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(specialCooldown, target: self,
-                selector: Selector("chargeSpecial"), userInfo: nil, repeats: false)
+            resetSpecialCooldownTimer()
         }
     }
     
-    private func firePenetratingShot() {
-        if specialOffCooldown {
-            specialOffCooldown = false
-            parentScene.useSpecialButton.enabled = false
-            
-            let penetratingShot = PenetratingShot(player: self, parentScene: self.parentScene)
-            penetratingShot.fire()
-            
-            specialCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(specialCooldown, target: self,
+    private func resetSpecialCooldownTimer() {
+        switch specialAbility {
+        case .HighEnergyShot:
+            specialCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(highEnergyShotCooldown, target: self,
                 selector: Selector("chargeSpecial"), userInfo: nil, repeats: false)
-        }
-    }
-    
-    private func fireMultiShot() {
-        if specialOffCooldown {
-            specialOffCooldown = false
-            parentScene.useSpecialButton.enabled = false
-            
-            let multiShot = MultiShot(player: self, parentScene: parentScene)
-            multiShot.fire()
-            
-            specialCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(specialCooldown, target: self,
+        case .PenetratingShot:
+            specialCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(penetratingShotCooldown, target: self,
+                selector: Selector("chargeSpecial"), userInfo: nil, repeats: false)
+        case .MultiShot:
+            specialCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(multiShotCooldown, target: self,
                 selector: Selector("chargeSpecial"), userInfo: nil, repeats: false)
         }
     }
     
     // MARK: Enums & Constants
-    enum SpecialWeapon {
+    enum SpecialAbility {
         case HighEnergyShot
         case PenetratingShot
         case MultiShot
@@ -209,7 +199,9 @@ class Player: SKSpriteNode {
         static let acceleration: CGFloat = 0.70
         static let maxHealth = 100
         static let baseLaserCooldown = 0.35
-        static let baseSpecialCooldown = 3.0
+        static let baseHighEnergyShotCooldown = 3.0
+        static let basePenetratingShotCooldown = 2.0
+        static let baseMultiShotCooldown = 2.5
         static let distanceFromBottomOfScreen: CGFloat = 135.0
         static let zPosition: CGFloat = 4.0
         static let collisionBoundary = CGSizeMake(35, 50)

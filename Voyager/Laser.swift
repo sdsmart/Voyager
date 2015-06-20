@@ -14,8 +14,8 @@ class Laser: Projectile {
     var velocity = Constants.baseVelocity
     
     // MARK: Initializers
-    override init(player: Player, parentScene: LevelScene) {
-        super.init(player: player, parentScene: parentScene)
+    init(player: Player, parentScene: LevelScene) {
+        super.init(player: player, parentScene: parentScene, imageNamed: ImageNames.laser)
         
         self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
         self.physicsBody!.affectedByGravity = false

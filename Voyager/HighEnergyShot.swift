@@ -9,25 +9,14 @@
 import Foundation
 import SpriteKit
 
-class HighEnergyShot: SKSpriteNode {
+class HighEnergyShot: Projectile {
     
     // MARK: Properties
-    private let player: Player
-    private let parentScene: LevelScene
-    
     var velocity = Constants.baseVelocity
     
     // MARK: Initializers
     init(player: Player, parentScene: LevelScene) {
-        self.player = player
-        self.parentScene = parentScene
-        
-        let texture = SKTexture(imageNamed: ImageNames.highEnergyShot)
-        super.init(texture: texture, color: nil, size: texture.size())
-        
-        self.position.x = player.position.x
-        self.position.y = player.position.y + player.size.height / 3
-        self.zPosition = Constants.zPosition
+        super.init(player: player, parentScene: parentScene, imageNamed: ImageNames.highEnergyShot)
         
         self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
         self.physicsBody!.affectedByGravity = false
@@ -42,10 +31,10 @@ class HighEnergyShot: SKSpriteNode {
     }
     
     // MARK: Uitility Methods
-    func fire() {
-        let locationOffScreen = parentScene.size.height
+    override func fire() {
+        let locationOffScreen = self.parentScene.size.height
         let fireAction = SKAction.moveToY(locationOffScreen, duration: (1 / velocity))
-        parentScene.addChild(self)
+        self.parentScene.addChild(self)
         self.runAction(fireAction)
     }
     

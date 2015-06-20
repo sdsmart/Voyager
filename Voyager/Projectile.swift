@@ -16,11 +16,11 @@ class Projectile: SKSpriteNode {
     let parentScene: LevelScene
     
     // MARK: Initializers
-    init(player: Player, parentScene: LevelScene) {
+    init(player: Player, parentScene: LevelScene, imageNamed: String) {
         self.player = player
         self.parentScene = parentScene
         
-        let texture = SKTexture(imageNamed: ImageNames.laser)
+        let texture = SKTexture(imageNamed: imageNamed)
         super.init(texture: texture, color: nil, size: texture.size())
         
         self.position.x = player.position.x

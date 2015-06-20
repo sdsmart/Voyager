@@ -15,8 +15,8 @@ class MultiShot: Projectile {
     var velocity = Constants.baseVelocity
     
     // MARK: Initializers
-    override init(player: Player, parentScene: LevelScene) {
-        super.init(player: player, parentScene: parentScene)
+    init(player: Player, parentScene: LevelScene) {
+        super.init(player: player, parentScene: parentScene, imageNamed: ImageNames.multiShot)
         
         self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
         self.physicsBody!.affectedByGravity = false
@@ -52,7 +52,7 @@ class MultiShot: Projectile {
     struct Constants {
         static let baseVelocity = 1.00
         static let damage = 10
-        static let horizontalOffset: CGFloat = 125.0
+        static let horizontalOffset: CGFloat = 150.0
         static let zPosition: CGFloat = 2.0
         static let collisionBoundary = CGSizeMake(10.0, 10.0)
         static let categoryBitmask: UInt32 = 0x1 << 4

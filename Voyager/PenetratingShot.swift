@@ -16,8 +16,8 @@ class PenetratingShot: Projectile {
     var penetratingPower = Constants.basePenetratingPower
     
     // MARK: Initializers
-    override init(player: Player, parentScene: LevelScene) {
-        super.init(player: player, parentScene: parentScene)
+    init(player: Player, parentScene: LevelScene) {
+        super.init(player: player, parentScene: parentScene, imageNamed: ImageNames.penetratingShot)
         
         self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
         self.physicsBody!.affectedByGravity = false
