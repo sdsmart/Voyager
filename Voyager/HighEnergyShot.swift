@@ -15,10 +15,16 @@ class HighEnergyShot: Projectile {
     init(player: Player, parentScene: SKScene) {
         super.init(player: player, parentScene: parentScene, imageNamed: ImageNames.highEnergyShot)
         
-        self.velocity = Constants.baseVelocity
-        self.cooldown = Constants.baseCooldown
-        self.damage = Constants.baseDamage
-        
+        initializePhysics()
+        initializeStats()
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Initialization Methods
+    private func initializePhysics() {
         self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
         self.physicsBody!.affectedByGravity = false
         self.physicsBody!.collisionBitMask = 0
@@ -27,8 +33,15 @@ class HighEnergyShot: Projectile {
         self.physicsBody!.usesPreciseCollisionDetection = true
     }
     
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    private func initializeStats() {
+        switch player.highEnergyShotLevel {
+        case 1:
+            self.velocity = Constants.LevelOneStats.velocity
+            self.cooldown = Constants.LevelOneStats.cooldown
+            self.damage = Constants.LevelOneStats.damage
+        default:
+            break
+        }
     }
     
     // MARK: Uitility Methods
@@ -63,9 +76,12 @@ class HighEnergyShot: Projectile {
     
     // MARK: Enums & Constants
     struct Constants {
-        static let baseVelocity = 1.00
-        static let baseCooldown = 2.5
-        static let baseDamage = 25
+        struct LevelOneStats {
+            static let velocity = 1.00
+            static let cooldown = 2.5
+            static let damage = 25
+        }
+        
         static let zPosition: CGFloat = 2.0
         static let collisionBoundary = CGSizeMake(27.0, 27.0)
         static let categoryBitmask: UInt32 = 0x1 << 2

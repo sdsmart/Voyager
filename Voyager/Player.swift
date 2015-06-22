@@ -16,13 +16,15 @@ class Player: SKSpriteNode {
     var movingLeft = false
     var health = 100
     var gold = 100
+    var hasItem = false
     var specialAbility = SpecialAbility.HighEnergyShot
+    var laserOffCooldown = true
+    var specialOffCooldown = true
+    var laserLevel = 0
     var highEnergyShotLevel = 0
     var penetratingShotLevel = 0
     var multiShotLevel = 0
-    var laserOffCooldown = true
-    var specialOffCooldown = true
-    var hasItem = false
+    
     
     private let parentScene: SKScene
     private var velocity: CGFloat = 0.0

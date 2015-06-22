@@ -12,9 +12,11 @@ import SpriteKit
 
 class UpgradeScene: SKScene {
     
+    // MARK: Properties
     var parallaxBackground: ParallaxBackground!
     var player: Player!
     
+    // Initialization Methods
     override func didMoveToView(view: SKView) {
         self.anchorPoint = CGPointMake(CGFloat(0.5), CGFloat(0.5))
         
@@ -33,6 +35,7 @@ class UpgradeScene: SKScene {
         player.runAction(initialFadeInAction)
     }
     
+    // Update Methods
     override func update(currentTime: NSTimeInterval) {
         
     }

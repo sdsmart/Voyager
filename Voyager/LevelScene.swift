@@ -294,7 +294,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
             
             if let alienFighterNode = alienFighter.node as? AlienFighter {
                 if alienFighterNode.hasBeenHitWithPenetratingShot == false {
-                    alienFighterNode.applyDamage(damage: PenetratingShot.Constants.damage)
+                    alienFighterNode.applyDamage(damage: penetratingShotNode.damage)
                     alienFighterNode.hasBeenHitWithPenetratingShot = true
                 }
             }

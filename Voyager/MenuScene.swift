@@ -98,19 +98,16 @@ class MenuScene: SKScene {
         
         SaveState.eraseData()
         
-        let levelScene = LevelScene(size: self.size)
-        levelScene.scaleMode = .AspectFill
+        let upgradeScene = UpgradeScene(size: self.size)
+        upgradeScene.scaleMode = .AspectFill
         
         parallaxBackground!.removeFromParent()
-        levelScene.parallaxBackground = parallaxBackground!
+        upgradeScene.parallaxBackground = parallaxBackground!
         
-        let player = Player(parentScene: levelScene)
-        levelScene.player = player
+        let player = Player(parentScene: upgradeScene)
+        upgradeScene.player = player
         
-        let levelHandler = LevelHandler(scene: levelScene, player: player, level: 1)
-        levelScene.levelHandler = levelHandler
-        
-        self.view!.presentScene(levelScene)
+        self.view!.presentScene(upgradeScene)
     }
     
     func continueGame() {

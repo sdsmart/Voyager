@@ -14,10 +14,16 @@ class Laser: Projectile {
     init(player: Player, parentScene: SKScene) {
         super.init(player: player, parentScene: parentScene, imageNamed: ImageNames.laser)
         
-        self.velocity = Constants.baseVelocity
-        self.cooldown = Constants.baseCooldown
-        self.damage = Constants.baseDamage
-        
+        initializePhysics()
+        initializeStats()
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Initialization Methods
+    private func initializePhysics() {
         self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
         self.physicsBody!.affectedByGravity = false
         self.physicsBody!.collisionBitMask = 0
@@ -25,9 +31,16 @@ class Laser: Projectile {
         self.physicsBody!.contactTestBitMask = AlienFighter.Constants.categoryBitmask
         self.physicsBody!.usesPreciseCollisionDetection = true
     }
-
-    required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    
+    private func initializeStats() {
+        switch player.laserLevel {
+        case 1:
+            self.velocity = Constants.LevelOneStats.velocity
+            self.cooldown = Constants.LevelOneStats.cooldown
+            self.damage = Constants.LevelOneStats.damage
+        default:
+            break
+        }
     }
     
     // MARK: Uitility Methods
@@ -58,9 +71,12 @@ class Laser: Projectile {
     
     // MARK: Enums & Constants
     struct Constants {
-        static let baseVelocity = 0.75
-        static let baseCooldown = 0.35
-        static let baseDamage = 10
+        struct LevelOneStats {
+            static let velocity = 0.75
+            static let cooldown = 0.35
+            static let damage = 10
+        }
+        
         static let zPosition: CGFloat = 1.0
         static let collisionBoundary = CGSizeMake(3.0, 20.0)
         static let categoryBitmask: UInt32 = 0x1 << 1
