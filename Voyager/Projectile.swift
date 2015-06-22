@@ -13,10 +13,15 @@ class Projectile: SKSpriteNode {
     
     // MARK: Properties
     let player: Player
-    let parentScene: LevelScene
+    let parentScene: SKScene
+    
+    var velocity = 0.0
+    var damage = 0
+    var cooldown = 0.0
+    var cooldownTimer = NSTimer()
     
     // MARK: Initializers
-    init(player: Player, parentScene: LevelScene, imageNamed: String) {
+    init(player: Player, parentScene: SKScene, imageNamed: String) {
         self.player = player
         self.parentScene = parentScene
         
@@ -33,6 +38,10 @@ class Projectile: SKSpriteNode {
     
     // MARK: Uitility Methods
     func fire() {
+        println("Override this method")
+    }
+    
+    func weaponReady() {
         println("Override this method")
     }
 }

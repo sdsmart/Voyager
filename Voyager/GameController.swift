@@ -45,4 +45,8 @@ class GameController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+    
+    struct Constants {
+        static let transitionAnimationDuration = 0.5
+    }
 }

@@ -96,13 +96,19 @@ class MenuScene: SKScene {
         continueButton.removeFromSuperview()
         optionsButton.removeFromSuperview()
         
+        SaveState.eraseData()
+        
         let levelScene = LevelScene(size: self.size)
         levelScene.scaleMode = .AspectFill
         
-        SaveState.eraseData()
-        
         parallaxBackground!.removeFromParent()
         levelScene.parallaxBackground = parallaxBackground!
+        
+        let player = Player(parentScene: levelScene)
+        levelScene.player = player
+        
+        let levelHandler = LevelHandler(scene: levelScene, player: player, level: 1)
+        levelScene.levelHandler = levelHandler
         
         self.view!.presentScene(levelScene)
     }

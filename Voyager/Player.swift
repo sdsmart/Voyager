@@ -15,24 +15,23 @@ class Player: SKSpriteNode {
     var movingRight = false
     var movingLeft = false
     var health = 100
-    var gold = 0
+    var gold = 100
     var specialAbility = SpecialAbility.HighEnergyShot
+    var highEnergyShotLevel = 0
+    var penetratingShotLevel = 0
+    var multiShotLevel = 0
     var laserOffCooldown = true
-    var laserCooldown = Constants.baseLaserCooldown
     var specialOffCooldown = true
-    var highEnergyShotCooldown = Constants.baseHighEnergyShotCooldown
-    var penetratingShotCooldown = Constants.basePenetratingShotCooldown
-    var multiShotCooldown = Constants.baseMultiShotCooldown
     var hasItem = false
     
-    private let parentScene: LevelScene
+    private let parentScene: SKScene
     private var velocity: CGFloat = 0.0
     private var acceleration: CGFloat = 0.0
     private var laserCooldownTimer = NSTimer()
     private var specialCooldownTimer = NSTimer()
     
     // MARK: Initializers
-    init(parentScene: LevelScene) {
+    init(parentScene: SKScene) {
         self.parentScene = parentScene
         
         let texture = SKTexture(imageNamed: ImageNames.player)
@@ -44,7 +43,6 @@ class Player: SKSpriteNode {
         self.physicsBody!.categoryBitMask = Constants.categoryBitmask
         self.physicsBody!.contactTestBitMask = AlienFighter.Constants.categoryBitmask
         
-        self.position.y = -(parentScene.size.height / 2) + Constants.distanceFromBottomOfScreen
         self.zPosition = Constants.zPosition
         self.alpha = CGFloat(0)
     }
@@ -97,6 +95,13 @@ class Player: SKSpriteNode {
         }
     }
     
+    private func fireLaser() {
+        if laserOffCooldown {
+            let laser = Laser(player: self, parentScene: self.parentScene)
+            laser.fire()
+        }
+    }
+    
     // Utility Methods
     func applyDamage(damage: Int) {
         health -= damage
@@ -106,56 +111,13 @@ class Player: SKSpriteNode {
         }
     }
     
-    func changeLaserFireRate(#shotsPerSecond: Double) {
-        laserCooldown = 1 / shotsPerSecond
-    }
-    
     // MARK: Observer Methods
     func useItem() {
         println("Using Item!")
     }
     
-    func useSpecial() {
-        fireSpecial()
-    }
-    
-    func chargeLaser() {
-        if parentScene.gamePaused {
-            laserCooldownTimer.invalidate()
-            laserCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(laserCooldown, target: self,
-                selector: Selector("chargeLaser"), userInfo: nil, repeats: false)
-        } else {
-            laserOffCooldown = true
-        }
-    }
-    
-    func chargeSpecial() {
-        if parentScene.gamePaused {
-            specialCooldownTimer.invalidate()
-            resetSpecialCooldownTimer()
-        } else {
-            specialOffCooldown = true
-            parentScene.useSpecialButton.enabled = true
-        }
-    }
-    
-    private func fireLaser() {
-        if laserOffCooldown {
-            laserOffCooldown = false
-            
-            let laser = Laser(player: self, parentScene: self.parentScene)
-            laser.fire()
-            
-            laserCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(laserCooldown, target: self,
-                selector: Selector("chargeLaser"), userInfo: nil, repeats: false)
-        }
-    }
-    
-    private func fireSpecial() {
+    func fireSpecial() {
         if specialOffCooldown {
-            specialOffCooldown = false
-            parentScene.useSpecialButton.enabled = false
-            
             switch specialAbility {
             case .HighEnergyShot:
                 let highEnergyShot = HighEnergyShot(player: self, parentScene: parentScene)
@@ -167,22 +129,6 @@ class Player: SKSpriteNode {
                 let multiShot = MultiShot(player: self, parentScene: parentScene)
                 multiShot.fire()
             }
-            
-            resetSpecialCooldownTimer()
-        }
-    }
-    
-    private func resetSpecialCooldownTimer() {
-        switch specialAbility {
-        case .HighEnergyShot:
-            specialCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(highEnergyShotCooldown, target: self,
-                selector: Selector("chargeSpecial"), userInfo: nil, repeats: false)
-        case .PenetratingShot:
-            specialCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(penetratingShotCooldown, target: self,
-                selector: Selector("chargeSpecial"), userInfo: nil, repeats: false)
-        case .MultiShot:
-            specialCooldownTimer = NSTimer.scheduledTimerWithTimeInterval(multiShotCooldown, target: self,
-                selector: Selector("chargeSpecial"), userInfo: nil, repeats: false)
         }
     }
     
@@ -198,11 +144,6 @@ class Player: SKSpriteNode {
         static let maxSpeed: CGFloat = 7.0
         static let acceleration: CGFloat = 0.70
         static let maxHealth = 100
-        static let baseLaserCooldown = 0.35
-        static let baseHighEnergyShotCooldown = 3.0
-        static let basePenetratingShotCooldown = 2.0
-        static let baseMultiShotCooldown = 2.5
-        static let distanceFromBottomOfScreen: CGFloat = 135.0
         static let zPosition: CGFloat = 4.0
         static let collisionBoundary = CGSizeMake(35, 50)
         static let categoryBitmask: UInt32 = 0x1 << 0

@@ -11,12 +11,13 @@ import SpriteKit
 
 class MultiShot: Projectile {
     
-    // MARK: Properties
-    var velocity = Constants.baseVelocity
-    
     // MARK: Initializers
-    init(player: Player, parentScene: LevelScene) {
+    init(player: Player, parentScene: SKScene) {
         super.init(player: player, parentScene: parentScene, imageNamed: ImageNames.multiShot)
+        
+        self.velocity = Constants.baseVelocity
+        self.cooldown = Constants.baseCooldown
+        self.damage = Constants.baseDamage
         
         self.physicsBody = SKPhysicsBody(rectangleOfSize: Constants.collisionBoundary)
         self.physicsBody!.affectedByGravity = false
@@ -32,6 +33,11 @@ class MultiShot: Projectile {
     
     // MARK: Uitility Methods
     override func fire() {
+        if let scene = parentScene as? LevelScene {
+            scene.useSpecialButton.enabled = false
+        }
+        self.player.specialOffCooldown = false
+        
         let locationOffScreen = self.parentScene.size.height
         let fireStraightAction = SKAction.moveToY(locationOffScreen, duration: (1 / velocity))
         self.parentScene.addChild(self)
@@ -46,12 +52,30 @@ class MultiShot: Projectile {
         let fireRightAction = SKAction.moveTo(CGPointMake((self.player.position.x + Constants.horizontalOffset), locationOffScreen), duration: (1 / velocity))
         self.parentScene.addChild(rightShot)
         rightShot.runAction(fireRightAction)
+        
+        self.cooldownTimer = NSTimer.scheduledTimerWithTimeInterval(self.cooldown, target: self,
+            selector: Selector("weaponReady"), userInfo: nil, repeats: false)
+    }
+    
+    // MARK: Observer Methods
+    override func weaponReady() {
+        if let scene = parentScene as? LevelScene {
+            if scene.gamePaused {
+                self.cooldownTimer.invalidate()
+                self.cooldownTimer = NSTimer.scheduledTimerWithTimeInterval(self.cooldown, target: self,
+                    selector: Selector("weaponReady"), userInfo: nil, repeats: false)
+            } else {
+                self.player.specialOffCooldown = true
+                scene.useSpecialButton.enabled = true
+            }
+        }
     }
     
     // MARK: Enums & Constants
     struct Constants {
         static let baseVelocity = 1.00
-        static let damage = 10
+        static let baseCooldown = 2.5
+        static let baseDamage = 10
         static let horizontalOffset: CGFloat = 150.0
         static let zPosition: CGFloat = 2.0
         static let collisionBoundary = CGSizeMake(10.0, 10.0)

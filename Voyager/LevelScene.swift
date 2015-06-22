@@ -14,8 +14,8 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     // MARK: Properties
     var parallaxBackground: ParallaxBackground!
     var hud: Hud!
-    var player: Player?
-    var levelHandler: LevelHandler?
+    var player: Player!
+    var levelHandler: LevelHandler!
     var gamePaused = false
     var useItemButton: UIButton!
     var useSpecialButton: UIButton!
@@ -52,21 +52,16 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func initializePlayer() {
-        if player == nil {
-            player = Player(parentScene: self)
-        }
+        player.position.y = -(self.size.height / 2) + Constants.playerDistanceFromBottomOfScreen
         
-        self.addChild(player!)
+        self.addChild(player)
         
-        let initialFadeInAction = SKAction.fadeInWithDuration(Constants.transitionAnimationDuration)
-        player!.runAction(initialFadeInAction)
+        let initialFadeInAction = SKAction.fadeInWithDuration(GameController.Constants.transitionAnimationDuration)
+        player.runAction(initialFadeInAction)
     }
     
     private func initializeLevelHandler() {
-        if levelHandler == nil {
-            levelHandler = LevelHandler(scene: self, player: player!, level: 1)
-        }
-        levelHandler!.initialize()
+        levelHandler.initialize()
     }
     
     private func initializeParallaxBackground() {
@@ -74,14 +69,14 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func initializeOverlayMessages() {
-        levelHandler!.showLabel()
+        levelHandler.showLabel()
     }
     
     private func initializeHud() {
         hud = Hud(parentScene: self)
-        hud.updateHealthBar(health: player!.health)
-        hud.updateGoldValue(gold: player!.gold)
-        hud.updateLevelValue(level: levelHandler!.currentLevel)
+        hud.updateHealthBar(health: player.health)
+        hud.updateGoldValue(gold: player.gold)
+        hud.updateLevelValue(level: levelHandler.currentLevel)
         
         useItemButton = UIButton(frame: CGRectMake(self.size.width - Constants.useItemButtonHorizontalOffset, self.size.height - Constants.useItemButtonVerticalOffset, Constants.useItemButtonWidth, Constants.useItemButtonHeight))
         useItemButton.alpha = 0.0
@@ -92,7 +87,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         useSpecialButton = UIButton(frame: CGRectMake(self.size.width - Constants.useSpecialButtonHorizontalOffset, self.size.height - Constants.useSpecialButtonVerticalOffset, Constants.useSpecialButtonWidth, Constants.useSpecialButtonHeight))
         useSpecialButton.alpha = 0.0
         useSpecialButton.setImage(UIImage(named: ImageNames.hudUseSpecialButton), forState: UIControlState.Normal)
-        useSpecialButton.addTarget(player, action: Selector("useSpecial"), forControlEvents: UIControlEvents.TouchUpInside)
+        useSpecialButton.addTarget(player, action: Selector("fireSpecial"), forControlEvents: UIControlEvents.TouchUpInside)
         useSpecialButton.enabled = false
         
         pauseButton = UIButton(frame: CGRectMake(Constants.pauseButtonHorizontalOffset, self.size.height - Constants.pauseButtonVerticalOffset, Constants.pauseButtonWidth, Constants.pauseButtonHeight))
@@ -106,9 +101,9 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         self.view!.addSubview(useSpecialButton)
         self.view!.addSubview(pauseButton)
         
-        let fadeInAction = SKAction.fadeInWithDuration(Constants.transitionAnimationDuration)
+        let fadeInAction = SKAction.fadeInWithDuration(GameController.Constants.transitionAnimationDuration)
         hud.runAction(fadeInAction)
-        UIView.animateWithDuration(Constants.transitionAnimationDuration) {
+        UIView.animateWithDuration(GameController.Constants.transitionAnimationDuration) {
             self.useItemButton.alpha = 1.0
             self.useSpecialButton.alpha = 1.0
             self.pauseButton.alpha = 1.0
@@ -133,7 +128,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         self.view!.addSubview(resumeButton)
         self.view!.addSubview(saveAndQuitButton)
         
-        UIView.animateWithDuration(Constants.transitionAnimationDuration) {
+        UIView.animateWithDuration(GameController.Constants.transitionAnimationDuration) {
             self.resumeButton.alpha = 1.0
             self.saveAndQuitButton.alpha = 1.0
         }
@@ -148,8 +143,8 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     // MARK: Update Methods
     override func update(currentTime: NSTimeInterval) {
         if userReady && gamePaused == false {
-            player!.update()
-            levelHandler!.update()
+            player.update()
+            levelHandler.update()
         }
     }
     
@@ -165,10 +160,10 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
             let hudBoundary = (self.size.height) - hud.size.height
             
             if touchLocation.x >= (self.size.width / 2) && touchLocation.y <= hudBoundary {
-                player!.movingRight = true
+                player.movingRight = true
                 moveRightTouch = touch
             } else if touchLocation.x < (self.size.width / 2) && touchLocation.y <= hudBoundary {
-                player!.movingLeft = true
+                player.movingLeft = true
                 moveLeftTouch = touch
             }
         }
@@ -185,24 +180,24 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
             }
             
             if touch === moveRightTouch {
-                player!.movingRight = false
+                player.movingRight = false
                 moveRightTouch = nil
             } else if touch === moveLeftTouch {
-                player!.movingLeft = false
+                player.movingLeft = false
                 moveLeftTouch = nil
             }
         }
     }
     
     private func beginPlayng() {
-        levelHandler!.hideLabel()
+        levelHandler.hideLabel()
         
         userReady = true
-        player!.enabled = true
-        levelHandler!.enabled = true
+        player.enabled = true
+        levelHandler.enabled = true
         pauseButton.enabled = true
         useSpecialButton.enabled = true
-        if player!.hasItem {
+        if player.hasItem {
             useItemButton.enabled = true
         }
     }
@@ -265,9 +260,10 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     private func handleLaserAlienFighterCollision(#laser: SKPhysicsBody, alienFighter: SKPhysicsBody) {
         if let laserNode = laser.node as? Laser {
             laserNode.removeFromParent()
-        }
-        if let alienFighterNode = alienFighter.node as? AlienFighter {
-            alienFighterNode.applyDamage(damage: Laser.Constants.damage)
+            
+            if let alienFighterNode = alienFighter.node as? AlienFighter {
+                alienFighterNode.applyDamage(damage: laserNode.damage)
+            }
         }
     }
     
@@ -275,29 +271,32 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         if let playerNode = player.node as? Player {
             playerNode.applyDamage(AlienFighter.Constants.damage)
             hud.updateHealthBar(health: playerNode.health)
-        }
-        if let alienFighterNode = alienFighter.node as? AlienFighter {
-            alienFighterNode.removeFromParent()
+            
+            if let alienFighterNode = alienFighter.node as? AlienFighter {
+                alienFighterNode.removeFromParent()
+            }
         }
     }
     
     private func handleHighEnergyShotAlienFighterCollision(#highEnergyShot: SKPhysicsBody, alienFighter: SKPhysicsBody) {
         if let highEnergyShotNode = highEnergyShot.node as? HighEnergyShot {
             highEnergyShotNode.removeFromParent()
-        }
-        if let alienFighterNode = alienFighter.node as? AlienFighter {
-            alienFighterNode.applyDamage(damage: HighEnergyShot.Constants.damage)
+            
+            if let alienFighterNode = alienFighter.node as? AlienFighter {
+                alienFighterNode.applyDamage(damage: highEnergyShotNode.damage)
+            }
         }
     }
         
     private func handlePenetratingShotAlienFighterCollision(#penetratingShot: SKPhysicsBody, alienFighter: SKPhysicsBody) {
         if let penetratingShotNode = penetratingShot.node as? PenetratingShot {
             penetratingShotNode.reducePenetratingPower()
-        }
-        if let alienFighterNode = alienFighter.node as? AlienFighter {
-            if alienFighterNode.hasBeenHitWithPenetratingShot == false {
-                alienFighterNode.applyDamage(damage: PenetratingShot.Constants.damage)
-                alienFighterNode.hasBeenHitWithPenetratingShot = true
+            
+            if let alienFighterNode = alienFighter.node as? AlienFighter {
+                if alienFighterNode.hasBeenHitWithPenetratingShot == false {
+                    alienFighterNode.applyDamage(damage: PenetratingShot.Constants.damage)
+                    alienFighterNode.hasBeenHitWithPenetratingShot = true
+                }
             }
         }
     }
@@ -305,9 +304,10 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     private func handleMultiShotAlienFighterCollision(#multiShot: SKPhysicsBody, alienFighter: SKPhysicsBody) {
         if let multiShotNode = multiShot.node as? MultiShot {
             multiShotNode.removeFromParent()
-        }
-        if let alienFighterNode = alienFighter.node as? AlienFighter {
-            alienFighterNode.applyDamage(damage: MultiShot.Constants.damage)
+            
+            if let alienFighterNode = alienFighter.node as? AlienFighter {
+                alienFighterNode.applyDamage(damage: multiShotNode.damage)
+            }
         }
     }
     
@@ -320,7 +320,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     
     func applicationDidEnterBackground() {
         self.view!.paused = true
-        SaveState.saveData(level: levelHandler!.currentLevel)
+        SaveState.saveData(level: levelHandler.currentLevel)
     }
     
     func applicationWillEnterForeground() {
@@ -347,7 +347,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         
         pauseButton.enabled = true
         useSpecialButton.enabled = true
-        if player!.hasItem {
+        if player.hasItem {
             useItemButton.enabled = true
         }
         
@@ -355,14 +355,14 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func saveAndQuit() {
-        SaveState.saveData(level: levelHandler!.currentLevel)
+        SaveState.saveData(level: levelHandler.currentLevel)
         
         pauseButton.removeFromSuperview()
         useItemButton.removeFromSuperview()
         useSpecialButton.removeFromSuperview()
         resumeButton.removeFromSuperview()
         saveAndQuitButton.removeFromSuperview()
-        player!.removeFromParent()
+        player.removeFromParent()
         hud.removeFromParent()
         levelHandler = nil
         gamePaused = false
@@ -378,7 +378,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: Enums & Constants
     struct Constants {
-        static let transitionAnimationDuration = 0.5
         static let useItemButtonWidth: CGFloat = 60.0
         static let useItemButtonHeight: CGFloat = 60.0
         static let useItemButtonHorizontalOffset: CGFloat = 145.0
@@ -397,5 +396,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         static let saveAndQuitButtonWidth: CGFloat = 275.0
         static let saveAndQuitButtonHeight: CGFloat = 30.0
         static let saveAndQuitButtonVerticalOffset: CGFloat = 0.0
+        static let playerDistanceFromBottomOfScreen: CGFloat = 135.0
     }
 }

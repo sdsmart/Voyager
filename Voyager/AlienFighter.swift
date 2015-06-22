@@ -12,7 +12,7 @@ class AlienFighter: SKSpriteNode {
     
     // MARK: Properties
     private let player: Player
-    private let parentScene: LevelScene
+    private let parentScene: SKScene
     
     var velocity = Constants.baseVelocity
     var health = Constants.baseHealth
@@ -20,7 +20,7 @@ class AlienFighter: SKSpriteNode {
     var hasBeenHitWithPenetratingShot = false
     
     // MARK: Initializers
-    init(player: Player, parentScene: LevelScene) {
+    init(player: Player, parentScene: SKScene) {
         self.player = player
         self.parentScene = parentScene
         
