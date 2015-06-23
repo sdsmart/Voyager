@@ -1,5 +1,5 @@
 //
-//  PenetratingShot.swift
+//  PiercingBeam.swift
 //  Voyager
 //
 //  Created by Steve Smart on 6/18/15.
@@ -9,14 +9,14 @@
 import Foundation
 import SpriteKit
 
-class PenetratingShot: Projectile {
+class PiercingBeam: Projectile {
     
     // MARK: Properties
-    var penetratingPower = Constants.basePenetratingPower
+    var piercingPower = Constants.basePiercingPower
     
     // MARK: Initializers
     init(player: Player, parentScene: SKScene) {
-        super.init(player: player, parentScene: parentScene, imageNamed: ImageNames.penetratingShot)
+        super.init(player: player, parentScene: parentScene, imageNamed: ImageNames.piercingBeam)
         
         initializePhysics()
         initializeStats()
@@ -37,7 +37,7 @@ class PenetratingShot: Projectile {
     }
     
     private func initializeStats() {
-        switch player.penetratingShotLevel {
+        switch player.piercingBeamLevel {
         case 1:
             self.velocity = Constants.LevelOneStats.velocity
             self.cooldown = Constants.LevelOneStats.cooldown
@@ -63,10 +63,10 @@ class PenetratingShot: Projectile {
             selector: Selector("weaponReady"), userInfo: nil, repeats: false)
     }
     
-    func reducePenetratingPower() {
-        penetratingPower--
+    func reducePiercingPower() {
+        piercingPower--
         
-        if penetratingPower <= 0 {
+        if piercingPower <= 0 {
             self.removeFromParent()
         }
     }
@@ -93,7 +93,7 @@ class PenetratingShot: Projectile {
             static let damage = 15
         }
 
-        static let basePenetratingPower = 2
+        static let basePiercingPower = 2
         static let zPosition: CGFloat = 2.0
         static let collisionBoundary = CGSizeMake(5.5, 55.0)
         static let categoryBitmask: UInt32 = 0x1 << 3

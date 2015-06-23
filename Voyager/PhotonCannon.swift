@@ -1,5 +1,5 @@
 //
-//  MultiShot.swift
+//  PhotonCannon.swift
 //  Voyager
 //
 //  Created by Steve Smart on 6/18/15.
@@ -9,11 +9,11 @@
 import Foundation
 import SpriteKit
 
-class MultiShot: Projectile {
+class PhotonCannon: Projectile {
     
     // MARK: Initializers
     init(player: Player, parentScene: SKScene) {
-        super.init(player: player, parentScene: parentScene, imageNamed: ImageNames.multiShot)
+        super.init(player: player, parentScene: parentScene, imageNamed: ImageNames.photonCannon)
         
         initializePhysics()
         initializeStats()
@@ -34,7 +34,7 @@ class MultiShot: Projectile {
     }
     
     private func initializeStats() {
-        switch player.multiShotLevel {
+        switch player.photonCannonLevel {
         case 1:
             self.velocity = Constants.LevelOneStats.velocity
             self.cooldown = Constants.LevelOneStats.cooldown
@@ -52,19 +52,9 @@ class MultiShot: Projectile {
         self.player.specialOffCooldown = false
         
         let locationOffScreen = self.parentScene.size.height
-        let fireStraightAction = SKAction.moveToY(locationOffScreen, duration: (1 / velocity))
+        let fireAction = SKAction.moveToY(locationOffScreen, duration: (1 / velocity))
         self.parentScene.addChild(self)
-        self.runAction(fireStraightAction)
-        
-        let leftShot = MultiShot(player: self.player, parentScene: self.parentScene)
-        let fireLeftAction = SKAction.moveTo(CGPointMake((self.player.position.x - Constants.horizontalOffset), locationOffScreen), duration: (1 / velocity))
-        self.parentScene.addChild(leftShot)
-        leftShot.runAction(fireLeftAction)
-        
-        let rightShot = MultiShot(player: self.player, parentScene: self.parentScene)
-        let fireRightAction = SKAction.moveTo(CGPointMake((self.player.position.x + Constants.horizontalOffset), locationOffScreen), duration: (1 / velocity))
-        self.parentScene.addChild(rightShot)
-        rightShot.runAction(fireRightAction)
+        self.runAction(fireAction)
         
         self.cooldownTimer = NSTimer.scheduledTimerWithTimeInterval(self.cooldown, target: self,
             selector: Selector("weaponReady"), userInfo: nil, repeats: false)
@@ -89,12 +79,11 @@ class MultiShot: Projectile {
         struct LevelOneStats {
             static let velocity = 1.00
             static let cooldown = 2.5
-            static let damage = 10
+            static let damage = 25
         }
-
-        static let horizontalOffset: CGFloat = 150.0
+        
         static let zPosition: CGFloat = 2.0
-        static let collisionBoundary = CGSizeMake(10.0, 10.0)
-        static let categoryBitmask: UInt32 = 0x1 << 4
+        static let collisionBoundary = CGSizeMake(27.0, 27.0)
+        static let categoryBitmask: UInt32 = 0x1 << 2
     }
 }

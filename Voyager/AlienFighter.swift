@@ -17,7 +17,7 @@ class AlienFighter: SKSpriteNode {
     var velocity = Constants.baseVelocity
     var health = Constants.baseHealth
     
-    var hasBeenHitWithPenetratingShot = false
+    var hasBeenHitWithPiercingBeam = false
     
     // MARK: Initializers
     init(player: Player, parentScene: SKScene) {
@@ -38,7 +38,7 @@ class AlienFighter: SKSpriteNode {
         self.physicsBody!.affectedByGravity = false
         self.physicsBody!.collisionBitMask = 0
         self.physicsBody!.categoryBitMask = Constants.categoryBitmask
-        self.physicsBody!.contactTestBitMask = Player.Constants.categoryBitmask | Laser.Constants.categoryBitmask | HighEnergyShot.Constants.categoryBitmask
+        self.physicsBody!.contactTestBitMask = Player.Constants.categoryBitmask | Laser.Constants.categoryBitmask | PhotonCannon.Constants.categoryBitmask | PiercingBeam.Constants.categoryBitmask | ClusterShot.Constants.categoryBitmask
     }
     
     required init(coder aDecoder: NSCoder) {

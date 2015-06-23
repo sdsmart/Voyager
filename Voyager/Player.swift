@@ -17,13 +17,12 @@ class Player: SKSpriteNode {
     var health = 100
     var gold = 100
     var hasItem = false
-    var specialAbility = SpecialAbility.HighEnergyShot
+    var specialAbility = SpecialAbility.PhotonCannon
     var laserOffCooldown = true
     var specialOffCooldown = true
-    var laserLevel = 0
-    var highEnergyShotLevel = 0
-    var penetratingShotLevel = 0
-    var multiShotLevel = 0
+    var photonCannonLevel = 0
+    var piercingBeamLevel = 0
+    var clusterShotLevel = 0
     
     
     private let parentScene: SKScene
@@ -121,24 +120,24 @@ class Player: SKSpriteNode {
     func fireSpecial() {
         if specialOffCooldown {
             switch specialAbility {
-            case .HighEnergyShot:
-                let highEnergyShot = HighEnergyShot(player: self, parentScene: parentScene)
-                highEnergyShot.fire()
-            case .PenetratingShot:
-                let penetratingShot = PenetratingShot(player: self, parentScene: parentScene)
-                penetratingShot.fire()
-            case .MultiShot:
-                let multiShot = MultiShot(player: self, parentScene: parentScene)
-                multiShot.fire()
+            case .PhotonCannon:
+                let photonCannon = PhotonCannon(player: self, parentScene: parentScene)
+                photonCannon.fire()
+            case .PiercingBeam:
+                let piercingBeam = PiercingBeam(player: self, parentScene: parentScene)
+                piercingBeam.fire()
+            case .ClusterShot:
+                let clusterShot = ClusterShot(player: self, parentScene: parentScene)
+                clusterShot.fire()
             }
         }
     }
     
     // MARK: Enums & Constants
     enum SpecialAbility {
-        case HighEnergyShot
-        case PenetratingShot
-        case MultiShot
+        case PhotonCannon
+        case PiercingBeam
+        case ClusterShot
     }
     
     struct Constants {

@@ -33,14 +33,9 @@ class Laser: Projectile {
     }
     
     private func initializeStats() {
-        switch player.laserLevel {
-        case 1:
-            self.velocity = Constants.LevelOneStats.velocity
-            self.cooldown = Constants.LevelOneStats.cooldown
-            self.damage = Constants.LevelOneStats.damage
-        default:
-            break
-        }
+        self.velocity = Constants.velocity
+        self.cooldown = Constants.cooldown
+        self.damage = Constants.damage
     }
     
     // MARK: Uitility Methods
@@ -71,12 +66,9 @@ class Laser: Projectile {
     
     // MARK: Enums & Constants
     struct Constants {
-        struct LevelOneStats {
-            static let velocity = 0.75
-            static let cooldown = 0.35
-            static let damage = 10
-        }
-        
+        static let velocity = 0.75
+        static let cooldown = 0.30
+        static let damage = 10
         static let zPosition: CGFloat = 1.0
         static let collisionBoundary = CGSizeMake(3.0, 20.0)
         static let categoryBitmask: UInt32 = 0x1 << 1

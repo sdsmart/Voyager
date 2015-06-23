@@ -10,9 +10,9 @@
 		FE0A001C1B28FABE007C436B /* Hud.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0A001B1B28FABE007C436B /* Hud.swift */; };
 		FE0A00281B2904E9007C436B /* Laser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0A00271B2904E9007C436B /* Laser.swift */; };
 		FE0A002E1B291C95007C436B /* ImageNames.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE0A002D1B291C95007C436B /* ImageNames.swift */; };
-		FE105F6C1B33810700EDCF33 /* HighEnergyShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE105F6B1B33810700EDCF33 /* HighEnergyShot.swift */; };
-		FE105F701B33986900EDCF33 /* PenetratingShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE105F6F1B33986900EDCF33 /* PenetratingShot.swift */; };
-		FE105F721B33A12D00EDCF33 /* MultiShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE105F711B33A12D00EDCF33 /* MultiShot.swift */; };
+		FE105F6C1B33810700EDCF33 /* PhotonCannon.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE105F6B1B33810700EDCF33 /* PhotonCannon.swift */; };
+		FE105F701B33986900EDCF33 /* PiercingBeam.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE105F6F1B33986900EDCF33 /* PiercingBeam.swift */; };
+		FE105F721B33A12D00EDCF33 /* ClusterShot.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE105F711B33A12D00EDCF33 /* ClusterShot.swift */; };
 		FE105F741B33B8BF00EDCF33 /* Projectile.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE105F731B33B8BF00EDCF33 /* Projectile.swift */; };
 		FE3EA77B1B27B0950064476B /* LevelScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3EA77A1B27B0950064476B /* LevelScene.swift */; };
 		FE3EA77D1B27C5810064476B /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3EA77C1B27C5810064476B /* Player.swift */; };
@@ -43,9 +43,9 @@
 		FE0A001B1B28FABE007C436B /* Hud.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Hud.swift; sourceTree = "<group>"; };
 		FE0A00271B2904E9007C436B /* Laser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Laser.swift; sourceTree = "<group>"; };
 		FE0A002D1B291C95007C436B /* ImageNames.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageNames.swift; sourceTree = "<group>"; };
-		FE105F6B1B33810700EDCF33 /* HighEnergyShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HighEnergyShot.swift; sourceTree = "<group>"; };
-		FE105F6F1B33986900EDCF33 /* PenetratingShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PenetratingShot.swift; sourceTree = "<group>"; };
-		FE105F711B33A12D00EDCF33 /* MultiShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiShot.swift; sourceTree = "<group>"; };
+		FE105F6B1B33810700EDCF33 /* PhotonCannon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotonCannon.swift; sourceTree = "<group>"; };
+		FE105F6F1B33986900EDCF33 /* PiercingBeam.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PiercingBeam.swift; sourceTree = "<group>"; };
+		FE105F711B33A12D00EDCF33 /* ClusterShot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClusterShot.swift; sourceTree = "<group>"; };
 		FE105F731B33B8BF00EDCF33 /* Projectile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Projectile.swift; sourceTree = "<group>"; };
 		FE3EA77A1B27B0950064476B /* LevelScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelScene.swift; sourceTree = "<group>"; };
 		FE3EA77C1B27C5810064476B /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
@@ -97,10 +97,10 @@
 		FE105F6D1B33816700EDCF33 /* Projectiles */ = {
 			isa = PBXGroup;
 			children = (
-				FE105F6B1B33810700EDCF33 /* HighEnergyShot.swift */,
+				FE105F6B1B33810700EDCF33 /* PhotonCannon.swift */,
 				FE0A00271B2904E9007C436B /* Laser.swift */,
-				FE105F6F1B33986900EDCF33 /* PenetratingShot.swift */,
-				FE105F711B33A12D00EDCF33 /* MultiShot.swift */,
+				FE105F6F1B33986900EDCF33 /* PiercingBeam.swift */,
+				FE105F711B33A12D00EDCF33 /* ClusterShot.swift */,
 				FE105F731B33B8BF00EDCF33 /* Projectile.swift */,
 			);
 			name = Projectiles;
@@ -290,9 +290,9 @@
 				FEA129A41B23CDC500E49488 /* MenuScene.swift in Sources */,
 				FE8D7B181B322FF3006D54CA /* SaveState.swift in Sources */,
 				FE76684E1B35E96500D79ADE /* UpgradeScene.swift in Sources */,
-				FE105F6C1B33810700EDCF33 /* HighEnergyShot.swift in Sources */,
-				FE105F701B33986900EDCF33 /* PenetratingShot.swift in Sources */,
-				FE105F721B33A12D00EDCF33 /* MultiShot.swift in Sources */,
+				FE105F6C1B33810700EDCF33 /* PhotonCannon.swift in Sources */,
+				FE105F701B33986900EDCF33 /* PiercingBeam.swift in Sources */,
+				FE105F721B33A12D00EDCF33 /* ClusterShot.swift in Sources */,
 				FEA129A61B23CDC500E49488 /* GameController.swift in Sources */,
 				FE7A0E1A1B30E80E00D14892 /* LevelHandler.swift in Sources */,
 				FE0A001C1B28FABE007C436B /* Hud.swift in Sources */,

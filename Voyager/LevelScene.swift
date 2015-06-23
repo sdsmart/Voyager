@@ -231,29 +231,29 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
             
             handlePlayerAlienFighterCollision(player: secondBody, alienFighter: firstBody)
             
-        } else if (firstBody.categoryBitMask & HighEnergyShot.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
+        } else if (firstBody.categoryBitMask & PhotonCannon.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
             
-            handleHighEnergyShotAlienFighterCollision(highEnergyShot: firstBody, alienFighter: secondBody)
+            handlePhotonCannonAlienFighterCollision(photonCannon: firstBody, alienFighter: secondBody)
             
-        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & HighEnergyShot.Constants.categoryBitmask) != 0 {
+        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & PhotonCannon.Constants.categoryBitmask) != 0 {
             
-            handleHighEnergyShotAlienFighterCollision(highEnergyShot: secondBody, alienFighter: firstBody)
+            handlePhotonCannonAlienFighterCollision(photonCannon: secondBody, alienFighter: firstBody)
             
-        } else if (firstBody.categoryBitMask & PenetratingShot.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
+        } else if (firstBody.categoryBitMask & PiercingBeam.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
             
-            handlePenetratingShotAlienFighterCollision(penetratingShot: firstBody, alienFighter: secondBody)
+            handlePiercingBeamAlienFighterCollision(piercingBeam: firstBody, alienFighter: secondBody)
             
-        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & PenetratingShot.Constants.categoryBitmask) != 0 {
+        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & PiercingBeam.Constants.categoryBitmask) != 0 {
             
-            handlePenetratingShotAlienFighterCollision(penetratingShot: secondBody, alienFighter: firstBody)
+            handlePiercingBeamAlienFighterCollision(piercingBeam: secondBody, alienFighter: firstBody)
             
-        } else if (firstBody.categoryBitMask & MultiShot.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
+        } else if (firstBody.categoryBitMask & ClusterShot.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 {
             
-            handleMultiShotAlienFighterCollision(multiShot: firstBody, alienFighter: secondBody)
+            handleClusterShotAlienFighterCollision(clusterShot: firstBody, alienFighter: secondBody)
             
-        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & MultiShot.Constants.categoryBitmask) != 0 {
+        } else if (firstBody.categoryBitMask & AlienFighter.Constants.categoryBitmask) != 0 && (secondBody.categoryBitMask & ClusterShot.Constants.categoryBitmask) != 0 {
             
-            handleMultiShotAlienFighterCollision(multiShot: secondBody, alienFighter: firstBody)
+            handleClusterShotAlienFighterCollision(clusterShot: secondBody, alienFighter: firstBody)
         }
     }
     
@@ -278,35 +278,35 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    private func handleHighEnergyShotAlienFighterCollision(#highEnergyShot: SKPhysicsBody, alienFighter: SKPhysicsBody) {
-        if let highEnergyShotNode = highEnergyShot.node as? HighEnergyShot {
-            highEnergyShotNode.removeFromParent()
+    private func handlePhotonCannonAlienFighterCollision(#photonCannon: SKPhysicsBody, alienFighter: SKPhysicsBody) {
+        if let photonCannonNode = photonCannon.node as? PhotonCannon {
+            photonCannonNode.removeFromParent()
             
             if let alienFighterNode = alienFighter.node as? AlienFighter {
-                alienFighterNode.applyDamage(damage: highEnergyShotNode.damage)
+                alienFighterNode.applyDamage(damage: photonCannonNode.damage)
             }
         }
     }
         
-    private func handlePenetratingShotAlienFighterCollision(#penetratingShot: SKPhysicsBody, alienFighter: SKPhysicsBody) {
-        if let penetratingShotNode = penetratingShot.node as? PenetratingShot {
-            penetratingShotNode.reducePenetratingPower()
+    private func handlePiercingBeamAlienFighterCollision(#piercingBeam: SKPhysicsBody, alienFighter: SKPhysicsBody) {
+        if let piercingBeamNode = piercingBeam.node as? PiercingBeam {
+            piercingBeamNode.reducePiercingPower()
             
             if let alienFighterNode = alienFighter.node as? AlienFighter {
-                if alienFighterNode.hasBeenHitWithPenetratingShot == false {
-                    alienFighterNode.applyDamage(damage: penetratingShotNode.damage)
-                    alienFighterNode.hasBeenHitWithPenetratingShot = true
+                if alienFighterNode.hasBeenHitWithPiercingBeam == false {
+                    alienFighterNode.applyDamage(damage: piercingBeamNode.damage)
+                    alienFighterNode.hasBeenHitWithPiercingBeam = true
                 }
             }
         }
     }
     
-    private func handleMultiShotAlienFighterCollision(#multiShot: SKPhysicsBody, alienFighter: SKPhysicsBody) {
-        if let multiShotNode = multiShot.node as? MultiShot {
-            multiShotNode.removeFromParent()
+    private func handleClusterShotAlienFighterCollision(#clusterShot: SKPhysicsBody, alienFighter: SKPhysicsBody) {
+        if let clusterShotNode = clusterShot.node as? ClusterShot {
+            clusterShotNode.removeFromParent()
             
             if let alienFighterNode = alienFighter.node as? AlienFighter {
-                alienFighterNode.applyDamage(damage: multiShotNode.damage)
+                alienFighterNode.applyDamage(damage: clusterShotNode.damage)
             }
         }
     }
