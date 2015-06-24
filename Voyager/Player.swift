@@ -15,15 +15,14 @@ class Player: SKSpriteNode {
     var movingRight = false
     var movingLeft = false
     var health = 100
-    var gold = 100
+    var gold = 1000
     var hasItem = false
-    var specialAbility = SpecialAbility.PhotonCannon
+    var specialAbility = SpecialAbility.None
     var laserOffCooldown = true
     var specialOffCooldown = true
     var photonCannonLevel = 0
     var piercingBeamLevel = 0
     var clusterShotLevel = 0
-    
     
     private let parentScene: SKScene
     private var velocity: CGFloat = 0.0
@@ -129,6 +128,8 @@ class Player: SKSpriteNode {
             case .ClusterShot:
                 let clusterShot = ClusterShot(player: self, parentScene: parentScene)
                 clusterShot.fire()
+            case .None:
+                break
             }
         }
     }
@@ -138,6 +139,7 @@ class Player: SKSpriteNode {
         case PhotonCannon
         case PiercingBeam
         case ClusterShot
+        case None
     }
     
     struct Constants {

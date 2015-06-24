@@ -92,6 +92,8 @@ class ClusterShot: Projectile {
             static let damage = 10
         }
 
+        static let baseUpgradeCost = 100
+        static let upgradeIncrementRatio = 0.5
         static let horizontalOffset: CGFloat = 150.0
         static let zPosition: CGFloat = 2.0
         static let collisionBoundary = CGSizeMake(10.0, 10.0)

@@ -45,4 +45,7 @@ struct ImageNames {
     static let upgradesClusterShotHeader = "upgrades-cluster-shot-header"
     static let upgradesClusterShotSprite = "upgrades-cluster-shot-sprite"
     static let upgradesLevelHeader = "upgrades-level-header"
+    static let upgradesUpgradeButton = "upgrades-upgrade-button"
+    static let upgradesPriceHeader = "upgrades-price-header"
+    static let upgradesSelectButton = "upgrades-select-button"
 }

@@ -71,6 +71,8 @@ class PhotonCannon: Projectile {
                 self.player.specialOffCooldown = true
                 scene.useSpecialButton.enabled = true
             }
+        } else {
+            self.player.specialOffCooldown = true
         }
     }
     
@@ -82,6 +84,8 @@ class PhotonCannon: Projectile {
             static let damage = 25
         }
         
+        static let baseUpgradeCost = 100
+        static let upgradeIncrementRatio = 0.5
         static let zPosition: CGFloat = 2.0
         static let collisionBoundary = CGSizeMake(27.0, 27.0)
         static let categoryBitmask: UInt32 = 0x1 << 2
