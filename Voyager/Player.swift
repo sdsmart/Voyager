@@ -15,7 +15,7 @@ class Player: SKSpriteNode {
     var movingRight = false
     var movingLeft = false
     var health = 100
-    var gold = 1000
+    var gold = 9999
     var hasItem = false
     var specialAbility = SpecialAbility.None
     var laserOffCooldown = true

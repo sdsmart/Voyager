@@ -60,6 +60,14 @@ class UpgradeScene: SKScene {
     }
     
     private func initializeUIElements() {
+        initializeTitleBarElements()
+        initializePhotonCannonElements()
+        initializePiercingBeamElements()
+        initializeClusterShotElements()
+        self.view!.addSubview(confirmButton)
+    }
+    
+    private func initializeTitleBarElements() {
         background = SKSpriteNode(imageNamed: ImageNames.upgradesMenuBackground)
         background.anchorPoint = CGPointMake(CGFloat(0.5), CGFloat(0.0))
         
@@ -78,6 +86,13 @@ class UpgradeScene: SKScene {
         goldValue.position.y = background.size.height - Constants.goldValueVerticalOffset
         goldValue.position.x = (self.size.width / 2) - Constants.goldValueHorizontalOffset
         
+        self.addChild(background)
+        self.addChild(upgradesHeader)
+        self.addChild(goldHeader)
+        self.addChild(goldValue)
+    }
+    
+    private func initializePhotonCannonElements() {
         photonCannonHeader = SKSpriteNode(imageNamed: ImageNames.upgradesPhotonCannonHeader)
         photonCannonHeader.position.y = background.size.height - (photonCannonHeader.size.height / 2) - Constants.photonCannonHeaderVerticalOffset
         photonCannonHeader.position.x = -(self.size.width / 2) + (photonCannonHeader.size.width / 2) + Constants.photonCannonHeaderHorizontalOffset
@@ -117,6 +132,17 @@ class UpgradeScene: SKScene {
         selectPhotonCannonButton.setImage(UIImage(named: ImageNames.upgradesSelectButton), forState: UIControlState.Normal)
         selectPhotonCannonButton.addTarget(self, action: Selector("selectPhotonCannon"), forControlEvents: UIControlEvents.TouchUpInside)
         
+        self.addChild(photonCannonHeader)
+        self.addChild(photonCannonSprite)
+        self.addChild(photonCannonLevelHeader)
+        self.addChild(photonCannonLevelValue)
+        self.addChild(photonCannonPriceHeader)
+        self.addChild(photonCannonPriceValue)
+        self.view!.addSubview(upgradePhotonCannonButton)
+        self.view!.addSubview(selectPhotonCannonButton)
+    }
+    
+    private func initializePiercingBeamElements() {
         piercingBeamHeader = SKSpriteNode(imageNamed: ImageNames.upgradesPiercingBeamHeader)
         piercingBeamHeader.position.y = background.size.height - (piercingBeamHeader.size.height / 2) - Constants.piercingBeamHeaderVerticalOffset
         
@@ -155,6 +181,17 @@ class UpgradeScene: SKScene {
         selectPiercingBeamButton.setImage(UIImage(named: ImageNames.upgradesSelectButton), forState: UIControlState.Normal)
         selectPiercingBeamButton.addTarget(self, action: Selector("selectPiercingBeam"), forControlEvents: UIControlEvents.TouchUpInside)
         
+        self.addChild(piercingBeamHeader)
+        self.addChild(piercingBeamSprite)
+        self.addChild(piercingBeamLevelHeader)
+        self.addChild(piercingBeamLevelValue)
+        self.addChild(piercingBeamPriceHeader)
+        self.addChild(piercingBeamPriceValue)
+        self.view!.addSubview(upgradePiercingBeamButton)
+        self.view!.addSubview(selectPiercingBeamButton)
+    }
+    
+    private func initializeClusterShotElements() {
         clusterShotHeader = SKSpriteNode(imageNamed: ImageNames.upgradesClusterShotHeader)
         clusterShotHeader.position.y = background.size.height - (clusterShotHeader.size.height / 2) - Constants.clusterShotHeaderVerticalOffset
         clusterShotHeader.position.x = (self.size.width / 2) - (clusterShotHeader.size.width / 2) - Constants.clusterShotHeaderHorizontalOffset
@@ -185,8 +222,8 @@ class UpgradeScene: SKScene {
         
         clusterShotPriceValue = SKLabelNode(fontNamed: Constants.fontName)
         clusterShotPriceValue.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.Left
-        clusterShotPriceValue.fontSize = Constants.clusterShotLevelValueFontSize
-        clusterShotPriceValue.fontColor = Constants.clusterShotLevelValueFontColor
+        clusterShotPriceValue.fontSize = Constants.clusterShotPriceValueFontSize
+        clusterShotPriceValue.fontColor = Constants.clusterShotPriceValueFontColor
         clusterShotPriceValue.position.y = background.size.height - Constants.clusterShotPriceValueVerticalOffset
         clusterShotPriceValue.position.x = (self.size.width / 2) - Constants.clusterShotPriceValueHorizontalOffset
         
@@ -198,35 +235,14 @@ class UpgradeScene: SKScene {
         confirmButton.setImage(UIImage(named: ImageNames.upgradesConfirmButton), forState: UIControlState.Normal)
         confirmButton.addTarget(self, action: Selector("confirmUpgrades"), forControlEvents: UIControlEvents.TouchUpInside)
         
-        self.addChild(background)
-        self.addChild(upgradesHeader)
-        self.addChild(goldHeader)
-        self.addChild(goldValue)
-        self.addChild(photonCannonHeader)
-        self.addChild(photonCannonSprite)
-        self.addChild(photonCannonLevelHeader)
-        self.addChild(photonCannonLevelValue)
-        self.addChild(piercingBeamHeader)
-        self.addChild(piercingBeamSprite)
-        self.addChild(piercingBeamLevelHeader)
-        self.addChild(piercingBeamLevelValue)
         self.addChild(clusterShotHeader)
         self.addChild(clusterShotSprite)
         self.addChild(clusterShotLevelHeader)
         self.addChild(clusterShotLevelValue)
-        self.addChild(photonCannonPriceHeader)
-        self.addChild(photonCannonPriceValue)
-        self.addChild(piercingBeamPriceHeader)
-        self.addChild(piercingBeamPriceValue)
         self.addChild(clusterShotPriceHeader)
         self.addChild(clusterShotPriceValue)
-        self.view!.addSubview(upgradePhotonCannonButton)
-        self.view!.addSubview(upgradePiercingBeamButton)
         self.view!.addSubview(upgradeClusterShotButton)
-        self.view!.addSubview(selectPhotonCannonButton)
-        self.view!.addSubview(selectPiercingBeamButton)
         self.view!.addSubview(selectClusterShotButton)
-        self.view!.addSubview(confirmButton)
     }
     
     private func initializePlayer() {
@@ -370,10 +386,8 @@ class UpgradeScene: SKScene {
             selectClusterShotButton.alpha = 0.5
         }
         
-        if selectPhotonCannonButton.enabled == false
-            && selectPiercingBeamButton.enabled == false
-            && selectClusterShotButton == false {
-                confirmButton.hidden = true
+        if player.specialAbility == Player.SpecialAbility.None {
+            confirmButton.hidden = true
         } else {
             confirmButton.hidden = false
         }
@@ -479,8 +493,8 @@ class UpgradeScene: SKScene {
         static let selectClusterShotButtonWidth: CGFloat = 90.0
         static let selectClusterShotButtonHeight: CGFloat = 30.0
         static let confirmButtonVerticalOffset: CGFloat = 60.0
-        static let confirmButtonWidth: CGFloat = 135.0
-        static let confirmButtonHeight: CGFloat = 25.0
+        static let confirmButtonWidth: CGFloat = 150.0
+        static let confirmButtonHeight: CGFloat = 40.0
         static let distanceToGetOffScreen: CGFloat = 300.0
         static let specialVelocity = 1.0
         static let clusterShotHorizontalSpreadDistance: CGFloat = 100.0
