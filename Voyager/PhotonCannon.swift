@@ -36,9 +36,8 @@ class PhotonCannon: Projectile {
     private func initializeStats() {
         switch player.photonCannonLevel {
         case 1:
-            self.velocity = Constants.LevelOneStats.velocity
-            self.cooldown = Constants.LevelOneStats.cooldown
-            self.damage = Constants.LevelOneStats.damage
+            self.velocity = Constants.Stats.LevelOne.velocity
+            self.damage = Constants.Stats.LevelOne.damage
         default:
             break
         }
@@ -46,9 +45,6 @@ class PhotonCannon: Projectile {
     
     // MARK: Uitility Methods
     override func fire() {
-        if let scene = parentScene as? LevelScene {
-            scene.useSpecialButton.enabled = false
-        }
         self.player.specialOffCooldown = false
         
         let locationOffScreen = self.parentScene.size.height
@@ -56,7 +52,7 @@ class PhotonCannon: Projectile {
         self.parentScene.addChild(self)
         self.runAction(fireAction)
         
-        self.cooldownTimer = NSTimer.scheduledTimerWithTimeInterval(self.cooldown, target: self,
+        self.cooldownTimer = NSTimer.scheduledTimerWithTimeInterval(Player.Constants.specialCooldown, target: self,
             selector: Selector("weaponReady"), userInfo: nil, repeats: false)
     }
     
@@ -65,11 +61,10 @@ class PhotonCannon: Projectile {
         if let scene = parentScene as? LevelScene {
             if scene.gamePaused {
                 self.cooldownTimer.invalidate()
-                self.cooldownTimer = NSTimer.scheduledTimerWithTimeInterval(self.cooldown, target: self,
+                self.cooldownTimer = NSTimer.scheduledTimerWithTimeInterval(Player.Constants.specialCooldown, target: self,
                     selector: Selector("weaponReady"), userInfo: nil, repeats: false)
             } else {
                 self.player.specialOffCooldown = true
-                scene.useSpecialButton.enabled = true
             }
         } else {
             self.player.specialOffCooldown = true
@@ -78,10 +73,11 @@ class PhotonCannon: Projectile {
     
     // MARK: Enums & Constants
     struct Constants {
-        struct LevelOneStats {
-            static let velocity = 1.00
-            static let cooldown = 2.5
-            static let damage = 25
+        struct Stats {
+            struct LevelOne {
+                static let velocity = 1.00
+                static let damage = 25
+            }
         }
         
         static let baseUpgradeCost = 100

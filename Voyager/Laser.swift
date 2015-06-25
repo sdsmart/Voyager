@@ -34,7 +34,6 @@ class Laser: Projectile {
     
     private func initializeStats() {
         self.velocity = Constants.velocity
-        self.cooldown = Constants.cooldown
         self.damage = Constants.damage
     }
     
@@ -47,7 +46,7 @@ class Laser: Projectile {
         self.parentScene.addChild(self)
         self.runAction(fireAction)
         
-        self.cooldownTimer = NSTimer.scheduledTimerWithTimeInterval(self.cooldown, target: self,
+        self.cooldownTimer = NSTimer.scheduledTimerWithTimeInterval(Player.Constants.laserCooldown, target: self,
             selector: Selector("weaponReady"), userInfo: nil, repeats: false)
     }
     
@@ -56,7 +55,7 @@ class Laser: Projectile {
         if let scene = parentScene as? LevelScene {
             if scene.gamePaused {
                 self.cooldownTimer.invalidate()
-                self.cooldownTimer = NSTimer.scheduledTimerWithTimeInterval(self.cooldown, target: self,
+                self.cooldownTimer = NSTimer.scheduledTimerWithTimeInterval(Player.Constants.laserCooldown, target: self,
                     selector: Selector("weaponReady"), userInfo: nil, repeats: false)
             } else {
                 self.player.laserOffCooldown = true
@@ -67,7 +66,6 @@ class Laser: Projectile {
     // MARK: Enums & Constants
     struct Constants {
         static let velocity = 0.75
-        static let cooldown = 0.30
         static let damage = 10
         static let zPosition: CGFloat = 1.0
         static let collisionBoundary = CGSizeMake(3.0, 20.0)

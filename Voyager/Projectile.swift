@@ -17,7 +17,6 @@ class Projectile: SKSpriteNode {
     
     var velocity = 0.0
     var damage = 0
-    var cooldown = 0.0
     var cooldownTimer = NSTimer()
     
     // MARK: Initializers

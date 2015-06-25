@@ -15,14 +15,12 @@ class Player: SKSpriteNode {
     var movingRight = false
     var movingLeft = false
     var health = 100
-    var gold = 9999
-    var hasItem = false
-    var specialAbility = SpecialAbility.None
+    var gold = 0
     var laserOffCooldown = true
     var specialOffCooldown = true
-    var photonCannonLevel = 0
-    var piercingBeamLevel = 0
-    var clusterShotLevel = 0
+    var photonCannonLevel = 1
+    var piercingBeamLevel = 1
+    var clusterShotLevel = 1
     
     private let parentScene: SKScene
     private var velocity: CGFloat = 0.0
@@ -117,21 +115,7 @@ class Player: SKSpriteNode {
     }
     
     func fireSpecial() {
-        if specialOffCooldown {
-            switch specialAbility {
-            case .PhotonCannon:
-                let photonCannon = PhotonCannon(player: self, parentScene: parentScene)
-                photonCannon.fire()
-            case .PiercingBeam:
-                let piercingBeam = PiercingBeam(player: self, parentScene: parentScene)
-                piercingBeam.fire()
-            case .ClusterShot:
-                let clusterShot = ClusterShot(player: self, parentScene: parentScene)
-                clusterShot.fire()
-            case .None:
-                break
-            }
-        }
+        
     }
     
     // MARK: Enums & Constants
@@ -139,7 +123,6 @@ class Player: SKSpriteNode {
         case PhotonCannon
         case PiercingBeam
         case ClusterShot
-        case None
     }
     
     struct Constants {
@@ -147,6 +130,8 @@ class Player: SKSpriteNode {
         static let maxSpeed: CGFloat = 7.0
         static let acceleration: CGFloat = 0.70
         static let maxHealth = 100
+        static let laserCooldown = 0.3
+        static let specialCooldown = 2.5
         static let zPosition: CGFloat = 4.0
         static let collisionBoundary = CGSizeMake(35, 50)
         static let categoryBitmask: UInt32 = 0x1 << 0

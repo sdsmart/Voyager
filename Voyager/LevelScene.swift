@@ -17,8 +17,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     var player: Player!
     var levelHandler: LevelHandler!
     var gamePaused = false
-    var useItemButton: UIButton!
-    var useSpecialButton: UIButton!
     
     private var pauseButton: UIButton!
     private var pauseMenuDarkening: SKSpriteNode!
@@ -78,34 +76,18 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         hud.updateGoldValue(gold: player.gold)
         hud.updateLevelValue(level: levelHandler.currentLevel)
         
-        useItemButton = UIButton(frame: CGRectMake(self.size.width - Constants.useItemButtonHorizontalOffset, self.size.height - Constants.useItemButtonVerticalOffset, Constants.useItemButtonWidth, Constants.useItemButtonHeight))
-        useItemButton.alpha = 0.0
-        useItemButton.setImage(UIImage(named: ImageNames.hudUseItemButton), forState: UIControlState.Normal)
-        useItemButton.addTarget(player, action: Selector("useItem"), forControlEvents: UIControlEvents.TouchUpInside)
-        useItemButton.enabled = false
-        
-        useSpecialButton = UIButton(frame: CGRectMake(self.size.width - Constants.useSpecialButtonHorizontalOffset, self.size.height - Constants.useSpecialButtonVerticalOffset, Constants.useSpecialButtonWidth, Constants.useSpecialButtonHeight))
-        useSpecialButton.alpha = 0.0
-        useSpecialButton.setImage(UIImage(named: ImageNames.hudUseSpecialButton), forState: UIControlState.Normal)
-        useSpecialButton.addTarget(player, action: Selector("fireSpecial"), forControlEvents: UIControlEvents.TouchUpInside)
-        useSpecialButton.enabled = false
-        
-        pauseButton = UIButton(frame: CGRectMake(Constants.pauseButtonHorizontalOffset, self.size.height - Constants.pauseButtonVerticalOffset, Constants.pauseButtonWidth, Constants.pauseButtonHeight))
+        pauseButton = UIButton(frame: CGRectMake((self.size.width - Constants.pauseButtonWidth - Constants.pauseButtonHorizontalOffset), (self.size.height - Constants.pauseButtonHeight - Constants.pauseButtonVerticalOffset), Constants.pauseButtonWidth, Constants.pauseButtonHeight))
         pauseButton.alpha = 0.0
         pauseButton.setImage(UIImage(named: ImageNames.hudPauseButton), forState: UIControlState.Normal)
         pauseButton.addTarget(self, action: Selector("pauseGame"), forControlEvents: UIControlEvents.TouchUpInside)
         pauseButton.enabled = false
         
         self.addChild(hud)
-        self.view!.addSubview(useItemButton)
-        self.view!.addSubview(useSpecialButton)
         self.view!.addSubview(pauseButton)
         
         let fadeInAction = SKAction.fadeInWithDuration(GameController.Constants.transitionAnimationDuration)
         hud.runAction(fadeInAction)
         UIView.animateWithDuration(GameController.Constants.transitionAnimationDuration) {
-            self.useItemButton.alpha = 1.0
-            self.useSpecialButton.alpha = 1.0
             self.pauseButton.alpha = 1.0
         }
     }
@@ -196,10 +178,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         player.enabled = true
         levelHandler.enabled = true
         pauseButton.enabled = true
-        useSpecialButton.enabled = true
-        if player.hasItem {
-            useItemButton.enabled = true
-        }
     }
     
     // MARK: Collision Detection Methods
@@ -336,8 +314,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         self.paused = true
         
         pauseButton.enabled = false
-        useItemButton.enabled = false
-        useSpecialButton.enabled = false
         initializePauseMenu()
     }
     
@@ -346,10 +322,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         self.paused = false
         
         pauseButton.enabled = true
-        useSpecialButton.enabled = true
-        if player.hasItem {
-            useItemButton.enabled = true
-        }
         
         deInitializePauseMenu()
     }
@@ -358,8 +330,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         SaveState.saveData(level: levelHandler.currentLevel)
         
         pauseButton.removeFromSuperview()
-        useItemButton.removeFromSuperview()
-        useSpecialButton.removeFromSuperview()
         resumeButton.removeFromSuperview()
         saveAndQuitButton.removeFromSuperview()
         player.removeFromParent()
@@ -378,24 +348,16 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: Enums & Constants
     struct Constants {
-        static let useItemButtonWidth: CGFloat = 60.0
-        static let useItemButtonHeight: CGFloat = 60.0
-        static let useItemButtonHorizontalOffset: CGFloat = 145.0
-        static let useItemButtonVerticalOffset: CGFloat = 60.0
-        static let useSpecialButtonWidth: CGFloat = 60.0
-        static let useSpecialButtonHeight: CGFloat = 60.0
-        static let useSpecialButtonHorizontalOffset: CGFloat = 70.0
-        static let useSpecialButtonVerticalOffset: CGFloat = 60.0
-        static let pauseButtonWidth: CGFloat = 80.0
-        static let pauseButtonHeight: CGFloat = 30.0
-        static let pauseButtonHorizontalOffset: CGFloat = 40.0
-        static let pauseButtonVerticalOffset: CGFloat = 38.0
+        static let pauseButtonWidth: CGFloat = 85.0
+        static let pauseButtonHeight: CGFloat = 27.0
+        static let pauseButtonHorizontalOffset: CGFloat = 7.0
+        static let pauseButtonVerticalOffset: CGFloat = 4.0
         static let resumeButtonWidth: CGFloat = 175.0
         static let resumeButtonHeight: CGFloat = 30.0
         static let resumeButtonVerticalOffset: CGFloat = 75.0
         static let saveAndQuitButtonWidth: CGFloat = 275.0
         static let saveAndQuitButtonHeight: CGFloat = 30.0
         static let saveAndQuitButtonVerticalOffset: CGFloat = 0.0
-        static let playerDistanceFromBottomOfScreen: CGFloat = 135.0
+        static let playerDistanceFromBottomOfScreen: CGFloat = 165.0
     }
 }
