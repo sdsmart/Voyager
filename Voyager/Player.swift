@@ -15,9 +15,25 @@ class Player: SKSpriteNode {
     var movingRight = false
     var movingLeft = false
     var health = 100
-    var gold = 0
+    var gold = 100 // @@@ TEST @@@
     var laserOffCooldown = true
-    var specialOffCooldown = true
+    var specialOffCooldown = true {
+        didSet {
+            if let levelScene = parentScene as? LevelScene {
+                if levelScene.levelState == LevelScene.LevelState.Main {
+                    if specialOffCooldown == false {
+                        levelScene.firePhotonCannonButton.enabled = false
+                        levelScene.firePiercingBeamButton.enabled = false
+                        levelScene.fireClusterShotButton.enabled = false
+                    } else {
+                        levelScene.firePhotonCannonButton.enabled = true
+                        levelScene.firePiercingBeamButton.enabled = true
+                        levelScene.fireClusterShotButton.enabled = true
+                    }
+                }
+            }
+        }
+    }
     var photonCannonLevel = 1
     var piercingBeamLevel = 1
     var clusterShotLevel = 1
@@ -47,6 +63,21 @@ class Player: SKSpriteNode {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: Initialization Methods
+    func initialize() {
+        movingLeft = false
+        movingRight = false
+        laserOffCooldown = true
+        specialOffCooldown = true
+        health = 100
+        velocity = 0.0
+        acceleration = 0.0
+        self.position.y = -(parentScene.size.height / 2) + Constants.distanceFromBottomOfScreen
+        enabled = true
+        
+        parentScene.addChild(self)
     }
     
     // MARK: Update Methods
@@ -110,12 +141,25 @@ class Player: SKSpriteNode {
     }
     
     // MARK: Observer Methods
-    func useItem() {
-        println("Using Item!")
+    func firePhotonCannon() {
+        if specialOffCooldown {
+            let photonCannon = PhotonCannon(player: self, parentScene: parentScene)
+            photonCannon.fire()
+        }
     }
     
-    func fireSpecial() {
-        
+    func firePiercingBeam() {
+        if specialOffCooldown {
+            let piercingBeam = PiercingBeam(player: self, parentScene: parentScene)
+            piercingBeam.fire()
+        }
+    }
+    
+    func fireClusterShot() {
+        if specialOffCooldown {
+            let clusterShot = ClusterShot(player: self, parentScene: parentScene)
+            clusterShot.fire()
+        }
     }
     
     // MARK: Enums & Constants
@@ -126,6 +170,7 @@ class Player: SKSpriteNode {
     }
     
     struct Constants {
+        static let distanceFromBottomOfScreen: CGFloat = 165.0
         static let friction: CGFloat = 0.25
         static let maxSpeed: CGFloat = 7.0
         static let acceleration: CGFloat = 0.70

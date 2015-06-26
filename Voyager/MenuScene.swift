@@ -99,7 +99,7 @@ class MenuScene: SKScene {
         SaveState.eraseData()
         
         let levelScene = LevelScene(size: self.size)
-        levelScene.scaleMode = .AspectFill
+        levelScene.scaleMode = SKSceneScaleMode.AspectFill
         
         parallaxBackground!.removeFromParent()
         levelScene.parallaxBackground = parallaxBackground!
@@ -120,7 +120,7 @@ class MenuScene: SKScene {
         optionsButton.removeFromSuperview()
         
         let levelScene = LevelScene(size: self.size)
-        levelScene.scaleMode = .AspectFill
+        levelScene.scaleMode = SKSceneScaleMode.AspectFill
         
         initializeSavedState(scene: levelScene)
         

@@ -259,7 +259,35 @@ class UpgradeScene: SKScene {
     }
     
     func confirmUpgrades() {
-        println("Upgrades Confirmed")
+        parallaxBackground.removeFromParent()
+        player.removeFromParent()
+        
+        background.removeFromParent()
+        titleHeader.removeFromParent()
+        goldHeader.removeFromParent()
+        goldValue.removeFromParent()
+        confirmButton.removeFromSuperview()
+        photonCannonHeader.removeFromParent()
+        photonCannonSprite.removeFromParent()
+        photonCannonLevelHeader.removeFromParent()
+        photonCannonLevelValue.removeFromParent()
+        upgradePhotonCannonButton.removeFromSuperview()
+        photonCannonPriceHeader.removeFromParent()
+        photonCannonPriceValue.removeFromParent()
+        piercingBeamHeader.removeFromParent()
+        piercingBeamSprite.removeFromParent()
+        piercingBeamLevelHeader.removeFromParent()
+        piercingBeamLevelValue.removeFromParent()
+        upgradePiercingBeamButton.removeFromSuperview()
+        piercingBeamPriceHeader.removeFromParent()
+        piercingBeamPriceValue.removeFromParent()
+        clusterShotHeader.removeFromParent()
+        clusterShotSprite.removeFromParent()
+        clusterShotLevelHeader.removeFromParent()
+        clusterShotLevelValue.removeFromParent()
+        upgradeClusterShotButton.removeFromSuperview()
+        clusterShotPriceHeader.removeFromParent()
+        clusterShotPriceValue.removeFromParent()
     }
     
     // Update Methods
@@ -315,7 +343,6 @@ class UpgradeScene: SKScene {
         static let goldValueHorizontalOffset: CGFloat = 33.0
         static let goldValueFontSize: CGFloat = 18.0
         static let goldValueColor = UIColor(red: 255/255, green: 185/255, blue: 0, alpha: 1.0)
-        
         static let photonCannonHeaderVerticalOffset: CGFloat = 114.0
         static let photonCannonHeaderHorizontalOffset: CGFloat = 50.0
         static let photonCannonSpriteVerticalOffset: CGFloat = 141.0
@@ -336,7 +363,6 @@ class UpgradeScene: SKScene {
         static let photonCannonPriceValueFontColor = UIColor(red: 255/255, green: 185/255, blue: 0, alpha: 1.0)
         static let photonCannonPriceValueVerticalOffset: CGFloat = 179.5
         static let photonCannonPriceValueHorizontalOffset: CGFloat = 97.0
-        
         static let piercingBeamHeaderVerticalOffset: CGFloat = 215.0
         static let piercingBeamHeaderHorizontalOffset: CGFloat = 47.0
         static let piercingBeamSpriteVerticalOffset: CGFloat = 245.0
@@ -357,7 +383,6 @@ class UpgradeScene: SKScene {
         static let piercingBeamPriceValueFontColor = UIColor(red: 255/255, green: 185/255, blue: 0, alpha: 1.0)
         static let piercingBeamPriceValueVerticalOffset: CGFloat = 284.5
         static let piercingBeamPriceValueHorizontalOffset: CGFloat = 97.0
-        
         static let clusterShotHeaderVerticalOffset: CGFloat = 320.0
         static let clusterShotHeaderHorizontalOffset: CGFloat = 47.0
         static let clusterShotSpriteVerticalOffset: CGFloat = 350.0
@@ -378,7 +403,6 @@ class UpgradeScene: SKScene {
         static let clusterShotPriceValueFontColor = UIColor(red: 255/255, green: 185/255, blue: 0, alpha: 1.0)
         static let clusterShotPriceValueVerticalOffset: CGFloat = 388.0
         static let clusterShotPriceValueHorizontalOffset: CGFloat = 97.0
-        
         static let confirmButtonVerticalOffset: CGFloat = 70.0
         static let confirmButtonWidth: CGFloat = 200.0
         static let confirmButtonHeight: CGFloat = 60.0

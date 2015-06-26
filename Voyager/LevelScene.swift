@@ -11,12 +11,26 @@ import SpriteKit
 
 class LevelScene: SKScene, SKPhysicsContactDelegate {
     
+    // @@@ TEST @@@
+    var levelComplete = false
+    var alienFightersKilled = 0 {
+        didSet {
+            if alienFightersKilled >= 10 {
+                levelComplete = true
+            }
+        }
+    }
+    
     // MARK: Properties
     var parallaxBackground: ParallaxBackground!
-    var hud: Hud!
     var player: Player!
     var levelHandler: LevelHandler!
+    var hud: Hud!
     var gamePaused = false
+    var firePhotonCannonButton: UIButton!
+    var firePiercingBeamButton: UIButton!
+    var fireClusterShotButton: UIButton!
+    var levelState = LevelState.Initial
     
     private var pauseButton: UIButton!
     private var pauseMenuDarkening: SKSpriteNode!
@@ -32,10 +46,10 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.contactDelegate = self
         
         registerAppObservers()
-        initializePlayer()
-        initializeLevelHandler()
         initializeParallaxBackground()
         initializeOverlayMessages()
+        initializePlayer()
+        initializeLevelHandler()
         initializeHud()
     }
     
@@ -50,9 +64,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func initializePlayer() {
-        player.position.y = -(self.size.height / 2) + Constants.playerDistanceFromBottomOfScreen
-        
-        self.addChild(player)
+        player.initialize()
         
         let initialFadeInAction = SKAction.fadeInWithDuration(GameController.Constants.transitionAnimationDuration)
         player.runAction(initialFadeInAction)
@@ -76,6 +88,24 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         hud.updateGoldValue(gold: player.gold)
         hud.updateLevelValue(level: levelHandler.currentLevel)
         
+        firePhotonCannonButton = UIButton(frame: CGRectMake(Constants.firePhotonCannonButtonHorizontalOffset, self.size.height - Constants.firePhotonCannonButtonHeight - Constants.firePhotonCannonButtonVerticalOffset, Constants.firePhotonCannonButtonWidth, Constants.firePhotonCannonButtonHeight))
+        firePhotonCannonButton.alpha = 0.0
+        firePhotonCannonButton.setImage(UIImage(named: ImageNames.hudFirePhotonCannonButton), forState: UIControlState.Normal)
+        firePhotonCannonButton.addTarget(player, action: Selector("firePhotonCannon"), forControlEvents: UIControlEvents.TouchUpInside)
+        firePhotonCannonButton.enabled = false
+        
+        firePiercingBeamButton = UIButton(frame: CGRectMake(((self.size.width / 2) - (Constants.firePiercingBeamButtonWidth / 2)), self.size.height - Constants.firePiercingBeamButtonHeight - Constants.firePiercingBeamButtonVerticalOffset, Constants.firePiercingBeamButtonWidth, Constants.firePiercingBeamButtonHeight))
+        firePiercingBeamButton.alpha = 0.0
+        firePiercingBeamButton.setImage(UIImage(named: ImageNames.hudFirePiercingBeamButton), forState: UIControlState.Normal)
+        firePiercingBeamButton.addTarget(player, action: Selector("firePiercingBeam"), forControlEvents: UIControlEvents.TouchUpInside)
+        firePiercingBeamButton.enabled = false
+        
+        fireClusterShotButton = UIButton(frame: CGRectMake(self.size.width - Constants.fireClusterShotButtonWidth - Constants.fireClusterShotButtonHorizontalOffset, self.size.height - Constants.fireClusterShotButtonHeight - Constants.fireClusterShotButtonVerticalOffset, Constants.fireClusterShotButtonWidth, Constants.fireClusterShotButtonHeight))
+        fireClusterShotButton.alpha = 0.0
+        fireClusterShotButton.setImage(UIImage(named: ImageNames.hudFireClusterShotButton), forState: UIControlState.Normal)
+        fireClusterShotButton.addTarget(player, action: Selector("fireClusterShot"), forControlEvents: UIControlEvents.TouchUpInside)
+        fireClusterShotButton.enabled = false
+        
         pauseButton = UIButton(frame: CGRectMake((self.size.width - Constants.pauseButtonWidth - Constants.pauseButtonHorizontalOffset), (self.size.height - Constants.pauseButtonHeight - Constants.pauseButtonVerticalOffset), Constants.pauseButtonWidth, Constants.pauseButtonHeight))
         pauseButton.alpha = 0.0
         pauseButton.setImage(UIImage(named: ImageNames.hudPauseButton), forState: UIControlState.Normal)
@@ -83,11 +113,17 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         pauseButton.enabled = false
         
         self.addChild(hud)
+        self.view!.addSubview(firePhotonCannonButton)
+        self.view!.addSubview(firePiercingBeamButton)
+        self.view!.addSubview(fireClusterShotButton)
         self.view!.addSubview(pauseButton)
         
         let fadeInAction = SKAction.fadeInWithDuration(GameController.Constants.transitionAnimationDuration)
         hud.runAction(fadeInAction)
         UIView.animateWithDuration(GameController.Constants.transitionAnimationDuration) {
+            self.firePhotonCannonButton.alpha = 1.0
+            self.firePiercingBeamButton.alpha = 1.0
+            self.fireClusterShotButton.alpha = 1.0
             self.pauseButton.alpha = 1.0
         }
     }
@@ -127,6 +163,25 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         if userReady && gamePaused == false {
             player.update()
             levelHandler.update()
+        }
+        
+        // @@@ TEST @@@
+        if levelComplete {
+            levelState = LevelState.Complete
+            firePhotonCannonButton.removeFromSuperview()
+            firePiercingBeamButton.removeFromSuperview()
+            fireClusterShotButton.removeFromSuperview()
+            pauseButton.removeFromSuperview()
+            hud.removeFromParent()
+            player.removeFromParent()
+            parallaxBackground.removeFromParent()
+            
+            let upgradesScene = UpgradeScene(size: self.size)
+            upgradesScene.scaleMode = SKSceneScaleMode.AspectFill
+            upgradesScene.parallaxBackground = parallaxBackground
+            upgradesScene.player = player
+            
+            self.view!.presentScene(upgradesScene)
         }
     }
     
@@ -175,9 +230,13 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         levelHandler.hideLabel()
         
         userReady = true
+        firePhotonCannonButton.enabled = true
+        firePiercingBeamButton.enabled = true
+        fireClusterShotButton.enabled = true
         player.enabled = true
         levelHandler.enabled = true
         pauseButton.enabled = true
+        levelState = LevelState.Main
     }
     
     // MARK: Collision Detection Methods
@@ -313,6 +372,9 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         gamePaused = true
         self.paused = true
         
+        firePhotonCannonButton.enabled = false
+        firePiercingBeamButton.enabled = false
+        fireClusterShotButton.enabled = false
         pauseButton.enabled = false
         initializePauseMenu()
     }
@@ -321,6 +383,9 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         gamePaused = false
         self.paused = false
         
+        firePhotonCannonButton.enabled = true
+        firePiercingBeamButton.enabled = true
+        fireClusterShotButton.enabled = true
         pauseButton.enabled = true
         
         deInitializePauseMenu()
@@ -329,6 +394,9 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     func saveAndQuit() {
         SaveState.saveData(level: levelHandler.currentLevel)
         
+        firePhotonCannonButton.removeFromSuperview()
+        firePiercingBeamButton.removeFromSuperview()
+        fireClusterShotButton.removeFromSuperview()
         pauseButton.removeFromSuperview()
         resumeButton.removeFromSuperview()
         saveAndQuitButton.removeFromSuperview()
@@ -347,17 +415,33 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // MARK: Enums & Constants
+    enum LevelState {
+        case Initial
+        case Main
+        case Complete
+    }
+    
     struct Constants {
+        static let firePhotonCannonButtonWidth: CGFloat = 100.0
+        static let firePhotonCannonButtonHeight: CGFloat = 50.0
+        static let firePhotonCannonButtonVerticalOffset: CGFloat = 46.0
+        static let firePhotonCannonButtonHorizontalOffset: CGFloat = 7.0
+        static let firePiercingBeamButtonWidth: CGFloat = 100.0
+        static let firePiercingBeamButtonHeight: CGFloat = 50.0
+        static let firePiercingBeamButtonVerticalOffset: CGFloat = 46.0
+        static let fireClusterShotButtonWidth: CGFloat = 100.0
+        static let fireClusterShotButtonHeight: CGFloat = 50.0
+        static let fireClusterShotButtonVerticalOffset: CGFloat = 46.0
+        static let fireClusterShotButtonHorizontalOffset: CGFloat = 7.0
         static let pauseButtonWidth: CGFloat = 85.0
         static let pauseButtonHeight: CGFloat = 27.0
         static let pauseButtonHorizontalOffset: CGFloat = 7.0
-        static let pauseButtonVerticalOffset: CGFloat = 4.0
+        static let pauseButtonVerticalOffset: CGFloat = 7.0
         static let resumeButtonWidth: CGFloat = 175.0
         static let resumeButtonHeight: CGFloat = 30.0
         static let resumeButtonVerticalOffset: CGFloat = 75.0
         static let saveAndQuitButtonWidth: CGFloat = 275.0
         static let saveAndQuitButtonHeight: CGFloat = 30.0
         static let saveAndQuitButtonVerticalOffset: CGFloat = 0.0
-        static let playerDistanceFromBottomOfScreen: CGFloat = 165.0
     }
 }

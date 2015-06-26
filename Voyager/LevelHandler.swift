@@ -14,6 +14,7 @@ class LevelHandler {
     // MARK: Properties
     private let scene: LevelScene
     private let player: Player
+    private var initialScreenDarkening = SKSpriteNode()
     private var levelLabel = SKSpriteNode()
     
     var enabled = false
@@ -32,11 +33,15 @@ class LevelHandler {
         self.scene = scene
         self.player = player
         self.currentLevel = level
+        self.initialScreenDarkening = SKSpriteNode(imageNamed: ImageNames.pauseMenuDarkening)
+        self.initialScreenDarkening.zPosition = Constants.initialScreenDarkeningZPosition
         
         switch level {
         case 1:
             levelLabel = SKSpriteNode(imageNamed: ImageNames.levelOneLabel)
             levelLabel.position.y = Constants.levelLabelPosition
+            levelLabel.zPosition = Constants.levelLabelZPosition
+            levelLabel.alpha = 0.0
         default:
             break
         }
@@ -49,11 +54,16 @@ class LevelHandler {
     
     // MARK: Label Management Methods
     func showLabel() {
+        scene.addChild(initialScreenDarkening)
         scene.addChild(levelLabel)
+        
+        let fadeInAction = SKAction.fadeInWithDuration(GameController.Constants.transitionAnimationDuration)
+        levelLabel.runAction(fadeInAction)
     }
     
     func hideLabel() {
         levelLabel.removeFromParent()
+        initialScreenDarkening.removeFromParent()
     }
     
     // MARK: Update Methods
@@ -95,5 +105,7 @@ class LevelHandler {
     // MARK: Enums & Constants
     struct Constants {
         static let levelLabelPosition: CGFloat = 115.0
+        static let levelLabelZPosition: CGFloat = 100.0
+        static let initialScreenDarkeningZPosition: CGFloat = 99.0
     }
 }

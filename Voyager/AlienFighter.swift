@@ -64,6 +64,11 @@ class AlienFighter: SKSpriteNode {
         
         if health <= 0 {
             self.removeFromParent()
+            
+            // @@@ TEST @@@
+            if let levelScene = parentScene as? LevelScene {
+                levelScene.alienFightersKilled++
+            }
         }
     }
     
