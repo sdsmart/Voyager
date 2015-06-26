@@ -17,6 +17,9 @@ class Player: SKSpriteNode {
     var health = 100
     var gold = 100 // @@@ TEST @@@
     var laserOffCooldown = true
+    var photonCannonLevel = 1
+    var piercingBeamLevel = 1
+    var clusterShotLevel = 1
     var specialOffCooldown = true {
         didSet {
             if let levelScene = parentScene as? LevelScene {
@@ -34,9 +37,6 @@ class Player: SKSpriteNode {
             }
         }
     }
-    var photonCannonLevel = 1
-    var piercingBeamLevel = 1
-    var clusterShotLevel = 1
     
     private let parentScene: SKScene
     private var velocity: CGFloat = 0.0

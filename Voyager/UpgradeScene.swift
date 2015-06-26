@@ -259,35 +259,7 @@ class UpgradeScene: SKScene {
     }
     
     func confirmUpgrades() {
-        parallaxBackground.removeFromParent()
-        player.removeFromParent()
-        
-        background.removeFromParent()
-        titleHeader.removeFromParent()
-        goldHeader.removeFromParent()
-        goldValue.removeFromParent()
-        confirmButton.removeFromSuperview()
-        photonCannonHeader.removeFromParent()
-        photonCannonSprite.removeFromParent()
-        photonCannonLevelHeader.removeFromParent()
-        photonCannonLevelValue.removeFromParent()
-        upgradePhotonCannonButton.removeFromSuperview()
-        photonCannonPriceHeader.removeFromParent()
-        photonCannonPriceValue.removeFromParent()
-        piercingBeamHeader.removeFromParent()
-        piercingBeamSprite.removeFromParent()
-        piercingBeamLevelHeader.removeFromParent()
-        piercingBeamLevelValue.removeFromParent()
-        upgradePiercingBeamButton.removeFromSuperview()
-        piercingBeamPriceHeader.removeFromParent()
-        piercingBeamPriceValue.removeFromParent()
-        clusterShotHeader.removeFromParent()
-        clusterShotSprite.removeFromParent()
-        clusterShotLevelHeader.removeFromParent()
-        clusterShotLevelValue.removeFromParent()
-        upgradeClusterShotButton.removeFromSuperview()
-        clusterShotPriceHeader.removeFromParent()
-        clusterShotPriceValue.removeFromParent()
+        println("Upgrades Confirmed")
     }
     
     // Update Methods

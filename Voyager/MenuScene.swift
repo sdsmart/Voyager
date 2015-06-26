@@ -12,9 +12,8 @@ import SpriteKit
 class MenuScene: SKScene {
     
     // MARK: Properties
-    var titleLabel: SKSpriteNode!
-    
     var parallaxBackground: ParallaxBackground?
+    var titleLabel: SKSpriteNode!
     
     private var newGameButton: UIButton!
     private var continueButton: UIButton!
@@ -41,8 +40,7 @@ class MenuScene: SKScene {
         titleLabel.runAction(fadeInAction)
     }
     
-    private func initializeParallaxBackground()
-    {
+    private func initializeParallaxBackground() {
         if parallaxBackground == nil {
             parallaxBackground = ParallaxBackground(imageNames: ImageNames.parallaxBackgrounds, containerHeight: self.size.height, scrollDown: true)
             parallaxBackground!.beginScrolling()
@@ -51,8 +49,7 @@ class MenuScene: SKScene {
         self.addChild(parallaxBackground!)
     }
     
-    private func initializeMenuButtons()
-    {
+    private func initializeMenuButtons() {
         let newGameButtonFrame = CGRectMake(((self.size.width / 2) - (Constants.newGameButtonWidth / 2)), (((self.size.height / 2) - (Constants.newGameButtonHeight / 2)) + Constants.newGameButtonVerticalOffset), Constants.newGameButtonWidth, Constants.newGameButtonHeight)
         newGameButton = UIButton(frame: newGameButtonFrame)
         newGameButton.alpha = 0.0

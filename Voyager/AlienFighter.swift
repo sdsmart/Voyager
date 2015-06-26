@@ -16,7 +16,6 @@ class AlienFighter: SKSpriteNode {
     
     var velocity = Constants.baseVelocity
     var health = Constants.baseHealth
-    
     var hasBeenHitWithPiercingBeam = false
     
     // MARK: Initializers
