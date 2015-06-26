@@ -53,6 +53,7 @@ class UpgradeScene: SKScene {
     
     private func initializeParallaxBackground() {
         self.addChild(parallaxBackground)
+        parallaxBackground.zPosition = Constants.parallaxBackgroundZPosition
     }
     
     private func initializeUIElements() {
@@ -65,6 +66,7 @@ class UpgradeScene: SKScene {
     private func initializeTitleBarElements() {
         background = SKSpriteNode(imageNamed: ImageNames.upgradesMenuBackground)
         background.anchorPoint = CGPointMake(CGFloat(0.5), CGFloat(0.0))
+        background.zPosition = Constants.backgroundZPosition
         
         titleHeader = SKSpriteNode(imageNamed: ImageNames.upgradesTitleHeader)
         titleHeader.position.y = self.size.height - (titleHeader.size.height / 2) - Constants.titleHeaderVerticalOffset
@@ -308,6 +310,8 @@ class UpgradeScene: SKScene {
     // MARK: Enums & Constants
     struct Constants {
         static let fontName = "HelveticaNeue-Medium"
+        static let backgroundZPosition: CGFloat = -9.0
+        static let parallaxBackgroundZPosition: CGFloat = -10.0
         static let titleHeaderVerticalOffset: CGFloat = 30.0
         static let goldHeaderVerticalOffset: CGFloat = 70.0
         static let goldHeaderHorizontalOffset: CGFloat = 70.0
