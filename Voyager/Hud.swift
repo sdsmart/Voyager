@@ -119,8 +119,8 @@ class Hud: SKSpriteNode {
     
     // MARK: Enums & Constants
     struct Constants {
-        static let healthBarVerticalOffset: CGFloat = 13.0
-        static let healthHeaderVerticalOffset: CGFloat = 13.0
+        static let healthBarVerticalOffset: CGFloat = 10.0
+        static let healthHeaderVerticalOffset: CGFloat = 10.0
         static let levelHeaderHorizontalOffset: CGFloat = 10.0
         static let levelHeaderVerticalOffset: CGFloat = 10.0
         static let levelValueHorizontalOffset: CGFloat = 58.0

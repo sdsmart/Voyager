@@ -11,16 +11,6 @@ import SpriteKit
 
 class LevelScene: SKScene, SKPhysicsContactDelegate {
     
-    // @@@ TEST @@@
-    var levelComplete = false
-    var alienFightersKilled = 0 {
-        didSet {
-            if alienFightersKilled >= 10 {
-                levelComplete = true
-            }
-        }
-    }
-    
     // MARK: Properties
     var parallaxBackground: ParallaxBackground!
     var player: Player!
@@ -36,7 +26,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     private var pauseMenuDarkening: SKSpriteNode!
     private var resumeButton: UIButton!
     private var saveAndQuitButton: UIButton!
-    private var userReady = false
     private var moveRightTouch: UITouch?
     private var moveLeftTouch: UITouch?
     
@@ -160,29 +149,30 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     
     // MARK: Update Methods
     override func update(currentTime: NSTimeInterval) {
-        if userReady && gamePaused == false {
+        if levelState == LevelState.Main && gamePaused == false {
             player.update()
             levelHandler.update()
+            
+            if player.isDead {
+                levelState = LevelState.Complete
+                presentGameOverScene()
+            }
         }
+    }
+    
+    private func presentGameOverScene() {
+        firePhotonCannonButton.removeFromSuperview()
+        firePiercingBeamButton.removeFromSuperview()
+        fireClusterShotButton.removeFromSuperview()
+        pauseButton.removeFromSuperview()
         
-        // @@@ TEST @@@
-        if levelComplete {
-            levelState = LevelState.Complete
-            firePhotonCannonButton.removeFromSuperview()
-            firePiercingBeamButton.removeFromSuperview()
-            fireClusterShotButton.removeFromSuperview()
-            pauseButton.removeFromSuperview()
-            hud.removeFromParent()
-            player.removeFromParent()
-            parallaxBackground.removeFromParent()
-            
-            let upgradesScene = UpgradeScene(size: self.size)
-            upgradesScene.scaleMode = SKSceneScaleMode.AspectFill
-            upgradesScene.parallaxBackground = parallaxBackground
-            upgradesScene.player = player
-            
-            self.view!.presentScene(upgradesScene)
-        }
+        let gameOverScene = GameOverScene(size: self.size)
+        gameOverScene.scaleMode = SKSceneScaleMode.AspectFill
+        
+        parallaxBackground.removeFromParent()
+        gameOverScene.parallaxBackground = parallaxBackground
+        
+        self.view!.presentScene(gameOverScene)
     }
     
     // MARK: UIResponder Methods
@@ -212,7 +202,7 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if let touch = touches.first as? UITouch {
-            if userReady == false && touch.tapCount == 2 {
+            if levelState == LevelState.Initial && touch.tapCount == 2 {
                 beginPlayng()
             }
             
@@ -229,7 +219,6 @@ class LevelScene: SKScene, SKPhysicsContactDelegate {
     private func beginPlayng() {
         levelHandler.hideLabel()
         
-        userReady = true
         firePhotonCannonButton.enabled = true
         firePiercingBeamButton.enabled = true
         fireClusterShotButton.enabled = true

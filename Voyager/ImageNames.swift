@@ -48,4 +48,7 @@ struct ImageNames {
     static let upgradesUpgradeButton = "upgrades-upgrade-button"
     static let upgradesPriceHeader = "upgrades-price-header"
     static let upgradesSelectButton = "upgrades-select-button"
+    static let gameOverLabel = "game-over-label"
+    static let playAgainButton = "play-again-button"
+    static let mainMenuButton = "main-menu-button"
 }

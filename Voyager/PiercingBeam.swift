@@ -91,7 +91,7 @@ class PiercingBeam: Projectile {
 
         static let baseUpgradeCost = 100
         static let upgradeIncrementRatio = 0.5
-        static let basePiercingPower = 2
+        static let basePiercingPower = 3
         static let zPosition: CGFloat = 2.0
         static let collisionBoundary = CGSizeMake(5.5, 55.0)
         static let categoryBitmask: UInt32 = 0x1 << 3

@@ -18,6 +18,7 @@
 		FE3EA77D1B27C5810064476B /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE3EA77C1B27C5810064476B /* Player.swift */; };
 		FE747A8F1B2A5981009B5CC4 /* AlienFighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE747A8E1B2A5981009B5CC4 /* AlienFighter.swift */; };
 		FE76684E1B35E96500D79ADE /* UpgradeScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE76684D1B35E96500D79ADE /* UpgradeScene.swift */; };
+		FE7948221B3E1F3C009452B4 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7948211B3E1F3C009452B4 /* GameOverScene.swift */; };
 		FE7A0E1A1B30E80E00D14892 /* LevelHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE7A0E191B30E80E00D14892 /* LevelHandler.swift */; };
 		FE88AD2C1B24B24B0072EF42 /* ParallaxBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */; };
 		FE8D7B181B322FF3006D54CA /* SaveState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE8D7B171B322FF3006D54CA /* SaveState.swift */; };
@@ -51,6 +52,7 @@
 		FE3EA77C1B27C5810064476B /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		FE747A8E1B2A5981009B5CC4 /* AlienFighter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlienFighter.swift; sourceTree = "<group>"; };
 		FE76684D1B35E96500D79ADE /* UpgradeScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeScene.swift; sourceTree = "<group>"; };
+		FE7948211B3E1F3C009452B4 /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		FE7A0E191B30E80E00D14892 /* LevelHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelHandler.swift; sourceTree = "<group>"; };
 		FE88AD2B1B24B24B0072EF42 /* ParallaxBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParallaxBackground.swift; sourceTree = "<group>"; };
 		FE8D7B171B322FF3006D54CA /* SaveState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SaveState.swift; sourceTree = "<group>"; };
@@ -90,6 +92,7 @@
 				FEA129A31B23CDC500E49488 /* MenuScene.swift */,
 				FE3EA77A1B27B0950064476B /* LevelScene.swift */,
 				FE76684D1B35E96500D79ADE /* UpgradeScene.swift */,
+				FE7948211B3E1F3C009452B4 /* GameOverScene.swift */,
 			);
 			name = "Scenes & Controllers";
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				FE105F741B33B8BF00EDCF33 /* Projectile.swift in Sources */,
 				FE3EA77B1B27B0950064476B /* LevelScene.swift in Sources */,
 				FE0A00281B2904E9007C436B /* Laser.swift in Sources */,
+				FE7948221B3E1F3C009452B4 /* GameOverScene.swift in Sources */,
 				FE0A002E1B291C95007C436B /* ImageNames.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

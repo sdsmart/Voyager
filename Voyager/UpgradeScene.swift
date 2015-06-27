@@ -1,5 +1,5 @@
 //
-//  ChooseSpecialScene.swift
+//  UpgradeScene.swift
 //  Voyager
 //
 //  Created by Steve Smart on 6/20/15.
@@ -326,9 +326,9 @@ class UpgradeScene: SKScene {
         static let photonCannonLevelHeaderVerticalOffset: CGFloat = 182.0
         static let photonCannonLevelHeaderHorizontalOffset: CGFloat = 46.0
         static let photonCannonLevelValueVerticalOffset: CGFloat = 193.5
-        static let photonCannonLevelValueHorizontalOffset: CGFloat = 105.0
+        static let photonCannonLevelValueHorizontalOffset: CGFloat = 107.0
         static let photonCannonLevelValueFontSize: CGFloat = 14.0
-        static let photonCannonLevelValueFontColor = UIColor(red: 0, green: 215/255, blue: 0, alpha: 1.0)
+        static let photonCannonLevelValueFontColor = UIColor(red: 0, green: 255/255, blue: 0, alpha: 1.0)
         static let upgradePhotonCannonButtonVerticalOffset: CGFloat = 120.0
         static let upgradePhotonCannonButtonHorizontalOffset: CGFloat = 40.0
         static let upgradePhotonCannonButtonWidth: CGFloat = 140.0
@@ -338,7 +338,7 @@ class UpgradeScene: SKScene {
         static let photonCannonPriceValueFontSize: CGFloat = 14.0
         static let photonCannonPriceValueFontColor = UIColor(red: 255/255, green: 185/255, blue: 0, alpha: 1.0)
         static let photonCannonPriceValueVerticalOffset: CGFloat = 179.5
-        static let photonCannonPriceValueHorizontalOffset: CGFloat = 97.0
+        static let photonCannonPriceValueHorizontalOffset: CGFloat = 96.0
         static let piercingBeamHeaderVerticalOffset: CGFloat = 215.0
         static let piercingBeamHeaderHorizontalOffset: CGFloat = 47.0
         static let piercingBeamSpriteVerticalOffset: CGFloat = 245.0
@@ -346,9 +346,9 @@ class UpgradeScene: SKScene {
         static let piercingBeamLevelHeaderVerticalOffset: CGFloat = 289.0
         static let piercingBeamLevelHeaderHorizontalOffset: CGFloat = 46.0
         static let piercingBeamLevelValueVerticalOffset: CGFloat = 300.5
-        static let piercingBeamLevelValueHorizontalOffset: CGFloat = 105.0
+        static let piercingBeamLevelValueHorizontalOffset: CGFloat = 107.0
         static let piercingBeamLevelValueFontSize: CGFloat = 14.0
-        static let piercingBeamLevelValueFontColor = UIColor(red: 0, green: 215/255, blue: 0, alpha: 1.0)
+        static let piercingBeamLevelValueFontColor = UIColor(red: 0, green: 255/255, blue: 0, alpha: 1.0)
         static let upgradePiercingBeamButtonVerticalOffset: CGFloat = 225.0
         static let upgradePiercingBeamButtonHorizontalOffset: CGFloat = 40.0
         static let upgradePiercingBeamButtonWidth: CGFloat = 140.0
@@ -358,7 +358,7 @@ class UpgradeScene: SKScene {
         static let piercingBeamPriceValueFontSize: CGFloat = 14.0
         static let piercingBeamPriceValueFontColor = UIColor(red: 255/255, green: 185/255, blue: 0, alpha: 1.0)
         static let piercingBeamPriceValueVerticalOffset: CGFloat = 284.5
-        static let piercingBeamPriceValueHorizontalOffset: CGFloat = 97.0
+        static let piercingBeamPriceValueHorizontalOffset: CGFloat = 96.0
         static let clusterShotHeaderVerticalOffset: CGFloat = 320.0
         static let clusterShotHeaderHorizontalOffset: CGFloat = 47.0
         static let clusterShotSpriteVerticalOffset: CGFloat = 350.0
@@ -366,9 +366,9 @@ class UpgradeScene: SKScene {
         static let clusterShotLevelHeaderVerticalOffset: CGFloat = 387.0
         static let clusterShotLevelHeaderHorizontalOffset: CGFloat = 46.0
         static let clusterShotLevelValueVerticalOffset: CGFloat = 398.5
-        static let clusterShotLevelValueHorizontalOffset: CGFloat = 105.0
+        static let clusterShotLevelValueHorizontalOffset: CGFloat = 107.0
         static let clusterShotLevelValueFontSize: CGFloat = 14.0
-        static let clusterShotLevelValueFontColor = UIColor(red: 0, green: 215/255, blue: 0, alpha: 1.0)
+        static let clusterShotLevelValueFontColor = UIColor(red: 0, green: 255/255, blue: 0, alpha: 1.0)
         static let upgradeClusterShotButtonVerticalOffset: CGFloat = 329.0
         static let upgradeClusterShotButtonHorizontalOffset: CGFloat = 40.0
         static let upgradeClusterShotButtonWidth: CGFloat = 140.0
@@ -378,7 +378,7 @@ class UpgradeScene: SKScene {
         static let clusterShotPriceValueFontSize: CGFloat = 14.0
         static let clusterShotPriceValueFontColor = UIColor(red: 255/255, green: 185/255, blue: 0, alpha: 1.0)
         static let clusterShotPriceValueVerticalOffset: CGFloat = 388.0
-        static let clusterShotPriceValueHorizontalOffset: CGFloat = 97.0
+        static let clusterShotPriceValueHorizontalOffset: CGFloat = 96.0
         static let confirmButtonVerticalOffset: CGFloat = 70.0
         static let confirmButtonWidth: CGFloat = 200.0
         static let confirmButtonHeight: CGFloat = 60.0

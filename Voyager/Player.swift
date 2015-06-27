@@ -12,10 +12,11 @@ class Player: SKSpriteNode {
     
     // MARK: Properties
     var enabled = false
+    var isDead = false
     var movingRight = false
     var movingLeft = false
     var health = 100
-    var gold = 100 // @@@ TEST @@@
+    var gold = 0
     var laserOffCooldown = true
     var photonCannonLevel = 1
     var piercingBeamLevel = 1
@@ -136,7 +137,7 @@ class Player: SKSpriteNode {
         health -= damage
         
         if health <= 0 {
-            println("You Have Died!")
+            isDead = true
         }
     }
     
@@ -170,13 +171,13 @@ class Player: SKSpriteNode {
     }
     
     struct Constants {
-        static let distanceFromBottomOfScreen: CGFloat = 165.0
+        static let distanceFromBottomOfScreen: CGFloat = 160.0
         static let friction: CGFloat = 0.25
         static let maxSpeed: CGFloat = 7.0
         static let acceleration: CGFloat = 0.70
         static let maxHealth = 100
         static let laserCooldown = 0.3
-        static let specialCooldown = 2.5
+        static let specialCooldown = 2.0
         static let zPosition: CGFloat = 4.0
         static let collisionBoundary = CGSizeMake(35, 50)
         static let categoryBitmask: UInt32 = 0x1 << 0
