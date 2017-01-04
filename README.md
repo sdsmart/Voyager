@@ -1,5 +1,5 @@
-About This Repo
-===============
+About This Repository
+=====================
 
 This project is incomplete and out-dated and will likely not run due to iOS updates.
 
